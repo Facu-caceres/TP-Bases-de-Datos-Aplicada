@@ -4,10 +4,10 @@ Integrantes del grupo 14:
 
                             Aguirre Dario Ivan (Rner30)
                             Caceres Olguin Facundo (Facu-caceres)
-                            Ciriello Florencia ()
+                            Ciriello Florencia (florenciaciriello)
                             Mangalaviti Sebastian (Sebamangalaviti)
-                            Pedrol Bianca ()
-                            Saladino Mauro ()
+                            Pedrol Bianca (bianpedrol)
+                            Saladino Mauro (maurots)
 Docentes: Hnatiuk Jair, Bossero Julio
 
 Cliente: Administración de consorcios Altos de Saint Just
