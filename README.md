@@ -1,1 +1,11 @@
 # TP-Bases-de-Datos-Aplicada
+###
+Integrantes del grupo 14:
+
+                            Aguirre Dario Ivan (Rner30)
+                            Caceres Olguin Facundo (Facu-caceres)
+                            Ciriello Florencia ()
+                            Mangalaviti Sebastian ()
+                            Pedrol Bianca ()
+                            Saladino Mauro ()
+
