@@ -8,4 +8,6 @@ Integrantes del grupo 14:
                             Mangalaviti Sebastian (Sebamangalaviti)
                             Pedrol Bianca ()
                             Saladino Mauro ()
+Docentes: Hnatiuk Jair, Bossero Julio
 
+Cliente: Administración de consorcios Altos de Saint Just
