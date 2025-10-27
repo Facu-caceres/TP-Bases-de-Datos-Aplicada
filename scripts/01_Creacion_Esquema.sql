@@ -6,14 +6,12 @@ Integrantes: Aguirre Dario Ivan 44355010
              Caceres Olguin Facundo 45747823
              Ciriello Florencia Ailen 44833569
              Mangalaviti Sebastian 45233238
-             Pedrol Ledesma Bianca Uriana 
+             Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
 
 Descripción: Script para la creación de la base de datos, esquemas y tablas del proyecto.
 */
 
--- >> IMPORTANTE <<
--- Cambiar el nombre 'Com5600_Grupo14_DB' por el que corresponda a tu comisión y grupo.
 USE master;
 GO
 

@@ -6,7 +6,7 @@ Integrantes: Aguirre Dario Ivan 44355010
              Caceres Olguin Facundo 45747823
              Ciriello Florencia Ailen 44833569
              Mangalaviti Sebastian 45233238
-             Pedrol Ledesma Bianca Uriana 
+             Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
 Descripción: SP para importar datos de consorcios desde un archivo CSV al esquema General.
 */
