@@ -58,7 +58,7 @@ Se incluyen scripts SQL para la creación del esquema de la base de datos, proce
       |   |-- 03_Importar_UnidadesFuncionales.sql
       |   |-- 04_Importar_Personas.sql
       |   |-- ... (otros scripts de importación, reportes, seguridad)
-      |-- archivos_origen/         # Archivos de datos originales provistos (opcional, si deciden subirlos)
+      |-- archivos_origen/         # Archivos de datos originales provistos
       |-- documentacion/           # Informes, DER, etc.
       |-- .gitignore
       |-- README.md                # Este archivo
