@@ -130,13 +130,4 @@ CREATE TABLE Tesoreria.Pago (
     estado VARCHAR(50) DEFAULT 'No Asociado',
     FOREIGN KEY (id_persona_cuenta) REFERENCES Tesoreria.Persona_CuentaBancaria(id_persona_cuenta)
 );
-GO
-
-
-    CREATE TABLE General.Proveedor (
-        id_proveedor INT IDENTITY(1,1) PRIMARY KEY,
-        Tipo NVARCHAR(100) NOT NULL,
-        Nombre  NVARCHAR(100) NULL,
-        Alias   VARCHAR(20)  NULL,
-		Nombre_Consorcio VARCHAR(20) NOT NULL
-    );
+GO 
