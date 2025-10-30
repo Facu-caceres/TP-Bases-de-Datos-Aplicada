@@ -44,7 +44,7 @@ BEGIN
                 FIELDTERMINATOR = ''\t'',
                 ROWTERMINATOR = ''\n'',
                 FIRSTROW = 2,
-                CODEPAGE = ''65001''
+                CODEPAGE = ''ACP''
             );';
         EXEC sp_executesql @sql;
         DELETE FROM #TempUF WHERE nombre_consorcio IS NULL OR nro_uf IS NULL;

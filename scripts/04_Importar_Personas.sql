@@ -41,7 +41,7 @@ BEGIN
                 FIELDTERMINATOR = '';'',
                 ROWTERMINATOR = ''\n'',
                 FIRSTROW = 2,
-                CODEPAGE = ''65001''
+                CODEPAGE = ''ACP''
             );';
         EXEC sp_executesql @sql;
         DELETE FROM #TempPersonas WHERE DNI IS NULL OR LTRIM(RTRIM(DNI)) = '';
@@ -52,19 +52,26 @@ BEGIN
         RETURN;
     END CATCH
 
-    -- 3. Crear tabla temporal con datos limpios
+    -- 3. Limpiar y eliminar duplicados usando ROW_NUMBER()
     IF OBJECT_ID('tempdb..#TempPersonasClean') IS NOT NULL DROP TABLE #TempPersonasClean;
-     SELECT DISTINCT -- Usamos DISTINCT por si una persona aparece varias veces con el mismo DNI
-        TRY_CAST(LTRIM(RTRIM(DNI)) AS INT) as DNI_INT,
-        LEFT(LTRIM(RTRIM(Nombre)), 50) as NombreLimpio,
-        LEFT(LTRIM(RTRIM(Apellido)), 50) as ApellidoLimpio,
-        LTRIM(RTRIM(Email)) as EmailLimpio,
-        TRY_CAST(LEFT(LTRIM(RTRIM(Telefono)), 15) AS BIGINT) as TelefonoINT,
-        CASE WHEN LTRIM(RTRIM(EsInquilino)) = '1' THEN 1 ELSE 0 END as InquilinoBIT,
-        LTRIM(RTRIM(CVU_CBU)) AS CBU_Limpio
+
+    WITH PersonasRankeadas AS (
+        SELECT
+            TRY_CAST(LTRIM(RTRIM(DNI)) AS INT) as DNI_INT,
+            LEFT(LTRIM(RTRIM(Nombre)), 50) as NombreLimpio,
+            LEFT(LTRIM(RTRIM(Apellido)), 50) as ApellidoLimpio,
+            LTRIM(RTRIM(Email)) as EmailLimpio,
+            TRY_CAST(LEFT(LTRIM(RTRIM(Telefono)), 15) AS BIGINT) as TelefonoINT,
+            CASE WHEN LTRIM(RTRIM(EsInquilino)) = '1' THEN 1 ELSE 0 END as InquilinoBIT,
+            LTRIM(RTRIM(CVU_CBU)) AS CBU_Limpio,
+            ROW_NUMBER() OVER(PARTITION BY LTRIM(RTRIM(DNI)) ORDER BY (SELECT NULL)) as rn
+        FROM #TempPersonas
+        WHERE TRY_CAST(LTRIM(RTRIM(DNI)) AS INT) IS NOT NULL -- Solo procesar DNIs válidos
+    )
+    SELECT *
     INTO #TempPersonasClean
-    FROM #TempPersonas
-    WHERE TRY_CAST(LTRIM(RTRIM(DNI)) AS INT) IS NOT NULL; -- Solo procesar DNIs válidos
+    FROM PersonasRankeadas
+    WHERE rn = 1;
 
     -- 4. Actualizar Personas existentes
     UPDATE PP
@@ -117,15 +124,6 @@ BEGIN
           FROM Tesoreria.Persona_CuentaBancaria TPCB
           WHERE TPCB.cbu_cvu = TPC.CBU_Limpio
       );
-
-    -- Opcional: Desactivar cuentas no presentes en el archivo fuente
-    -- UPDATE Tesoreria.Persona_CuentaBancaria
-    -- SET activa = 0
-    -- WHERE cbu_cvu NOT IN (
-    --     SELECT DISTINCT CBU_Limpio
-    --     FROM #TempPersonasClean
-    --     WHERE CBU_Limpio IS NOT NULL AND LEN(CBU_Limpio) = 22
-    -- );
 
     PRINT 'Proceso de importación de Personas (Propiedades.Persona) y Cuentas (Tesoreria.Persona_CuentaBancaria) finalizado.';
 

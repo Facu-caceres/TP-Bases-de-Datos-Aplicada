@@ -36,10 +36,10 @@ BEGIN
             BULK INSERT #TempConsorcios
             FROM ''' + @ruta_archivo + N'''
             WITH (
-                FIELDTERMINATOR = '','',
+                FIELDTERMINATOR = '';'',
                 ROWTERMINATOR = ''\n'',
                 FIRSTROW = 2,
-                CODEPAGE = ''65001''
+                CODEPAGE = ''ACP''
             );';
         EXEC sp_executesql @sql;
     END TRY
