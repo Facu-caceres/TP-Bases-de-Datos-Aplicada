@@ -139,4 +139,4 @@ GO
         Nombre  NVARCHAR(100) NULL,
         Alias   VARCHAR(20)  NULL,
 		Nombre_Consorcio VARCHAR(20) NOT NULL
-    );
+    ); 
