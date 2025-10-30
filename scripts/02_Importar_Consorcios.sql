@@ -29,25 +29,29 @@ BEGIN
         M2Totales VARCHAR(50)
     );
 
-    -- 2. Cargar los datos desde el CSV a la tabla temporal
-    BEGIN TRY
-        DECLARE @sql NVARCHAR(MAX);
-        SET @sql = N'
-            BULK INSERT #TempConsorcios
-            FROM ''' + @ruta_archivo + N'''
-            WITH (
-                FIELDTERMINATOR = '';'',
-                ROWTERMINATOR = ''\n'',
-                FIRSTROW = 2,
-                CODEPAGE = ''ACP''
-            );';
-        EXEC sp_executesql @sql;
-    END TRY
-    BEGIN CATCH
-        PRINT 'Error al intentar cargar el archivo CSV de Consorcios: ' + @ruta_archivo;
-        PRINT ERROR_MESSAGE();
-        RETURN;
-    END CATCH
+-- 2. Cargar los datos desde el Excel (hoja Consorcios) a la tabla temporal
+BEGIN TRY
+    DECLARE @provider NVARCHAR(100) = N'Microsoft.ACE.OLEDB.16.0'; -- o 12.0 según lo instalado
+    DECLARE @sql NVARCHAR(MAX) = N'
+        INSERT INTO #TempConsorcios (Consorcio, NombreConsorcio, Domicilio, CantUnidades, M2Totales)
+        SELECT 
+            [Consorcio],
+            [Nombre del consorcio]    AS NombreConsorcio,
+            [Domicilio],
+            [Cant unidades funcionales] AS CantUnidades,
+            CAST([m2 totales] AS NVARCHAR(50)) AS M2Totales
+        FROM OPENROWSET(''' + @provider + N''',
+                         ''Excel 12.0;HDR=YES;IMEX=1;Database=' + REPLACE(@ruta_archivo,'''','''''') + N''',
+                         ''SELECT * FROM [Consorcios$]'') AS X;
+    ';
+    EXEC sp_executesql @sql;
+END TRY
+BEGIN CATCH
+    PRINT 'Error al intentar cargar la hoja Consorcios del Excel: ' + @ruta_archivo;
+    PRINT ERROR_MESSAGE();
+    RETURN;
+END CATCH
+
 
     -- 3. Actualizar registros existentes
     UPDATE GC
