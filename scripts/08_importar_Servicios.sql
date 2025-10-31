@@ -1,11 +1,13 @@
 USE Com5600_Grupo14_DB;
 GO
 
+
 CREATE OR ALTER PROCEDURE Importacion.sp_importar_servicios_json
     @ruta_archivo NVARCHAR(4000) 
 AS
 BEGIN
     SET NOCOUNT ON;
+    SET XACT_ABORT ON;
 
     BEGIN TRY
         BEGIN TRAN;
@@ -15,37 +17,29 @@ BEGIN
         CREATE TABLE #JsonFile (BulkColumn NVARCHAR(MAX));
 
         DECLARE @sql NVARCHAR(MAX) =
-            N'INSERT INTO #JsonFile(BulkColumn)
+            'INSERT INTO #JsonFile(BulkColumn)
               SELECT BulkColumn
-              FROM OPENROWSET(BULK ''' + REPLACE(@ruta_archivo,'''','''''') + N''', SINGLE_CLOB) AS j;';
+              FROM OPENROWSET(BULK ''' + REPLACE(@ruta_archivo,'''','''''') + ''', SINGLE_CLOB) AS j;';
         EXEC (@sql);
 
-        /* 2) Staging: Consorcio, Mes, Categoria, Importe (normalización inline) */
+        /* 2) Staging: Consorcio, Mes, Categoria, Importe (normalización POSICIONAL robusta) */
         IF OBJECT_ID('tempdb..#StgServicios') IS NOT NULL DROP TABLE #StgServicios;
         CREATE TABLE #StgServicios(
             consorcio NVARCHAR(200),
             mes       NVARCHAR(50),
             categoria NVARCHAR(200),
-            importe   DECIMAL(18,2)
+            importe   DECIMAL(18,2)     -- guardamos número limpio (sin formato visual)
         );
 
         INSERT INTO #StgServicios(consorcio, mes, categoria, importe)
         SELECT
             d.Consorcio,
-            d.Mes,
-            kv.[key]                                                           AS categoria,
+            LTRIM(RTRIM(d.Mes))                         AS mes,
+            kv.[key]                                    AS categoria,
             TRY_CONVERT(DECIMAL(18,2),
                 CASE
-                    WHEN kv.[type] = 2 THEN kv.[value]                          -- número JSON, directo
-                    ELSE
-                        -- Texto: quitar $ y espacios, quitar puntos (miles) y cambiar coma por punto
-                        REPLACE(
-                            REPLACE(
-                                REPLACE(
-                                    REPLACE(CAST(kv.[value] AS NVARCHAR(100)), '$',''),
-                                ' ', ''),
-                            '.', ''),
-                        ',', '.')
+                    WHEN kv.[type] = 2 THEN kv.[value]  -- número JSON puro
+                    ELSE n.normalized                   -- string normalizado -> decimal
                 END
             ) AS importe
         FROM #JsonFile jf
@@ -56,13 +50,45 @@ BEGIN
                  _obj      NVARCHAR(MAX) '$' AS JSON
              ) AS d
         CROSS APPLY OPENJSON(d._obj) AS kv
-        WHERE kv.[key] NOT IN ('_id','Nombre del consorcio','Mes')
+        /* Limpieza básica previa: sacar $, espacios y NBSP; trabajar con NVARCHAR */
+        CROSS APPLY (SELECT 
+            REPLACE(REPLACE(REPLACE(CAST(kv.[value] AS NVARCHAR(100)),'$',''),' ',''), NCHAR(160),'') AS raw
+        ) AS c
+        /* Posiciones del último ',' y del último '.' en el string */
+        CROSS APPLY (SELECT
+            CASE WHEN CHARINDEX(',', c.raw) > 0 
+                 THEN LEN(c.raw) - CHARINDEX(',', REVERSE(c.raw)) + 1 ELSE 0 END AS p_comma,
+            CASE WHEN CHARINDEX('.', c.raw) > 0 
+                 THEN LEN(c.raw) - CHARINDEX('.', REVERSE(c.raw)) + 1 ELSE 0 END AS p_dot
+        ) AS pos
+        /* Regla: el último separador es el decimal; el otro es miles y se borra */
+        CROSS APPLY (SELECT
+            CASE 
+                WHEN pos.p_comma > 0 AND pos.p_dot > 0 THEN
+                    /* Hay ambos: si la última es la coma -> coma decimal; si no, punto decimal */
+                    CASE WHEN pos.p_comma > pos.p_dot 
+                         THEN REPLACE(REPLACE(c.raw,'.',''),',','.')   -- '.' miles, ',' decimal
+                         ELSE REPLACE(REPLACE(c.raw,',',''),'.','.')   -- ',' miles, '.' decimal
+                    END
+                WHEN pos.p_comma > 0 THEN
+                    /* Solo coma: si está a 1-2 dígitos del final => decimal; si no, miles */
+                    CASE WHEN LEN(c.raw) - pos.p_comma <= 2 
+                         THEN REPLACE(c.raw,',','.') 
+                         ELSE REPLACE(c.raw,',','') 
+                    END
+                WHEN pos.p_dot > 0 THEN
+                    /* Solo punto: idem */
+                    CASE WHEN LEN(c.raw) - pos.p_dot <= 2 
+                         THEN c.raw 
+                         ELSE REPLACE(c.raw,'.','') 
+                    END
+                ELSE c.raw
+            END AS normalized
+        ) AS n
+        WHERE kv.[key] NOT IN ('_id', N'Nombre del consorcio', 'Mes')
           AND kv.[value] IS NOT NULL
           AND TRY_CONVERT(DECIMAL(18,2),
-                CASE
-                    WHEN kv.[type] = 2 THEN kv.[value]
-                    ELSE REPLACE(REPLACE(REPLACE(REPLACE(CAST(kv.[value] AS NVARCHAR(100)),'$',''),' ',''),'.',''),',','.')
-                END
+                CASE WHEN kv.[type] = 2 THEN kv.[value] ELSE n.normalized END
               ) IS NOT NULL;
 
         IF NOT EXISTS (SELECT 1 FROM #StgServicios)
@@ -76,11 +102,14 @@ BEGIN
           AND NOT EXISTS (SELECT 1 FROM General.Consorcio c WHERE c.nombre = s.consorcio);
 
         /* 4) Crear Expensa_Consorcio por (consorcio, mes) con total_ordinarios */
-        INSERT INTO General.Expensa_Consorcio(id_consorcio, periodo, fecha_emision, total_ordinarios, total_extraordinarios, interes_por_mora)
+        INSERT INTO General.Expensa_Consorcio
+        (
+            id_consorcio, periodo, fecha_emision, total_ordinarios, total_extraordinarios, interes_por_mora
+        )
         SELECT
             c.id_consorcio,
             t.mes,
-            NULL,                       -- fecha_emision
+            NULL,                       -- fecha_emision (ajustar si corresponde)
             t.total,                    -- total_ordinarios
             NULL,                       -- total_extraordinarios
             NULL                        -- interes_por_mora
@@ -133,14 +162,6 @@ BEGIN
 
         COMMIT TRAN;
 
-        -- Resumen
-        SELECT
-          expensas_afectadas = COUNT(DISTINCT id_expensa_consorcio),
-          gastos_insertados  = (
-              SELECT COUNT(*) FROM General.Gasto g
-              WHERE g.id_expensa_consorcio IN (SELECT id_expensa_consorcio FROM #ExpMap)
-          )
-        FROM #ExpMap;
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0 ROLLBACK TRAN;
