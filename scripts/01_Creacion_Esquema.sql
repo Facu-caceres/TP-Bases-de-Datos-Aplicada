@@ -64,6 +64,14 @@ CREATE TABLE General.Expensa_Consorcio (
     FOREIGN KEY (id_consorcio) REFERENCES General.Consorcio(id_consorcio)
 );
 
+CREATE TABLE General.Proveedor (
+    id_proveedor INT IDENTITY(1,1) PRIMARY KEY,
+    Tipo NVARCHAR(100) NOT NULL,
+    Nombre  NVARCHAR(100) NULL,
+    Alias   VARCHAR(20)  NULL,
+	Nombre_Consorcio VARCHAR(20) NOT NULL
+); 
+
 CREATE TABLE General.Gasto (
     id_gasto INT IDENTITY(1,1) PRIMARY KEY,
     id_expensa_consorcio INT NOT NULL,
@@ -133,10 +141,3 @@ CREATE TABLE Tesoreria.Pago (
 GO
 
 
-    CREATE TABLE General.Proveedor (
-        id_proveedor INT IDENTITY(1,1) PRIMARY KEY,
-        Tipo NVARCHAR(100) NOT NULL,
-        Nombre  NVARCHAR(100) NULL,
-        Alias   VARCHAR(20)  NULL,
-		Nombre_Consorcio VARCHAR(20) NOT NULL
-    ); 
