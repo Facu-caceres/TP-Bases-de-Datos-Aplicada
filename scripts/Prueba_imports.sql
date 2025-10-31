@@ -70,6 +70,15 @@ EXEC Importacion.sp_importar_uf_persona @ruta_archivo = @personasUF;
  
 PRINT 'Importando Pagos...';
 EXEC Importacion.sp_importar_pagos @ruta_archivo = @pagos;
+/* ========================================
+   6) Importar Servicios (CSV)
+   ======================================== */
+   EXEC Importacion.sp_importar_servicios_json
+    @ruta_archivo = 'C:\Users\Seba\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json';
+
+	EXEC Importacion.sp_importar_servicios_json
+    @ruta_archivo = 'C:\Users\Seba\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json';
+
 
 /* ========================================
    8) Verificaciones rápidas
@@ -82,6 +91,11 @@ PRINT 'Verificando datos...';
 --SELECT TOP (10) * FROM Propiedades.UnidadFuncional;
 --SELECT * FROM Propiedades.Persona;
 --SELECT TOP (10) * FROM Tesoreria.Persona_CuentaBancaria;
+
+select * from General.Gasto;
+select * from General.Expensa_Consorcio;
+select * from General.Consorcio;
+
 
 -- Consultas puntuales de control (opcional)
 -- SELECT * FROM Propiedades.Persona WHERE dni = 29364139;
