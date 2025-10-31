@@ -8,7 +8,8 @@ Integrantes: Aguirre Dario Ivan 44355010
              Mangalaviti Sebastian 45233238
              Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
-Descripción: SP para importar datos de consorcios desde un archivo CSV al esquema General.
+Fecha de Entrega: 07/11/2025
+Descripción: SP para importar datos de consorcios desde un archivo xlsx al esquema General.
 */
 USE [Com5600_Grupo14_DB];
 GO
@@ -19,7 +20,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- 1. Crear una tabla temporal para cargar los datos crudos del CSV
+    -- 1. Crear una tabla temporal para cargar los datos crudos del xlsx
     IF OBJECT_ID('tempdb..#TempConsorcios') IS NOT NULL DROP TABLE #TempConsorcios;
     CREATE TABLE #TempConsorcios (
         Consorcio VARCHAR(100),

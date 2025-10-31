@@ -8,7 +8,7 @@ Integrantes: Aguirre Dario Ivan 44355010
              Mangalaviti Sebastian 45233238
              Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
-
+Fecha de Entrega: 07/11/2025
 Descripción: Script para la creación de la base de datos, esquemas y tablas del proyecto.
 */
 

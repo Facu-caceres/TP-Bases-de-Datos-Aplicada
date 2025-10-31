@@ -8,6 +8,7 @@ Integrantes: Aguirre Dario Ivan 44355010
              Mangalaviti Sebastian 45233238
              Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
+Fecha de Entrega: 07/11/2025
 Descripción: SP para importar datos de Unidades Funcionales (UF) desde un archivo TXT al esquema Propiedades.
 */
 USE [Com5600_Grupo14_DB];
