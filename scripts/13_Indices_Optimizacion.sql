@@ -25,6 +25,40 @@ CREATE INDEX IX_PropietarioUF_IdUF ON dbo.PropietarioUF (IdUF);
 
 /*INDICES NO CLUSTER MAS ESPECIFICOS CON INCLUDE (COBERTURA)*/
 
+--si ya existen, los elimino--
+
+DROP INDEX IX_UF_Consorcio_IdUF ON dbo.UnidadFuncional;
+
+DROP INDEX IX_Pago_Fecha_UF ON dbo.Pago;
+
+DROP INDEX IX_Pago_UF_Fecha ON dbo.Pago;
+
+DROP INDEX IX_Expensa_UF_Periodo ON dbo.Expensa;
+
+DROP INDEX IX_Expensa_Impaga_Periodo ON dbo.Expensa;
+
+DROP INDEX IX_Gasto_Consorcio_Fecha ON dbo.Gasto;
+
+DROP INDEX IX_Gasto_Consorcio_Rubro_Fecha ON dbo.Gasto;
+
+DROP INDEX IX_Caja_Consorcio_Fecha ON dbo.MovimientoCaja;
+
+DROP INDEX IX_Caja_Consorcio_Ingreso ON dbo.MovimientoCaja;
+
+DROP INDEX IX_Caja_Consorcio_Egreso ON dbo.MovimientoCaja;
+
+DROP INDEX UX_Persona_DNI ON dbo.Persona;
+
+DROP INDEX IX_Persona_Apellido_Nombre ON dbo.Persona;
+
+DROP INDEX IX_Comprobante_Consorcio_Fecha ON dbo.Comprobante;
+
+DROP INDEX IX_Comprobante_Pendiente ON dbo.Comprobante;
+
+DROP INDEX IX_Reclamo_Consorcio_Estado_Fecha ON dbo.Reclamo;
+
+DROP INDEX IX_Banco_Consorcio_Fecha ON dbo.BancoMovimiento;
+
 
 /*  PAGOS (consultas por fechas, UF, consorcio)  */
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Pago_Fecha_UF' AND object_id=OBJECT_ID('dbo.Pago'))
