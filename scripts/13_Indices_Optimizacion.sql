@@ -1,25 +1,28 @@
+USE [Com5600_Grupo14_DB];
+GO
+
+
+
 /* Índices sugeridos para acelerar los reportes.
    Ajustá nombres de tablas/columnas si difieren en tu esquema. */
 
--- Pagos: filtros por FechaPago, IdUF y agrupaciones por TipoPago
+-- Pagos: filtros por FechaPago, Id_pago y agrupaciones por importe
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Pago_Fecha_Tipo_IdUF' AND object_id=OBJECT_ID('dbo.Pago'))
-CREATE INDEX IX_Pago_Fecha_Tipo_IdUF ON dbo.Pago (FechaPago, TipoPago, IdUF) INCLUDE (Importe);
-
+CREATE INDEX IX_Pago_Fecha_Tipo_IdUF ON Tesoreria.Pago (fecha_de_pago, importe, id_pago); 
 -- UF por Consorcio
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_UF_Consorcio' AND object_id=OBJECT_ID('dbo.UnidadFuncional'))
-CREATE INDEX IX_UF_Consorcio ON dbo.UnidadFuncional (IdConsorcio, Piso, Depto);
+CREATE INDEX IX_UF_Consorcio ON Propiedades.UnidadFuncional (id_consorcio, piso, departamento);
 
--- Gasto por Fecha
+-- Gasto por importe
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Gasto_Fecha' AND object_id=OBJECT_ID('dbo.Gasto'))
-CREATE INDEX IX_Gasto_Fecha ON dbo.Gasto (FechaGasto) INCLUDE (Importe);
+CREATE INDEX IX_Gasto_Importe ON General.Gasto (importe) INCLUDE (descripcion);
 
 -- Expensa por PeriodoYm y IdUF
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Expensa_Periodo_IdUF' AND object_id=OBJECT_ID('dbo.Expensa'))
-CREATE INDEX IX_Expensa_Periodo_IdUF ON dbo.Expensa (PeriodoYm, IdUF) INCLUDE (Importe);
-
+CREATE INDEX IX_Expensa_Periodo_IdUF ON General.Expensa_Consorcio (periodo, id_expensa_consorcio);
 -- Relación PropietarioUF
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_PropietarioUF_IdUF' AND object_id=OBJECT_ID('dbo.PropietarioUF'))
-CREATE INDEX IX_PropietarioUF_IdUF ON dbo.PropietarioUF (IdUF);
+CREATE INDEX IX_PropietarioUF_IdUF ON Propiedades.UF_Persona (id_uf_persona);
 
 
 
@@ -27,121 +30,60 @@ CREATE INDEX IX_PropietarioUF_IdUF ON dbo.PropietarioUF (IdUF);
 
 --si ya existen, los elimino--
 
-DROP INDEX IX_UF_Consorcio_IdUF ON dbo.UnidadFuncional;
+DROP INDEX IX_UF_Consorcio_IdUF ON Propiedades.UnidadFuncional;
 
-DROP INDEX IX_Pago_Fecha_UF ON dbo.Pago;
+DROP INDEX IX_Pago_Fecha ON Tesoreria.Pago;
 
-DROP INDEX IX_Pago_UF_Fecha ON dbo.Pago;
+DROP INDEX IX_Expensa_UF_Periodo ON General.Expensa_Consorcio;
 
-DROP INDEX IX_Expensa_UF_Periodo ON dbo.Expensa;
+DROP INDEX IX_Expensa_Impaga_Periodo ON General.Expensa_Consorcio;
 
-DROP INDEX IX_Expensa_Impaga_Periodo ON dbo.Expensa;
+DROP INDEX IX_Gasto_Consorcio_Fecha ON General.Gasto;
 
-DROP INDEX IX_Gasto_Consorcio_Fecha ON dbo.Gasto;
+DROP INDEX IX_Gasto_Consorcio_Rubro_Fecha ON General.Gasto;
 
-DROP INDEX IX_Gasto_Consorcio_Rubro_Fecha ON dbo.Gasto;
+DROP INDEX IX_Persona_Apellido_Nombre ON Propiedades.Persona;
 
-DROP INDEX IX_Caja_Consorcio_Fecha ON dbo.MovimientoCaja;
-
-DROP INDEX IX_Caja_Consorcio_Ingreso ON dbo.MovimientoCaja;
-
-DROP INDEX IX_Caja_Consorcio_Egreso ON dbo.MovimientoCaja;
-
-DROP INDEX UX_Persona_DNI ON dbo.Persona;
-
-DROP INDEX IX_Persona_Apellido_Nombre ON dbo.Persona;
-
-DROP INDEX IX_Comprobante_Consorcio_Fecha ON dbo.Comprobante;
-
-DROP INDEX IX_Comprobante_Pendiente ON dbo.Comprobante;
-
-DROP INDEX IX_Reclamo_Consorcio_Estado_Fecha ON dbo.Reclamo;
-
-DROP INDEX IX_Banco_Consorcio_Fecha ON dbo.BancoMovimiento;
 
 
 /*  PAGOS (consultas por fechas, UF, consorcio)  */
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Pago_Fecha_UF' AND object_id=OBJECT_ID('dbo.Pago'))
-CREATE NONCLUSTERED INDEX IX_Pago_Fecha_UF
-ON dbo.Pago (FechaPago, IdUF)
-INCLUDE (Importe, TipoPago, Medio);
+CREATE NONCLUSTERED INDEX IX_Pago_Fecha
+ON Tesoreria.Pago (fecha_de_pago, id_pago )
+INCLUDE (Importe, cbu_origen);
 
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Pago_UF_Fecha' AND object_id=OBJECT_ID('dbo.Pago'))
 CREATE NONCLUSTERED INDEX IX_Pago_UF_Fecha
-ON dbo.Pago (IdUF, FechaPago)
-INCLUDE (Importe, TipoPago);
+ON Tesoreria.Pago (id_pago, fecha_de_pago)
+INCLUDE (Importe);
 
-/* EXPENSAS (por UF, Periodo y estado)  */
+/* EXPENSAS (por idconsorcio, Periodo y vtos)  */
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Expensa_UF_Periodo' AND object_id=OBJECT_ID('dbo.Expensa'))
 CREATE NONCLUSTERED INDEX IX_Expensa_UF_Periodo
-ON dbo.Expensa (IdUF, Periodo)
-INCLUDE (Monto, Estado, FechaVencimiento);
+ON General.Expensa_Consorcio (id_consorcio, Periodo)
+INCLUDE (vto_1, vto_2, fecha_emision);
 
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Expensa_Impaga_Periodo' AND object_id=OBJECT_ID('dbo.Expensa'))
 CREATE NONCLUSTERED INDEX IX_Expensa_Impaga_Periodo
-ON dbo.Expensa (Periodo)
-INCLUDE (IdUF, Monto, FechaVencimiento)
-WHERE Estado IN ('Impaga','Vencida');   -- índice filtrado para deuda
+ON General.Expensa_Consorcio (Periodo)
+INCLUDE (total_ordinarios, total_extraordinarios, fecha_Emision)
 
-/* GASTOS (reportes por consorcio, rubro y fecha) */
-IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Gasto_Consorcio_Fecha' AND object_id=OBJECT_ID('dbo.Gasto'))
+/* GASTOS (reportes por consorcio, categoria y tipo) */
+--IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Gasto_Consorcio_Fecha' AND object_id=OBJECT_ID('dbo.Gasto'))
 CREATE NONCLUSTERED INDEX IX_Gasto_Consorcio_Fecha
-ON dbo.Gasto (IdConsorcio, Fecha)
-INCLUDE (Rubro, Importe, EsExtraordinario);
+ON General.Gasto (id_expensa_consorcio, tipo)
+INCLUDE (categoria, Importe, descripcion);
 
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Gasto_Consorcio_Rubro_Fecha' AND object_id=OBJECT_ID('dbo.Gasto'))
 CREATE NONCLUSTERED INDEX IX_Gasto_Consorcio_Rubro_Fecha
-ON dbo.Gasto (IdConsorcio, Rubro, Fecha)
-INCLUDE (Importe, EsExtraordinario);
+ON General.Gasto (id_expensa_consorcio, categoria, nro_factura);
 
-/* MOVIMIENTOS DE CAJA (ingresos/egresos por período) */
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Caja_Consorcio_Fecha' AND object_id=OBJECT_ID('dbo.MovimientoCaja'))
-CREATE NONCLUSTERED INDEX IX_Caja_Consorcio_Fecha
-ON dbo.MovimientoCaja (IdConsorcio, Fecha)
-INCLUDE (Tipo, Monto, Origen);
-
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Caja_Consorcio_Ingreso' AND object_id=OBJECT_ID('dbo.MovimientoCaja'))
-CREATE NONCLUSTERED INDEX IX_Caja_Consorcio_Ingreso
-ON dbo.MovimientoCaja (IdConsorcio, Fecha)
-INCLUDE (Monto, Origen)
-WHERE Tipo = 'Ingreso';  -- filtrado
-
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Caja_Consorcio_Egreso' AND object_id=OBJECT_ID('dbo.MovimientoCaja'))
-CREATE NONCLUSTERED INDEX IX_Caja_Consorcio_Egreso
-ON dbo.MovimientoCaja (IdConsorcio, Fecha)
-INCLUDE (Monto, Origen)
-WHERE Tipo = 'Egreso';   -- filtrado
 
 /* PERSONAS (búsquedas por DNI, apellido y nombre)  */
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='UX_Persona_DNI' AND object_id=OBJECT_ID('dbo.Persona'))
-CREATE UNIQUE NONCLUSTERED INDEX UX_Persona_DNI
-ON dbo.Persona (DNI);
 
 --IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Persona_Apellido_Nombre' AND object_id=OBJECT_ID('dbo.Persona'))
 CREATE NONCLUSTERED INDEX IX_Persona_Apellido_Nombre
-ON dbo.Persona (Apellido, Nombre)
-INCLUDE (Email);
+ON Propiedades.Persona (apellido, nombre)
+INCLUDE (email);
 
-/*  COMPROBANTES (pendientes por consorcio en rango de fechas)*/
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Comprobante_Consorcio_Fecha' AND object_id=OBJECT_ID('dbo.Comprobante'))
-CREATE NONCLUSTERED INDEX IX_Comprobante_Consorcio_Fecha
-ON dbo.Comprobante (IdConsorcio, Fecha)
-INCLUDE (Estado, Tipo, Total);
 
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Comprobante_Pendiente' AND object_id=OBJECT_ID('dbo.Comprobante'))
-CREATE NONCLUSTERED INDEX IX_Comprobante_Pendiente
-ON dbo.Comprobante (IdConsorcio, Fecha)
-INCLUDE (Tipo, Total)
-WHERE Estado = 'Pendiente';  -- filtrado
-
-/*  RECLAMOS (consorcio/estado, ordenado por fecha)  */
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Reclamo_Consorcio_Estado_Fecha' AND object_id=OBJECT_ID('dbo.Reclamo'))
-CREATE NONCLUSTERED INDEX IX_Reclamo_Consorcio_Estado_Fecha
-ON dbo.Reclamo (IdConsorcio, Estado, Fecha)
-INCLUDE (IdUF, Prioridad);
-
-/*  MOVIMIENTOS BANCARIOS  (consorcio/fecha)  */
---IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name='IX_Banco_Consorcio_Fecha' AND object_id=OBJECT_ID('dbo.BancoMovimiento'))
-CREATE NONCLUSTERED INDEX IX_Banco_Consorcio_Fecha
-ON dbo.BancoMovimiento (IdConsorcio, Fecha)
-INCLUDE (CBU, Monto);

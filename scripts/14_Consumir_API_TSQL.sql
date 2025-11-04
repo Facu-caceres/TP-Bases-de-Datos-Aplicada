@@ -1,3 +1,7 @@
+USE [Com5600_Grupo14_DB];
+GO
+
+
 /* Habilitar (según entorno) */
 -- EXEC sys.sp_configure 'polybase enabled', 1; RECONFIGURE; -- si aplica
 -- EXEC sys.sp_configure 'external scripts enabled', 1; RECONFIGURE; -- si aplica

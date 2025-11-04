@@ -1,3 +1,8 @@
+USE [Com5600_Grupo14_DB];
+GO
+
+
+
 /* Ejemplos de uso */
 -- Reporte 1
 EXEC REP.SP_FlujoCajaSemanal @FechaDesde='2025-01-01', @FechaHasta='2025-03-31', @IdConsorcio=NULL;

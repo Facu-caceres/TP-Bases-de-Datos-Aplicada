@@ -7,18 +7,21 @@
    Requiere que existan las tablas base y el esquema REP.
    ========================================================= */
 
+USE [Com5600_Grupo14_DB];
+GO
+/*
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'REP')
     EXEC('CREATE SCHEMA REP');
-GO
+GO*/
 
 -- 1) VIEW de apoyo para el Reporte 1 (flujo semanal)
 IF OBJECT_ID('REP.VW_FlujoCajaSemanal') IS NOT NULL DROP VIEW REP.VW_FlujoCajaSemanal;
 GO
 CREATE VIEW REP.VW_FlujoCajaSemanal AS
 WITH PagosFiltrados AS (
-    SELECT p.IdPago, p.IdUF, p.FechaPago, p.Importe, UPPER(p.TipoPago) AS TipoPago, uf.IdConsorcio
-    FROM dbo.Pago p
-    INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
+    SELECT p.id_pago, p.fecha_de_pago, p.Importe, uf.IdConsorcio --uf no tiene id de consorcio
+    FROM Tesoreria.Pago p
+    INNER JOIN Propiedades.UnidadFuncional uf ON uf.id_uf = p.IdUF --no se puede igualar por uf porque pagos no tiene uf
 ),
 Semanas AS (
     SELECT DATEADD(week, DATEDIFF(week, 0, FechaPago), 0) AS SemanaInicio,
