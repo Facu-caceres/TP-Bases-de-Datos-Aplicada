@@ -1,8 +1,8 @@
-/* 
+/* ======================================
    Entrega 6 – Reportes & API
    Crea SPs para los 6 reportes solicitados.
    Esquema sugerido: REP
-    */
+   ====================================== */
 USE [Com5600_Grupo14_DB];
 GO
 
