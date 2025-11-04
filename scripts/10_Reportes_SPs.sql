@@ -1,13 +1,13 @@
-/* ======================================
+/* 
    Entrega 6 – Reportes & API
    Crea SPs para los 6 reportes solicitados.
    Esquema sugerido: REP
-   ====================================== */
+    */
 USE [Com5600_Grupo14_DB];
 GO
 
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'REP')
-    EXEC('CREATE SCHEMA REP');
+IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'Reportes')
+    EXEC('CREATE SCHEMA Reportes');
 GO
 
 /* =========================
@@ -16,134 +16,434 @@ GO
      @FechaDesde, @FechaHasta, @IdConsorcio (NULL=todos)
    Output: recaudación semanal por tipo (ord/extra), promedio del período, acumulado.
    ========================= */
-IF OBJECT_ID('REP.SP_FlujoCajaSemanal') IS NOT NULL DROP PROC REP.SP_FlujoCajaSemanal;
-GO
-CREATE PROC REP.SP_FlujoCajaSemanal
-    @FechaDesde date,
-    @FechaHasta date,
-    @IdConsorcio int = NULL
+
+
+CREATE OR ALTER PROCEDURE Reportes.sp_reporte_flujo_caja_semanal
+    @FechaDesde       date,
+    @FechaHasta       date,
+    @IdConsorcio      int          = NULL,             -- NULL = todos
+    @EstadoPago       varchar(20)  = NULL,             -- 'Asociado' | 'No Asociado' | NULL
+    @ModoAsignacion   varchar(20)  = 'Proporcional'    -- 'Proporcional' | 'Total'
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    ;WITH PagosFiltrados AS (
-        SELECT p.IdPago, p.IdUF, p.FechaPago, p.Importe, UPPER(p.TipoPago) AS TipoPago
-        FROM dbo.Pago p
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
-        WHERE p.FechaPago >= @FechaDesde AND p.FechaPago < DATEADD(day,1,@FechaHasta)
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
+    -- Usar lunes como inicio de semana (ISO)
+    SET DATEFIRST 1;
+
+    IF @FechaDesde IS NULL OR @FechaHasta IS NULL
+    BEGIN
+        RAISERROR('Debe indicar @FechaDesde y @FechaHasta.', 16, 1);
+        RETURN;
+    END;
+    IF @FechaHasta < @FechaDesde
+    BEGIN
+        DECLARE @swap date = @FechaDesde;
+        SET @FechaDesde = @FechaHasta;
+        SET @FechaHasta = @swap;
+    END;
+
+    ;WITH PagoBase AS (
+        SELECT
+            p.id_pago,
+            p.fecha_de_pago,
+            CAST(p.importe AS decimal(18,2)) AS importe,
+            p.estado,
+            ca.id_consorcio,
+            CONVERT(char(7), p.fecha_de_pago, 126) AS periodo_ym  -- 'YYYY-MM'
+        FROM Tesoreria.Pago p
+        LEFT JOIN Tesoreria.Persona_CuentaBancaria pcb
+               ON pcb.id_persona_cuenta = p.id_persona_cuenta
+        OUTER APPLY (
+            SELECT TOP (1) c.id_consorcio
+            FROM Propiedades.UF_Persona ufp
+            JOIN Propiedades.UnidadFuncional uf ON uf.id_uf = ufp.id_uf
+            JOIN General.Consorcio c            ON c.id_consorcio = uf.id_consorcio
+            WHERE ufp.id_persona = pcb.id_persona
+            ORDER BY ufp.id_uf
+        ) ca
+        WHERE p.fecha_de_pago BETWEEN @FechaDesde AND @FechaHasta
+          AND (@EstadoPago  IS NULL OR p.estado = @EstadoPago)
+          AND (@IdConsorcio IS NULL OR ca.id_consorcio = @IdConsorcio)
+    ),
+    PagoTipificado AS (
+        SELECT
+            b.*,
+            ec.total_ordinarios,
+            ec.total_extraordinarios,
+            CASE
+                WHEN UPPER(@ModoAsignacion) = 'TOTAL' THEN CAST(0 AS decimal(18,6))
+                ELSE CAST(
+                        ISNULL(
+                            NULLIF(ec.total_extraordinarios,0)
+                            / NULLIF( (NULLIF(ec.total_ordinarios,0) + NULLIF(ec.total_extraordinarios,0)), 0 ),
+                            0
+                        ) AS decimal(18,6)
+                     )
+            END AS ratio_extra
+        FROM PagoBase b
+        LEFT JOIN General.Expensa_Consorcio ec
+               ON ec.id_consorcio = b.id_consorcio
+              AND ec.periodo      = b.periodo_ym   -- ajustar si difiere el formato del período
+    ),
+    PagoSplit AS (
+        SELECT
+            -- Inicio de semana (lunes) según ISO (DATEFIRST 1)
+            SemanaInicio = DATEADD(DAY, 1 - DATEPART(WEEKDAY, CAST(b.fecha_de_pago AS date)), CAST(b.fecha_de_pago AS date)),
+            SemanaFin    = DATEADD(DAY, 6 - (DATEPART(WEEKDAY, CAST(b.fecha_de_pago AS date)) - 1), CAST(b.fecha_de_pago AS date)),
+            CAST(b.importe * b.ratio_extra                 AS decimal(18,2)) AS ImporteExtra,
+            CAST(b.importe * (1 - ISNULL(b.ratio_extra,0)) AS decimal(18,2)) AS ImporteOrdi,
+            b.importe AS ImporteTotal,
+            b.fecha_de_pago
+        FROM PagoTipificado b
     ),
     Semanas AS (
-        SELECT 
-            DATEADD(week, DATEDIFF(week, 0, FechaPago), 0) AS SemanaInicio,
-            TipoPago,
-            SUM(Importe) AS Monto
-        FROM PagosFiltrados
-        GROUP BY DATEADD(week, DATEDIFF(week, 0, FechaPago), 0), TipoPago
-    ),
-    SumaSemanal AS (
-        SELECT 
-            s.SemanaInicio,
-            SUM(CASE WHEN s.TipoPago IN ('ORDINARIO') THEN s.Monto ELSE 0 END) AS Recaud_Ordinaria,
-            SUM(CASE WHEN s.TipoPago NOT IN ('ORDINARIO') THEN s.Monto ELSE 0 END) AS Recaud_Extra,
-            SUM(s.Monto) AS Recaud_Total
-        FROM Semanas s
-        GROUP BY s.SemanaInicio
-    ),
-    ConAcumulado AS (
-        SELECT 
-            SemanaInicio,
-            Recaud_Ordinaria,
-            Recaud_Extra,
-            Recaud_Total,
-            SUM(Recaud_Total) OVER (ORDER BY SemanaInicio ROWS UNBOUNDED PRECEDING) AS Acumulado
-        FROM SumaSemanal
+        SELECT
+            ps.SemanaInicio,
+            ps.SemanaFin,
+            SemanaISO   = MIN(DATEPART(ISO_WEEK, ps.fecha_de_pago)), -- para referencia
+            AnioCalend  = YEAR(MIN(ps.SemanaInicio)),                 -- año del lunes de la semana
+            SUM(ps.ImporteOrdi)  AS Recaudacion_Ordinaria,
+            SUM(ps.ImporteExtra) AS Recaudacion_Extraordinaria,
+            SUM(ps.ImporteTotal) AS Recaudacion_Total
+        FROM PagoSplit ps
+        GROUP BY ps.SemanaInicio, ps.SemanaFin
     )
-    SELECT 
+    SELECT
+        AnioCalend                 AS Anio,
+        SemanaISO,
         SemanaInicio,
-        DATEADD(day,6,SemanaInicio) AS SemanaFin,
-        Recaud_Ordinaria,
-        Recaud_Extra,
-        Recaud_Total,
-        AVG(Recaud_Total) OVER () AS PromedioPeriodo,
-        Acumulado
-    FROM ConAcumulado
+        SemanaFin,
+        Recaudacion_Ordinaria,
+        Recaudacion_Extraordinaria,
+        Recaudacion_Total,
+        AVG(Recaudacion_Total) OVER () AS PromedioPeriodo,
+        SUM(Recaudacion_Total) OVER (
+            ORDER BY SemanaInicio
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS Acumulado
+    FROM Semanas
     ORDER BY SemanaInicio;
 END
 GO
+-- chequear los pagos extraordinarios
+/* ================== PRUEBAS RÁPIDAS ==================*/
+EXEC Reportes.sp_reporte_flujo_caja_semanal
+     @FechaDesde = '2025-01-01',
+     @FechaHasta = '2025-12-31',
+     @IdConsorcio = NULL,
+     @EstadoPago  = NULL,
+     @ModoAsignacion = 'Proporcional';
+
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_flujo_caja_semanal
+     @FechaDesde = '2025-03-01',
+     @FechaHasta = '2025-06-30',
+     @IdConsorcio = 1,
+     @EstadoPago  = 'Asociado',
+     @ModoAsignacion = 'Total';
+-- ===================================================== */
+
+/*SELECT id_consorcio, periodo, total_ordinarios, total_extraordinarios
+FROM General.Expensa_Consorcio
+WHERE id_consorcio = 1                      -- cambialo si hace falta
+  AND (periodo LIKE '2025-03%' OR periodo LIKE '2025-04%' 
+       OR periodo LIKE '2025-05%' OR periodo LIKE '2025-06%')
+ORDER BY periodo;*/
 
 /* =========================
    Reporte 2 – Recaudación por mes y departamento (tabla cruzada)
    Params: @PeriodoDesdeYM, @PeriodoHastaYM, @IdConsorcio
    Asumo PeriodoYm = 'YYYYMM' en Expensa o derive de FechaPago.
    ========================= */
-IF OBJECT_ID('REP.SP_RecaudacionPorMesDepto') IS NOT NULL DROP PROC REP.SP_RecaudacionPorMesDepto;
-GO
-CREATE PROC REP.SP_RecaudacionPorMesDepto
-    @PeriodoDesdeYM char(6),
-    @PeriodoHastaYM char(6),
-    @IdConsorcio int = NULL
+
+   -- 1) Consorcios (por si faltara alguno referenciado por UF)
+EXEC Importacion.sp_importar_consorcios  @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx';           -- hoja Consorcios
+
+-- 2) Unidades Funcionales: crea/actualiza UF y setea piso/departamento, etc.
+EXEC Importacion.sp_importar_uf          @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt';
+
+-- 3) Personas + Cuentas (necesario para mapear CBU→persona)
+EXEC Importacion.sp_importar_personas    @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv';
+
+-- 4) Relaciones Persona↔UF (usa CBU y nro UF para resolver los IDs)
+EXEC Importacion.sp_importar_uf_persona  @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
+
+CREATE OR ALTER PROCEDURE Reportes.sp_reporte_recaudacion_mes_depto
+    @FechaDesde  date,
+    @FechaHasta  date,
+    @IdConsorcio int         = NULL,         -- NULL = todos
+    @EstadoPago  varchar(20) = NULL,         -- 'Asociado' | 'No Asociado' | NULL
+    @FormatoMes  varchar(10) = 'YYYY-MM'     -- 'YYYY-MM' | 'MesES'
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    ;WITH Pagos AS (
-        SELECT uf.IdConsorcio, uf.IdUF, uf.Piso, uf.Depto,
-               CONVERT(char(6),p.FechaPago,112) AS PeriodoYM,
-               p.Importe
-        FROM dbo.Pago p
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
-        WHERE CONVERT(char(6),p.FechaPago,112) BETWEEN @PeriodoDesdeYM AND @PeriodoHastaYM
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
+    IF @FechaDesde IS NULL OR @FechaHasta IS NULL
+    BEGIN
+        RAISERROR('Debe indicar @FechaDesde y @FechaHasta.', 16, 1);
+        RETURN;
+    END;
+
+    IF @FechaHasta < @FechaDesde
+    BEGIN
+        DECLARE @swap date = @FechaDesde;
+        SET @FechaDesde = @FechaHasta;
+        SET @FechaHasta = @swap;
+    END;
+
+    ;WITH Base AS (
+        SELECT
+            uf.departamento,
+            p.importe,
+            CAST(DATEFROMPARTS(YEAR(p.fecha_de_pago), MONTH(p.fecha_de_pago), 1) AS date) AS mes_inicio,
+            CASE @FormatoMes
+              WHEN 'MesES' THEN
+                CONCAT(
+                    CASE MONTH(p.fecha_de_pago)
+                      WHEN 1 THEN 'enero' WHEN 2 THEN 'febrero' WHEN 3 THEN 'marzo'
+                      WHEN 4 THEN 'abril' WHEN 5 THEN 'mayo'    WHEN 6 THEN 'junio'
+                      WHEN 7 THEN 'julio' WHEN 8 THEN 'agosto'  WHEN 9 THEN 'septiembre'
+                      WHEN 10 THEN 'octubre' WHEN 11 THEN 'noviembre' WHEN 12 THEN 'diciembre'
+                    END, ' ', YEAR(p.fecha_de_pago)
+                )
+              ELSE CONVERT(char(7), p.fecha_de_pago, 126) -- 'YYYY-MM'
+            END AS rotulo_mes
+        FROM Tesoreria.Pago p
+        LEFT JOIN Tesoreria.Persona_CuentaBancaria pcb ON p.id_persona_cuenta = pcb.id_persona_cuenta
+        LEFT JOIN Propiedades.UF_Persona ufp           ON pcb.id_persona = ufp.id_persona
+        LEFT JOIN Propiedades.UnidadFuncional uf       ON ufp.id_uf = uf.id_uf
+        WHERE p.fecha_de_pago BETWEEN @FechaDesde AND @FechaHasta
+          AND (@EstadoPago  IS NULL OR p.estado = @EstadoPago)
+          AND (@IdConsorcio IS NULL OR uf.id_consorcio = @IdConsorcio)
     )
-    SELECT 
-        CONCAT(u.Piso, '-', u.Depto) AS Departamento,
-        SUM(CASE WHEN PeriodoYM = @PeriodoDesdeYM THEN Importe END) AS Monto_Ini,
-        -- Tip: podés agregar más columnas dinámicas si necesitás muchos meses:
-        -- Para tabla cruzada verdaderamente dinámica, usar PIVOT dinámico:
-        SUM(Importe) AS TotalPeriodo
-    FROM Pagos u
-    GROUP BY CONCAT(u.Piso, '-', u.Depto)
-    ORDER BY Departamento;
+    SELECT
+        rotulo_mes,
+        UPPER(LTRIM(RTRIM(departamento))) AS departamento,
+        SUM(importe) AS importe,
+        MIN(mes_inicio) AS mes_inicio
+    INTO #FuentePivot
+    FROM Base
+    GROUP BY rotulo_mes, UPPER(LTRIM(RTRIM(departamento)));
+
+    -- Mapeo para ordenar por mes
+    SELECT rotulo_mes, MIN(mes_inicio) AS mes_inicio
+    INTO #OrdenMes
+    FROM #FuentePivot
+    GROUP BY rotulo_mes;
+
+    DECLARE @cols nvarchar(max) =
+        STUFF((
+            SELECT DISTINCT ',' + QUOTENAME(departamento)
+            FROM #FuentePivot
+            WHERE departamento IS NOT NULL AND departamento <> ''
+            FOR XML PATH(''), TYPE
+        ).value('.', 'nvarchar(max)'), 1, 1, '');
+
+    IF (@cols IS NULL OR LEN(@cols)=0)
+    BEGIN
+        -- No hay departamentos/UF relacionados: devolver esquema vacío
+        SELECT CAST(NULL AS nvarchar(20)) AS Mes, CAST(NULL AS decimal(18,2)) AS Total
+        WHERE 1=0;
+        RETURN;
+    END;
+
+    -- Expresión para Total: ISNULL([A],0) + ISNULL([B],0) + ...
+    DECLARE @totalExpr nvarchar(max) =
+        STUFF((
+            SELECT DISTINCT ' + ISNULL(' + QUOTENAME(departamento) + ',0)'
+            FROM #FuentePivot
+            FOR XML PATH(''), TYPE
+        ).value('.', 'nvarchar(max)'), 1, 3, '');
+
+    DECLARE @sql nvarchar(max) = N'
+        WITH PivotSrc AS (
+            SELECT rotulo_mes, departamento, importe
+            FROM #FuentePivot
+        )
+        SELECT p.rotulo_mes AS Mes,
+               ' + @cols + ',
+               ' + @totalExpr + ' AS Total
+        FROM (
+            SELECT rotulo_mes, departamento, importe
+            FROM PivotSrc
+        ) s
+        PIVOT (
+            SUM(importe) FOR departamento IN (' + @cols + ')
+        ) p
+        JOIN #OrdenMes om ON om.rotulo_mes = p.rotulo_mes
+        ORDER BY om.mes_inicio;';
+
+    -- PRINT @sql; -- descomentá para ver el SQL generado
+    EXEC sp_executesql @sql;
 END
 GO
+
+/* =================== PRUEBAS RÁPIDAS ===================*/
+-- 1) Todos los consorcios, todos los pagos, YYYY-MM
+EXEC Reportes.sp_reporte_recaudacion_mes_depto
+  @FechaDesde = '2025-01-01',
+  @FechaHasta = '2025-12-31',
+  @IdConsorcio = NULL,
+  @EstadoPago  = NULL,
+  @FormatoMes  = 'YYYY-MM';
+
+-- 2) Un consorcio puntual (cambiar ID), Mes en español
+--SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_recaudacion_mes_depto
+  @FechaDesde = '2025-03-01',
+  @FechaHasta = '2025-06-30',
+  @IdConsorcio = 1,
+  @EstadoPago  = NULL,
+  @FormatoMes  = 'MesES';
+
+  EXEC Reportes.sp_reporte_recaudacion_mes_depto
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago='Asociado', @FormatoMes='YYYY-MM';
+-- ====================================================== 
 
 /* =========================
    Reporte 3 – Cruzado por procedencia (ord/extra/etc.) según período
    Params: @PeriodoDesdeYM, @PeriodoHastaYM, @IdConsorcio
    (Devuelve pivot por TipoPago)
    ========================= */
-IF OBJECT_ID('REP.SP_RecaudacionPorProcedencia') IS NOT NULL DROP PROC REP.SP_RecaudacionPorProcedencia;
-GO
-CREATE PROC REP.SP_RecaudacionPorProcedencia
-    @PeriodoDesdeYM char(6),
-    @PeriodoHastaYM char(6),
-    @IdConsorcio int = NULL
+
+CREATE OR ALTER PROCEDURE Reportes.sp_reporte_recaudacion_tipo_periodo
+    @FechaDesde      date,
+    @FechaHasta      date,
+    @IdConsorcio     int          = NULL,            -- NULL = todos
+    @EstadoPago      varchar(20)  = NULL,            -- 'Asociado' | 'No Asociado' | NULL
+    @FormatoPeriodo  varchar(10)  = 'YYYY-MM',       -- 'YYYY-MM' | 'MesES'
+    @ModoAsignacion  varchar(20)  = 'Proporcional'   -- 'Proporcional' | 'Total'
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    ;WITH Base AS (
-        SELECT 
-            CONVERT(char(6),p.FechaPago,112) AS PeriodoYM,
-            UPPER(p.TipoPago) AS Tipo,
-            p.Importe,
-            uf.IdConsorcio
-        FROM dbo.Pago p
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
-        WHERE CONVERT(char(6),p.FechaPago,112) BETWEEN @PeriodoDesdeYM AND @PeriodoHastaYM
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
+    IF @FechaDesde IS NULL OR @FechaHasta IS NULL
+    BEGIN
+        RAISERROR('Debe indicar @FechaDesde y @FechaHasta.',16,1);
+        RETURN;
+    END;
+    IF @FechaHasta < @FechaDesde
+    BEGIN
+        DECLARE @swap date = @FechaDesde;
+        SET @FechaDesde = @FechaHasta;
+        SET @FechaHasta = @swap;
+    END;
+
+    /* -------- 1) Pagos con (posible) consorcio y período (mes) -------- */
+    ;WITH PagoBase AS (
+        SELECT
+            p.id_pago,
+            p.fecha_de_pago,
+            CAST(p.importe AS decimal(18,2)) AS importe,
+            p.estado,
+            ca.id_consorcio,
+            CAST(DATEFROMPARTS(YEAR(p.fecha_de_pago), MONTH(p.fecha_de_pago), 1) AS date) AS mes_inicio,
+            CONVERT(char(7), p.fecha_de_pago, 126) AS periodo_ym,     -- 'YYYY-MM'
+            /* nombre del mes en español para unir contra Expensa_Consorcio.periodo (que viene del JSON) */
+            CASE DATEPART(MONTH, p.fecha_de_pago)
+              WHEN 1 THEN 'enero' WHEN 2 THEN 'febrero' WHEN 3 THEN 'marzo'
+              WHEN 4 THEN 'abril' WHEN 5 THEN 'mayo'    WHEN 6 THEN 'junio'
+              WHEN 7 THEN 'julio' WHEN 8 THEN 'agosto'  WHEN 9 THEN 'septiembre'
+              WHEN 10 THEN 'octubre' WHEN 11 THEN 'noviembre' WHEN 12 THEN 'diciembre'
+            END AS mes_es
+        FROM Tesoreria.Pago p
+        LEFT JOIN Tesoreria.Persona_CuentaBancaria pcb
+               ON pcb.id_persona_cuenta = p.id_persona_cuenta
+        /* Elegimos UN consorcio por persona (primera UF) para evitar duplicar pagos */
+        OUTER APPLY (
+            SELECT TOP (1) c.id_consorcio
+            FROM Propiedades.UF_Persona ufp
+            JOIN Propiedades.UnidadFuncional uf ON uf.id_uf = ufp.id_uf
+            JOIN General.Consorcio c            ON c.id_consorcio = uf.id_consorcio
+            WHERE ufp.id_persona = pcb.id_persona
+            ORDER BY ufp.id_uf
+        ) ca
+        WHERE p.fecha_de_pago BETWEEN @FechaDesde AND @FechaHasta
+          AND (@EstadoPago  IS NULL OR p.estado = @EstadoPago)
+          AND (@IdConsorcio IS NULL OR ca.id_consorcio = @IdConsorcio)
+    ),
+    /* -------- 2) Unimos a Expensa_Consorcio para obtener la mezcla del mes -------- */
+    PagoTipificado AS (
+        SELECT
+            b.*,
+            ec.total_ordinarios,
+            ec.total_extraordinarios,
+            CASE
+              WHEN UPPER(@ModoAsignacion) = 'TOTAL' THEN CAST(0 AS decimal(18,6))
+              ELSE CAST(
+                    ISNULL(
+                        NULLIF(ec.total_extraordinarios,0)
+                        / NULLIF( (NULLIF(ec.total_ordinarios,0) + NULLIF(ec.total_extraordinarios,0)), 0 ),
+                        0
+                    ) AS decimal(18,6)
+                  )
+            END AS ratio_extra
+        FROM PagoBase b
+        LEFT JOIN General.Expensa_Consorcio ec
+               ON ec.id_consorcio = b.id_consorcio
+              AND LTRIM(RTRIM(LOWER(ec.periodo))) = b.mes_es    -- el JSON guarda el mes como texto (p.ej., 'abril')
+    ),
+    /* -------- 3) Partimos cada pago en ordinario / extraordinario -------- */
+    PagoSplit AS (
+        SELECT
+            b.mes_inicio,
+            CASE @FormatoPeriodo
+                WHEN 'MesES' THEN
+                    CONCAT(
+                        CASE MONTH(b.mes_inicio)
+                          WHEN 1 THEN 'enero' WHEN 2 THEN 'febrero' WHEN 3 THEN 'marzo'
+                          WHEN 4 THEN 'abril' WHEN 5 THEN 'mayo'    WHEN 6 THEN 'junio'
+                          WHEN 7 THEN 'julio' WHEN 8 THEN 'agosto'  WHEN 9 THEN 'septiembre'
+                          WHEN 10 THEN 'octubre' WHEN 11 THEN 'noviembre' WHEN 12 THEN 'diciembre'
+                        END,
+                        ' ', YEAR(b.mes_inicio)
+                    )
+                ELSE CONVERT(char(7), b.mes_inicio, 126)
+            END AS Periodo,
+            CAST(b.importe * (1 - ISNULL(b.ratio_extra,0)) AS decimal(18,2)) AS ImporteOrdinario,
+            CAST(b.importe * ISNULL(b.ratio_extra,0)       AS decimal(18,2)) AS ImporteExtraordinario,
+            b.importe AS ImporteTotal
+        FROM PagoTipificado b
+    ),
+    /* -------- 4) Agregamos por período -------- */
+    Agregado AS (
+        SELECT
+            Periodo,
+            SUM(ImporteOrdinario)     AS Ordinario,
+            SUM(ImporteExtraordinario) AS Extraordinario,
+            SUM(ImporteTotal)          AS Total,
+            MIN(mes_inicio)            AS OrdenPeriodo
+        FROM PagoSplit
+        GROUP BY Periodo
     )
-    SELECT PeriodoYM,
-           SUM(CASE WHEN Tipo='ORDINARIO' THEN Importe ELSE 0 END) AS Ordinario,
-           SUM(CASE WHEN Tipo='EXTRAORDINARIO' THEN Importe ELSE 0 END) AS Extraordinario,
-           SUM(CASE WHEN Tipo NOT IN ('ORDINARIO','EXTRAORDINARIO') THEN Importe ELSE 0 END) AS Otros,
-           SUM(Importe) AS Total
-    FROM Base
-    GROUP BY PeriodoYM
-    ORDER BY PeriodoYM;
+    /* -------- 5) Tabla cruzada final (columnas fijas) -------- */
+    SELECT
+        Periodo,
+        Ordinario,
+        Extraordinario,
+        Total
+    FROM Agregado
+    ORDER BY OrdenPeriodo;
 END
 GO
+
+/* =================== PRUEBAS RÁPIDAS ===================*/
+-- 1) Todos los consorcios, todos los pagos, período 'YYYY-MM', separación proporcional
+EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL,
+  @FormatoPeriodo='YYYY-MM', @ModoAsignacion='Proporcional';
+
+-- 2) Un consorcio puntual (cambiar ID), solo 'Asociado', período en español y modo 'Total'
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
+  @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
+  @IdConsorcio=1, @EstadoPago='Asociado',
+  @FormatoPeriodo='MesES', @ModoAsignacion='Total';
+-- ====================================================== 
+
 
 /* =========================
    Reporte 4 – Top 5 meses con mayores Gastos e Ingresos
