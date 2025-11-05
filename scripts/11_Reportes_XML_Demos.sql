@@ -7,7 +7,7 @@ GO
 
 
    -- (asignación PROPORCIONAL por mes según Expensa_Consorcio)
-CREATE OR ALTER VIEW REP.VW_FlujoCajaSemanal
+CREATE OR ALTER VIEW Reportes.VW_FlujoCajaSemanal
 AS
 WITH PagoBase AS (
     SELECT
@@ -80,7 +80,7 @@ GO
    --XML – Reporte 1 (Flujo de caja semanal)
   -- si @ModoAsignacion='Total' fuerza Extra=0 y Ordi=Total
 
-CREATE OR ALTER PROC REP.SP_FlujoCajaSemanal_XML
+CREATE OR ALTER PROC Reportes.SP_FlujoCajaSemanal_XML
     @FechaDesde   date,
     @FechaHasta   date,
     @IdConsorcio  int = NULL,
@@ -115,7 +115,7 @@ GO
 
   -- XML Reporte 3 (Recaudación por período y procedencia)
 
-CREATE OR ALTER PROC REP.SP_RecaudacionPorProcedencia_XML
+CREATE OR ALTER PROC Reportes.SP_RecaudacionPorProcedencia_XML
     @FechaDesde      date,
     @FechaHasta      date,
     @IdConsorcio     int = NULL,
@@ -202,11 +202,11 @@ GO
 -- ===================== PRUEBA =======================
 
 -- Reporte 1
-EXEC REP.SP_FlujoCajaSemanal_XML
+EXEC Reportes.SP_FlujoCajaSemanal_XML
   @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
   @IdConsorcio=NULL, @ModoAsignacion='Proporcional';
 
 -- Reporte 3
-EXEC REP.SP_RecaudacionPorProcedencia_XML
+EXEC Reportes.SP_RecaudacionPorProcedencia_XML
   @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
   @IdConsorcio=NULL, @FormatoPeriodo='YYYY-MM', @ModoAsignacion='Proporcional';

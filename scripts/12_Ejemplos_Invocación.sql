@@ -1,27 +1,43 @@
 USE [Com5600_Grupo14_DB];
 GO
 
+-- Reporte 1 
+EXEC Reportes.sp_reporte_flujo_caja_semanal
+  @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL, @ModoAsignacion='Proporcional';
+
+-- Reporte 2 
+EXEC Reportes.sp_reporte_recaudacion_mes_depto
+  @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',
+  @IdConsorcio=1, @EstadoPago='Asociado', @FormatoMes='YYYY-MM';
+
+-- Reporte 3 
+EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
+  @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL, @FormatoPeriodo='YYYY-MM', @ModoAsignacion='Proporcional';
 
 
-/* Ejemplos de uso */
--- Reporte 1
-EXEC REP.SP_FlujoCajaSemanal @FechaDesde='2025-01-01', @FechaHasta='2025-03-31', @IdConsorcio=NULL;
+-- Reporte 4 
+EXEC Reportes.sp_reporte_top5_gastos_ingresos
+  @FechaDesde='2024-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL, @FormatoPeriodo='YYYY-MM';
 
--- Reporte 2
-EXEC REP.SP_RecaudacionPorMesDepto @PeriodoDesdeYM='202501', @PeriodoHastaYM='202503', @IdConsorcio=1;
+-- Reporte 5 
+EXEC Reportes.sp_reporte_top_morosidad_propietarios
+  @FechaCorte='2025-06-30', @IdConsorcio=NULL, @IncluirExtra=0, @MesesFiltroCSV=NULL, @TopN=3;
 
--- Reporte 3
-EXEC REP.SP_RecaudacionPorProcedencia @PeriodoDesdeYM='202501', @PeriodoHastaYM='202503', @IdConsorcio=NULL;
+-- Reporte 6 
+EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
+  @FechaDesde='2025-01-01', @FechaHasta='2025-06-30',
+  @IdConsorcio=2, @EstadoPago='Asociado',
+  @FormatoPeriodo='YYYY-MM', @SoloOrdinariasAsumidas=1, @Salida='TABLA';
+-- ===================== EJEMPLOS XML ====================
 
--- Reporte 4
-EXEC REP.SP_TopMeses_GastosIngresos @AnioDesde=2024, @AnioHasta=2025, @IdConsorcio=NULL;
-
--- Reporte 5
-EXEC REP.SP_TopPropietarios_Morosidad @PeriodoDesdeYM='202501', @PeriodoHastaYM='202506', @IdConsorcio=NULL;
-
--- Reporte 6
-EXEC REP.SP_DiasEntrePagos_Ordinarios @PeriodoDesde='2025-01-01', @PeriodoHasta='2025-06-30', @IdConsorcio=2;
-
--- XML
-EXEC REP.SP_FlujoCajaSemanal_XML '2025-01-01','2025-03-31',NULL;
-EXEC REP.SP_RecaudacionPorProcedencia_XML '202501','202503',1;
+-- Reporte 1 XML
+EXEC Reportes.SP_FlujoCajaSemanal_XML
+  @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',
+  @IdConsorcio=NULL, @ModoAsignacion='Proporcional';
+-- Reporte 3 XML 
+EXEC Reportes.SP_RecaudacionPorProcedencia_XML
+  @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',
+  @IdConsorcio=1, @FormatoPeriodo='YYYY-MM', @ModoAsignacion='Proporcional';
