@@ -126,36 +126,6 @@ BEGIN
     ORDER BY SemanaInicio;
 END
 GO
--- chequear los pagos extraordinarios
-/* ================== PRUEBAS RÁPIDAS ==================*/
-EXEC Reportes.sp_reporte_flujo_caja_semanal
-     @FechaDesde = '2025-01-01',
-     @FechaHasta = '2025-12-31',
-     @IdConsorcio = NULL,
-     @EstadoPago  = NULL,
-     @ModoAsignacion = 'Proporcional';
-
--- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
-EXEC Reportes.sp_reporte_flujo_caja_semanal
-     @FechaDesde = '2025-03-01',
-     @FechaHasta = '2025-06-30',
-     @IdConsorcio = 1,
-     @EstadoPago  = 'Asociado',
-     @ModoAsignacion = 'Total';
--- ===================================================== */
-
-/*SELECT id_consorcio, periodo, total_ordinarios, total_extraordinarios
-FROM General.Expensa_Consorcio
-WHERE id_consorcio = 1                      -- cambialo si hace falta
-  AND (periodo LIKE '2025-03%' OR periodo LIKE '2025-04%' 
-       OR periodo LIKE '2025-05%' OR periodo LIKE '2025-06%')
-ORDER BY periodo;*/
-
-/* =========================
-   Reporte 2 – Recaudación por mes y departamento (tabla cruzada)
-   Params: @PeriodoDesdeYM, @PeriodoHastaYM, @IdConsorcio
-   Asumo PeriodoYm = 'YYYYMM' en Expensa o derive de FechaPago.
-   ========================= */
 
    -- 1) Consorcios (por si faltara alguno referenciado por UF)
 EXEC Importacion.sp_importar_consorcios  @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx';           -- hoja Consorcios
@@ -278,29 +248,6 @@ BEGIN
     EXEC sp_executesql @sql;
 END
 GO
-
-/* =================== PRUEBAS RÁPIDAS ===================*/
--- 1) Todos los consorcios, todos los pagos, YYYY-MM
-EXEC Reportes.sp_reporte_recaudacion_mes_depto
-  @FechaDesde = '2025-01-01',
-  @FechaHasta = '2025-12-31',
-  @IdConsorcio = NULL,
-  @EstadoPago  = NULL,
-  @FormatoMes  = 'YYYY-MM';
-
--- 2) Un consorcio puntual (cambiar ID), Mes en español
---SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
-EXEC Reportes.sp_reporte_recaudacion_mes_depto
-  @FechaDesde = '2025-03-01',
-  @FechaHasta = '2025-06-30',
-  @IdConsorcio = 1,
-  @EstadoPago  = NULL,
-  @FormatoMes  = 'MesES';
-
-  EXEC Reportes.sp_reporte_recaudacion_mes_depto
-  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
-  @IdConsorcio=NULL, @EstadoPago='Asociado', @FormatoMes='YYYY-MM';
--- ====================================================== 
 
 /* =========================
    Reporte 3 – Cruzado por procedencia (ord/extra/etc.) según período
@@ -429,22 +376,6 @@ BEGIN
 END
 GO
 
-/* =================== PRUEBAS RÁPIDAS ===================*/
--- 1) Todos los consorcios, todos los pagos, período 'YYYY-MM', separación proporcional
-EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
-  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
-  @IdConsorcio=NULL, @EstadoPago=NULL,
-  @FormatoPeriodo='YYYY-MM', @ModoAsignacion='Proporcional';
-
--- 2) Un consorcio puntual (cambiar ID), solo 'Asociado', período en español y modo 'Total'
--- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
-EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
-  @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
-  @IdConsorcio=1, @EstadoPago='Asociado',
-  @FormatoPeriodo='MesES', @ModoAsignacion='Total';
--- ====================================================== 
-
-
 /* =========================
    Reporte 4 – Top 5 meses con mayores Gastos e Ingresos
    Params: @AnioDesde, @AnioHasta, @IdConsorcio
@@ -553,18 +484,6 @@ BEGIN
     ORDER BY TotalGastos DESC, Periodo ASC;  -- empate por nombre
 END
 GO
-
---prueba reporte4
--- Todos los consorcios
-EXEC Reportes.sp_reporte_top5_gastos_ingresos 
-  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
-  @IdConsorcio=NULL, @EstadoPago=NULL, @FormatoPeriodo='YYYY-MM';
-
--- Solo un consorcio (cambiá el ID) y solo pagos Asociados, mostrando meses en español
--- SELECT TOP(1) id_consorcio FROM General.Consorcio;
-EXEC Reportes.sp_reporte_top5_gastos_ingresos 
-  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
-  @IdConsorcio=1, @EstadoPago='Asociado', @FormatoPeriodo='MesES';
 
 /* =========================
    Reporte 5 – Top 3 propietarios con mayor morosidad
@@ -679,23 +598,6 @@ BEGIN
 END
 GO
 
-
---prueba reporte5
-EXEC Reportes.sp_reporte_top_morosidad_propietarios
-  @FechaCorte='2025-06-30',
-  @IdConsorcio=NULL,
-  @IncluirExtra=0,
-  @MesesFiltroCSV=NULL,   -- toma todos los meses que haya en Expensa_Consorcio
-  @TopN=3;
-
--- Solo un consorcio (cambiar ID), con extraordinarias y meses específicos
--- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
-EXEC Reportes.sp_reporte_top_morosidad_propietarios
-  @FechaCorte='2025-06-30',
-  @IdConsorcio=1,
-  @IncluirExtra=1,
-  @MesesFiltroCSV=N'abril,mayo,junio',
-  @TopN=5;
 /* =========================
    Reporte 6 – Fechas de pagos ordinarios por UF y días entre pagos
    Params: @PeriodoDesde, @PeriodoHasta, @IdConsorcio
@@ -821,6 +723,52 @@ END
 GO
 
 
+
+
+/* =================== PRUEBAS REPORTE 3 ===================*/
+-- 1) Todos los consorcios, todos los pagos, período 'YYYY-MM', separación proporcional
+EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL,
+  @FormatoPeriodo='YYYY-MM', @ModoAsignacion='Proporcional';
+
+-- 2) Un consorcio puntual (cambiar ID), solo 'Asociado', período en español y modo 'Total'
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
+  @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
+  @IdConsorcio=1, @EstadoPago='Asociado',
+  @FormatoPeriodo='MesES', @ModoAsignacion='Total';
+-- ====================================================== 
+
+--prueba reporte4
+-- Todos los consorcios
+EXEC Reportes.sp_reporte_top5_gastos_ingresos 
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL, @FormatoPeriodo='YYYY-MM';
+
+-- Solo un consorcio (cambiá el ID) y solo pagos Asociados, mostrando meses en español
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio;
+EXEC Reportes.sp_reporte_top5_gastos_ingresos 
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=1, @EstadoPago='Asociado', @FormatoPeriodo='MesES';
+
+--prueba reporte5
+EXEC Reportes.sp_reporte_top_morosidad_propietarios
+  @FechaCorte='2025-06-30',
+  @IdConsorcio=NULL,
+  @IncluirExtra=0,
+  @MesesFiltroCSV=NULL,   -- toma todos los meses que haya en Expensa_Consorcio
+  @TopN=3;
+
+-- Solo un consorcio (cambiar ID), con extraordinarias y meses específicos
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_top_morosidad_propietarios
+  @FechaCorte='2025-06-30',
+  @IdConsorcio=1,
+  @IncluirExtra=1,
+  @MesesFiltroCSV=N'abril,mayo,junio',
+  @TopN=5;
+
 --prueba reporte6
 -- Tabla
 EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
@@ -833,3 +781,21 @@ EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
   @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
   @IdConsorcio=NULL, @EstadoPago='Asociado',
   @FormatoPeriodo='MesES', @SoloOrdinariasAsumidas=1, @Salida='XML';
+
+  @IdConsorcio = NULL,
+  @EstadoPago  = NULL,
+  @FormatoMes  = 'YYYY-MM';
+
+-- 2) Un consorcio puntual (cambiar ID), Mes en español
+--SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_recaudacion_mes_depto
+  @FechaDesde = '2025-03-01',
+  @FechaHasta = '2025-06-30',
+  @IdConsorcio = 1,
+  @EstadoPago  = NULL,
+  @FormatoMes  = 'MesES';
+
+  EXEC Reportes.sp_reporte_recaudacion_mes_depto
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago='Asociado', @FormatoMes='YYYY-MM';
+-- ====================================================== 
