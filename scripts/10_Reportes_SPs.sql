@@ -158,16 +158,16 @@ ORDER BY periodo;*/
    ========================= */
 
    -- 1) Consorcios (por si faltara alguno referenciado por UF)
-EXEC Importacion.sp_importar_consorcios  @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx';           -- hoja Consorcios
+EXEC Importacion.sp_importar_consorcios  @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx';           -- hoja Consorcios
 
 -- 2) Unidades Funcionales: crea/actualiza UF y setea piso/departamento, etc.
-EXEC Importacion.sp_importar_uf          @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt';
+EXEC Importacion.sp_importar_uf          @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt';
 
 -- 3) Personas + Cuentas (necesario para mapear CBU→persona)
-EXEC Importacion.sp_importar_personas    @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv';
+EXEC Importacion.sp_importar_personas    @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv';
 
 -- 4) Relaciones Persona↔UF (usa CBU y nro UF para resolver los IDs)
-EXEC Importacion.sp_importar_uf_persona  @ruta_archivo = N'C:\Users\MauroTS\Desktop\BASE DE DATOS APLICADA\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
+EXEC Importacion.sp_importar_uf_persona  @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
 
 CREATE OR ALTER PROCEDURE Reportes.sp_reporte_recaudacion_mes_depto
     @FechaDesde  date,
@@ -450,41 +450,121 @@ EXEC Reportes.sp_reporte_recaudacion_tipo_periodo
    Params: @AnioDesde, @AnioHasta, @IdConsorcio
    Ingresos: sum(Pago.Importe). Gastos: sum(Gasto.Importe).
    ========================= */
-IF OBJECT_ID('REP.SP_TopMeses_GastosIngresos') IS NOT NULL DROP PROC REP.SP_TopMeses_GastosIngresos;
-GO
-CREATE PROC REP.SP_TopMeses_GastosIngresos
-    @AnioDesde int,
-    @AnioHasta int,
-    @IdConsorcio int = NULL
+
+CREATE OR ALTER PROCEDURE Reportes.sp_reporte_top5_gastos_ingresos
+    @FechaDesde     date,
+    @FechaHasta     date,
+    @IdConsorcio    int         = NULL,         -- NULL = todos
+    @EstadoPago     varchar(20) = NULL,         -- 'Asociado' | 'No Asociado' | NULL
+    @FormatoPeriodo varchar(10) = 'YYYY-MM'     -- para INGRESOS: 'YYYY-MM' | 'MesES'
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    ;WITH Ingresos AS (
-        SELECT CONVERT(char(7), p.FechaPago, 120) AS PeriodoY_M,
-               SUM(p.Importe) AS TotalIngresos
-        FROM dbo.Pago p
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
-        WHERE YEAR(p.FechaPago) BETWEEN @AnioDesde AND @AnioHasta
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
-        GROUP BY CONVERT(char(7), p.FechaPago, 120)
-    ),
-    Gastos AS (
-        SELECT CONVERT(char(7), g.FechaGasto, 120) AS PeriodoY_M,
-               SUM(g.Importe) AS TotalGastos
-        FROM dbo.Gasto g
-        WHERE YEAR(g.FechaGasto) BETWEEN @AnioDesde AND @AnioHasta
-        GROUP BY CONVERT(char(7), g.FechaGasto, 120)
-    )
-    SELECT TOP (5) 'MAYORES_INGRESOS' AS Tipo, i.PeriodoY_M, i.TotalIngresos
-    FROM Ingresos i
-    ORDER BY i.TotalIngresos DESC;
+    IF @FechaDesde IS NULL OR @FechaHasta IS NULL
+    BEGIN
+        RAISERROR('Debe indicar @FechaDesde y @FechaHasta.',16,1);
+        RETURN;
+    END;
+    IF @FechaHasta < @FechaDesde
+    BEGIN
+        DECLARE @swap date = @FechaDesde;
+        SET @FechaDesde = @FechaHasta;
+        SET @FechaHasta = @swap;
+    END;
 
-    SELECT TOP (5) 'MAYORES_GASTOS' AS Tipo, g.PeriodoY_M, g.TotalGastos
-    FROM Gastos g
-    ORDER BY g.TotalGastos DESC;
+    /* =======================
+       1) INGRESOS por mes
+       ======================= */
+    ;WITH IngresosBase AS (
+        SELECT
+            CAST(DATEFROMPARTS(YEAR(p.fecha_de_pago), MONTH(p.fecha_de_pago), 1) AS date) AS mes_inicio,
+            p.importe,
+            ca.id_consorcio
+        FROM Tesoreria.Pago p
+        LEFT JOIN Tesoreria.Persona_CuentaBancaria pcb
+               ON pcb.id_persona_cuenta = p.id_persona_cuenta
+        OUTER APPLY (
+            SELECT TOP (1) uf.id_consorcio
+            FROM Propiedades.UF_Persona ufp
+            JOIN Propiedades.UnidadFuncional uf ON uf.id_uf = ufp.id_uf
+            WHERE ufp.id_persona = pcb.id_persona
+            ORDER BY ufp.id_uf
+        ) ca
+        WHERE p.fecha_de_pago BETWEEN @FechaDesde AND @FechaHasta
+          AND (@EstadoPago  IS NULL OR p.estado = @EstadoPago)
+          AND (@IdConsorcio IS NULL OR ca.id_consorcio = @IdConsorcio)
+    ),
+    IngresosAgg AS (
+        SELECT
+            CASE @FormatoPeriodo
+                WHEN 'MesES' THEN
+                    CONCAT(
+                        CASE MONTH(mes_inicio)
+                          WHEN 1 THEN 'enero' WHEN 2 THEN 'febrero' WHEN 3 THEN 'marzo'
+                          WHEN 4 THEN 'abril' WHEN 5 THEN 'mayo'    WHEN 6 THEN 'junio'
+                          WHEN 7 THEN 'julio' WHEN 8 THEN 'agosto'  WHEN 9 THEN 'septiembre'
+                          WHEN 10 THEN 'octubre' WHEN 11 THEN 'noviembre' WHEN 12 THEN 'diciembre'
+                        END, ' ', YEAR(mes_inicio)
+                    )
+                ELSE CONVERT(char(7), mes_inicio, 126)  -- YYYY-MM
+            END AS Periodo,
+            SUM(importe) AS TotalIngresos,
+            MIN(mes_inicio) AS Orden
+        FROM IngresosBase
+        GROUP BY CASE @FormatoPeriodo
+                    WHEN 'MesES' THEN CONCAT(
+                        CASE MONTH(mes_inicio)
+                          WHEN 1 THEN 'enero' WHEN 2 THEN 'febrero' WHEN 3 THEN 'marzo'
+                          WHEN 4 THEN 'abril' WHEN 5 THEN 'mayo'    WHEN 6 THEN 'junio'
+                          WHEN 7 THEN 'julio' WHEN 8 THEN 'agosto'  WHEN 9 THEN 'septiembre'
+                          WHEN 10 THEN 'octubre' WHEN 11 THEN 'noviembre' WHEN 12 THEN 'diciembre'
+                        END, ' ', YEAR(mes_inicio)
+                    )
+                    ELSE CONVERT(char(7), mes_inicio, 126)
+                 END
+    )
+    SELECT TOP (5)
+        Periodo, TotalIngresos
+    FROM IngresosAgg
+    ORDER BY TotalIngresos DESC, Orden ASC;
+
+    /* =======================
+       2) GASTOS por mes
+       ======================= */
+    ;WITH GastosAgg AS (
+        SELECT
+            /* periodo en español tal como viene del JSON */
+            LTRIM(RTRIM(LOWER(ec.periodo))) AS PeriodoES,
+            SUM(g.importe) AS TotalGastos
+        FROM General.Gasto g
+        JOIN General.Expensa_Consorcio ec
+          ON ec.id_expensa_consorcio = g.id_expensa_consorcio
+        WHERE (@IdConsorcio IS NULL OR ec.id_consorcio = @IdConsorcio)
+          /* Si existieran fechas de emisión y querés filtrar por rango temporal real: 
+             AND ec.fecha_emision BETWEEN @FechaDesde AND @FechaHasta */
+        GROUP BY LTRIM(RTRIM(LOWER(ec.periodo)))
+    )
+    SELECT TOP (5)
+        /* Capitalizo el mes para mostrar lindo */
+        CONCAT(UPPER(LEFT(PeriodoES,1)), SUBSTRING(PeriodoES,2,100)) AS Periodo,
+        TotalGastos
+    FROM GastosAgg
+    ORDER BY TotalGastos DESC, Periodo ASC;  -- empate por nombre
 END
 GO
+
+--prueba reporte4
+-- Todos los consorcios
+EXEC Reportes.sp_reporte_top5_gastos_ingresos 
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago=NULL, @FormatoPeriodo='YYYY-MM';
+
+-- Solo un consorcio (cambiá el ID) y solo pagos Asociados, mostrando meses en español
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio;
+EXEC Reportes.sp_reporte_top5_gastos_ingresos 
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=1, @EstadoPago='Asociado', @FormatoPeriodo='MesES';
 
 /* =========================
    Reporte 5 – Top 3 propietarios con mayor morosidad
@@ -492,88 +572,264 @@ GO
    Definición “morosidad” (ajustable):
      deuda = sum(Expensa emitida) – sum(Pagos aplicados) en el rango
    ========================= */
-IF OBJECT_ID('REP.SP_TopPropietarios_Morosidad') IS NOT NULL DROP PROC REP.SP_TopPropietarios_Morosidad;
-GO
-CREATE PROC REP.SP_TopPropietarios_Morosidad
-    @PeriodoDesdeYM char(6),
-    @PeriodoHastaYM char(6),
-    @IdConsorcio int = NULL
+
+CREATE OR ALTER PROCEDURE Reportes.sp_reporte_top_morosidad_propietarios
+    @FechaCorte       date,                 -- pagos hasta esta fecha (inclusive)
+    @IdConsorcio      int    = NULL,        -- NULL = todos
+    @IncluirExtra     bit    = 0,           -- 1 = suma extraordinarias
+    @MesesFiltroCSV   nvarchar(max) = NULL, -- ej: 'abril,mayo,junio' (según ec.periodo); NULL = todos los meses existentes
+    @TopN             int    = 3            -- por defecto pide 3
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    ;WITH ExpensasPeriodo AS (
-        SELECT e.IdUF, SUM(e.Importe) AS TotalExpensas
-        FROM dbo.Expensa e
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = e.IdUF
-        WHERE e.PeriodoYm BETWEEN @PeriodoDesdeYM AND @PeriodoHastaYM
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
-        GROUP BY e.IdUF
+    IF @FechaCorte IS NULL
+    BEGIN RAISERROR('Debe indicar @FechaCorte.',16,1); RETURN; END;
+
+    /* ---------- 0) Meses a considerar (según texto en español de ec.periodo) ---------- */
+    DECLARE @Meses TABLE (periodo nvarchar(50) PRIMARY KEY);
+    IF @MesesFiltroCSV IS NULL
+    BEGIN
+        INSERT INTO @Meses(periodo)
+        SELECT DISTINCT LTRIM(RTRIM(LOWER(periodo)))
+        FROM [Com5600_Grupo14_DB].General.Expensa_Consorcio
+        WHERE (@IdConsorcio IS NULL OR id_consorcio = @IdConsorcio);
+    END
+    ELSE
+    BEGIN
+        INSERT INTO @Meses(periodo)
+        SELECT DISTINCT LTRIM(RTRIM(LOWER(value)))
+        FROM STRING_SPLIT(@MesesFiltroCSV, ',');
+    END
+
+    /* ---------- 1) Deuda esperada por (persona, consorcio) vía % prorrateo ---------- */
+    ;WITH PropietariosUF AS (
+        SELECT
+            p.id_persona,
+            p.nombre, p.apellido, p.dni, p.email, p.telefono,
+            uf.id_consorcio,
+            ISNULL(NULLIF(uf.porcentaje_de_prorrateo,0),0) AS prorrateo
+        FROM [Com5600_Grupo14_DB].Propiedades.UF_Persona ufp
+        JOIN [Com5600_Grupo14_DB].Propiedades.Persona p   ON p.id_persona = ufp.id_persona
+        JOIN [Com5600_Grupo14_DB].Propiedades.UnidadFuncional uf ON uf.id_uf = ufp.id_uf
+        WHERE p.es_inquilino = 0
+          AND (@IdConsorcio IS NULL OR uf.id_consorcio = @IdConsorcio)
     ),
-    PagosPeriodo AS (
-        SELECT p.IdUF, SUM(p.Importe) AS TotalPagos
-        FROM dbo.Pago p
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
-        WHERE CONVERT(char(6),p.FechaPago,112) BETWEEN @PeriodoDesdeYM AND @PeriodoHastaYM
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
-        GROUP BY p.IdUF
+    DeudaPersona AS (
+        SELECT
+            pu.id_persona,
+            pu.id_consorcio,
+            SUM( (ISNULL(ec.total_ordinarios,0) +
+                  CASE WHEN @IncluirExtra=1 THEN ISNULL(ec.total_extraordinarios,0) ELSE 0 END)
+                 * (ISNULL(pu.prorrateo,0) / 100.0)
+               ) AS DeudaEsperada
+        FROM PropietariosUF pu
+        JOIN [Com5600_Grupo14_DB].General.Expensa_Consorcio ec
+          ON ec.id_consorcio = pu.id_consorcio
+        JOIN @Meses m
+          ON LTRIM(RTRIM(LOWER(ec.periodo))) = m.periodo
+        GROUP BY pu.id_persona, pu.id_consorcio
     ),
-    DeudaPorUF AS (
-        SELECT COALESCE(e.IdUF, pp.IdUF) AS IdUF,
-               COALESCE(e.TotalExpensas,0) - COALESCE(pp.TotalPagos,0) AS Deuda
-        FROM ExpensasPeriodo e
-        FULL JOIN PagosPeriodo pp ON pp.IdUF = e.IdUF
+    /* ---------- 2) Pagos por (persona, consorcio) hasta @FechaCorte ---------- */
+    PagosPersona AS (
+        SELECT
+            per.id_persona,
+            uf.id_consorcio,
+            SUM(p.importe) AS Pagos
+        FROM [Com5600_Grupo14_DB].Tesoreria.Pago p
+        JOIN [Com5600_Grupo14_DB].Tesoreria.Persona_CuentaBancaria pcb ON pcb.id_persona_cuenta = p.id_persona_cuenta
+        JOIN [Com5600_Grupo14_DB].Propiedades.Persona per ON per.id_persona = pcb.id_persona
+        JOIN [Com5600_Grupo14_DB].Propiedades.UF_Persona ufp ON ufp.id_persona = per.id_persona
+        JOIN [Com5600_Grupo14_DB].Propiedades.UnidadFuncional uf ON uf.id_uf = ufp.id_uf
+        WHERE p.fecha_de_pago <= @FechaCorte
+          AND per.es_inquilino = 0
+          AND (@IdConsorcio IS NULL OR uf.id_consorcio = @IdConsorcio)
+        GROUP BY per.id_persona, uf.id_consorcio
     ),
-    PropietariosConDeuda AS (
-        SELECT p.IdPropietario,
-               pr.Apellido + ', ' + pr.Nombre AS Propietario,
-               pr.DNI, pr.Email, pr.Telefono,
-               SUM(d.Deuda) AS DeudaTotal
-        FROM DeudaPorUF d
-        INNER JOIN dbo.PropietarioUF p ON p.IdUF = d.IdUF
-        INNER JOIN dbo.Propietario pr ON pr.IdPropietario = p.IdPropietario
-        GROUP BY p.IdPropietario, pr.Apellido, pr.Nombre, pr.DNI, pr.Email, pr.Telefono
+    /* ---------- 3) Saldo (morosidad) ---------- */
+    Morosidad AS (
+        SELECT
+            dp.id_persona,
+            dp.id_consorcio,
+            ISNULL(dp.DeudaEsperada,0) AS DeudaEsperada,
+            ISNULL(pg.Pagos,0)         AS Pagos,
+            CASE WHEN ISNULL(dp.DeudaEsperada,0) - ISNULL(pg.Pagos,0) > 0
+                 THEN CAST(ISNULL(dp.DeudaEsperada,0) - ISNULL(pg.Pagos,0) AS decimal(18,2))
+                 ELSE CAST(0 AS decimal(18,2))
+            END AS Morosidad
+        FROM DeudaPersona dp
+        LEFT JOIN PagosPersona pg
+          ON pg.id_persona = dp.id_persona
+         AND pg.id_consorcio = dp.id_consorcio
     )
-    SELECT TOP (3) *
-    FROM PropietariosConDeuda
-    WHERE DeudaTotal > 0
-    ORDER BY DeudaTotal DESC;
+    SELECT TOP (@TopN)
+        c.nombre              AS Consorcio,
+        per.apellido,
+        per.nombre,
+        per.dni,
+        per.email,
+        per.telefono,
+        m.DeudaEsperada,
+        m.Pagos,
+        m.Morosidad
+    FROM Morosidad m
+    JOIN [Com5600_Grupo14_DB].Propiedades.Persona per ON per.id_persona = m.id_persona
+    JOIN [Com5600_Grupo14_DB].General.Consorcio c     ON c.id_consorcio = m.id_consorcio
+    ORDER BY m.Morosidad DESC, per.apellido, per.nombre;
 END
 GO
 
+
+--prueba reporte5
+EXEC Reportes.sp_reporte_top_morosidad_propietarios
+  @FechaCorte='2025-06-30',
+  @IdConsorcio=NULL,
+  @IncluirExtra=0,
+  @MesesFiltroCSV=NULL,   -- toma todos los meses que haya en Expensa_Consorcio
+  @TopN=3;
+
+-- Solo un consorcio (cambiar ID), con extraordinarias y meses específicos
+-- SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
+EXEC Reportes.sp_reporte_top_morosidad_propietarios
+  @FechaCorte='2025-06-30',
+  @IdConsorcio=1,
+  @IncluirExtra=1,
+  @MesesFiltroCSV=N'abril,mayo,junio',
+  @TopN=5;
 /* =========================
    Reporte 6 – Fechas de pagos ordinarios por UF y días entre pagos
    Params: @PeriodoDesde, @PeriodoHasta, @IdConsorcio
    ========================= */
-IF OBJECT_ID('REP.SP_DiasEntrePagos_Ordinarios') IS NOT NULL DROP PROC REP.SP_DiasEntrePagos_Ordinarios;
-GO
-CREATE PROC REP.SP_DiasEntrePagos_Ordinarios
-    @PeriodoDesde date,
-    @PeriodoHasta date,
-    @IdConsorcio int = NULL
+
+CREATE OR ALTER PROCEDURE Reportes.sp_reporte_pagos_intervalo_por_uf
+    @FechaDesde             date,
+    @FechaHasta             date,
+    @IdConsorcio            int          = NULL,
+    @EstadoPago             varchar(20)  = 'Asociado',    -- por defecto solo asociados
+    @FormatoPeriodo         varchar(10)  = 'YYYY-MM',
+    @SoloOrdinariasAsumidas bit          = 1,
+    @Salida                 varchar(10)  = 'TABLA'        -- 'TABLA' | 'XML'
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    ;WITH P AS (
-        SELECT p.IdUF, p.FechaPago,
-               ROW_NUMBER() OVER (PARTITION BY p.IdUF ORDER BY p.FechaPago) AS rn
-        FROM dbo.Pago p
-        INNER JOIN dbo.UnidadFuncional uf ON uf.IdUF = p.IdUF
-        WHERE UPPER(p.TipoPago) = 'ORDINARIO'
-          AND p.FechaPago BETWEEN @PeriodoDesde AND @PeriodoHasta
-          AND (@IdConsorcio IS NULL OR uf.IdConsorcio = @IdConsorcio)
+    IF @FechaDesde IS NULL OR @FechaHasta IS NULL
+    BEGIN
+        RAISERROR('Debe indicar @FechaDesde y @FechaHasta.',16,1);
+        RETURN;
+    END;
+
+    IF @FechaHasta < @FechaDesde
+    BEGIN
+        DECLARE @swap date = @FechaDesde;
+        SET @FechaDesde = @FechaHasta;
+        SET @FechaHasta = @swap;
+    END;
+
+    ;WITH Base AS (
+        /* Pagos mapeados a UF a través de Persona -> UF_Persona -> UnidadFuncional */
+        SELECT
+            c.id_consorcio,
+            c.nombre                      AS Consorcio,
+            uf.id_uf,
+            uf.numero                     AS UF_Numero,
+            uf.piso,
+            uf.departamento,
+            CAST(p.fecha_de_pago AS date) AS fecha_pago,
+            p.importe,
+            CASE @FormatoPeriodo
+              WHEN 'MesES' THEN CONCAT(
+                    CASE MONTH(p.fecha_de_pago)
+                        WHEN 1 THEN 'enero' WHEN 2 THEN 'febrero' WHEN 3 THEN 'marzo'
+                        WHEN 4 THEN 'abril' WHEN 5 THEN 'mayo'    WHEN 6 THEN 'junio'
+                        WHEN 7 THEN 'julio' WHEN 8 THEN 'agosto'  WHEN 9 THEN 'septiembre'
+                        WHEN 10 THEN 'octubre' WHEN 11 THEN 'noviembre' WHEN 12 THEN 'diciembre'
+                    END, ' ', YEAR(p.fecha_de_pago))
+              ELSE CONVERT(char(7), p.fecha_de_pago, 126)  -- 'YYYY-MM'
+            END AS PeriodoEtiqueta
+        FROM Tesoreria.Pago p
+        LEFT JOIN Tesoreria.Persona_CuentaBancaria pcb ON p.id_persona_cuenta = pcb.id_persona_cuenta
+        LEFT JOIN Propiedades.UF_Persona ufp           ON ufp.id_persona      = pcb.id_persona
+        LEFT JOIN Propiedades.UnidadFuncional uf       ON uf.id_uf            = ufp.id_uf
+        LEFT JOIN General.Consorcio c                  ON c.id_consorcio      = uf.id_consorcio
+        WHERE p.fecha_de_pago BETWEEN @FechaDesde AND @FechaHasta
+          AND (@EstadoPago  IS NULL OR p.estado = @EstadoPago)
+          AND (@IdConsorcio IS NULL OR uf.id_consorcio = @IdConsorcio)
+          AND uf.id_uf IS NOT NULL  -- solo pagos que lograron mapear a una UF
+          /* Si en el futuro hay tipificación de pagos:
+             AND (@SoloOrdinariasAsumidas = 0 OR p.tipo = 'Ordinario') */
+    ),
+    Ordenados AS (
+        /* Orden por UF y fecha, para calcular el siguiente pago */
+        SELECT
+            id_consorcio, Consorcio, id_uf, UF_Numero, piso, departamento,
+            PeriodoEtiqueta,
+            fecha_pago,
+            importe,
+            LEAD(fecha_pago) OVER (
+                PARTITION BY id_uf ORDER BY fecha_pago, importe, id_uf
+            ) AS prox_fecha_pago
+        FROM Base
+    ),
+    Resultado AS (
+        SELECT
+            Consorcio,
+            id_uf,
+            UF = CONCAT(COALESCE(CAST(piso AS varchar(10)),'?'), '-', COALESCE(departamento,'?'), ' (#', UF_Numero, ')'),
+            fecha_pago      AS FechaPago,
+            prox_fecha_pago AS ProximoPago,
+            CASE WHEN prox_fecha_pago IS NULL THEN NULL
+                 ELSE DATEDIFF(DAY, fecha_pago, prox_fecha_pago)
+            END             AS DiasHastaSiguiente,
+            importe         AS Importe
+        FROM Ordenados
     )
-    SELECT 
-        u.IdUF,
-        u.Piso, u.Depto,
-        p1.FechaPago AS FechaPagoActual,
-        p2.FechaPago AS FechaPagoSiguiente,
-        DATEDIFF(day, p1.FechaPago, p2.FechaPago) AS DiasEntrePagos
-    FROM P p1
-    LEFT JOIN P p2
-           ON p2.IdUF = p1.IdUF AND p2.rn = p1.rn + 1
-    INNER JOIN dbo.UnidadFuncional u ON u.IdUF = p1.IdUF
-    ORDER BY u.IdUF, FechaPagoActual;
+    -- >>> CONSUMO LA CTE guardando en una temp table (esto evita el error del IF)
+    SELECT *
+    INTO #ResultadoPagosUF
+    FROM Resultado;
+
+    IF UPPER(@Salida) = 'XML'
+    BEGIN
+        SELECT
+            Consorcio,
+            id_uf,
+            UF,
+            FechaPago,
+            ProximoPago,
+            DiasHastaSiguiente,
+            Importe
+        FROM #ResultadoPagosUF
+        ORDER BY Consorcio, id_uf, FechaPago
+        FOR XML PATH('PagoUF'), ROOT('PagosIntervalos'), TYPE;
+        RETURN;
+    END
+    ELSE
+    BEGIN
+        SELECT
+            Consorcio,
+            id_uf,
+            UF,
+            FechaPago,
+            ProximoPago,
+            DiasHastaSiguiente,
+            Importe
+        FROM #ResultadoPagosUF
+        ORDER BY Consorcio, id_uf, FechaPago;
+    END
 END
 GO
+
+
+--prueba reporte6
+-- Tabla
+EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
+  @FechaDesde='2025-01-01', @FechaHasta='2025-12-31',
+  @IdConsorcio=NULL, @EstadoPago='Asociado',
+  @FormatoPeriodo='YYYY-MM', @SoloOrdinariasAsumidas=1, @Salida='TABLA';
+
+-- XML
+EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
+  @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
+  @IdConsorcio=NULL, @EstadoPago='Asociado',
+  @FormatoPeriodo='MesES', @SoloOrdinariasAsumidas=1, @Salida='XML';
