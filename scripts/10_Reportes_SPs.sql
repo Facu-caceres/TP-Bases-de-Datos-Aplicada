@@ -9,13 +9,23 @@ GO
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'Reportes')
     EXEC('CREATE SCHEMA Reportes');
 GO
-
 /* =========================
    Reporte 1 – Flujo de caja semanal
    Params:
      @FechaDesde, @FechaHasta, @IdConsorcio (NULL=todos)
    Output: recaudación semanal por tipo (ord/extra), promedio del período, acumulado.
    ========================= */
+
+  /* -- 1) Consorcios (por si faltara alguno referenciado por UF) 
+   EXEC Importacion.sp_importar_consorcios @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx'; 
+   -- hoja Consorcios -- 2) Unidades Funcionales: crea/actualiza UF y setea piso/departamento, etc. 
+   EXEC Importacion.sp_importar_uf @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt'; 
+   -- 3) Personas + Cuentas (necesario para mapear CBU→persona) 
+   EXEC Importacion.sp_importar_personas @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv'; 
+   -- 4) Relaciones Persona↔UF (usa CBU y nro UF para resolver los IDs) 
+   EXEC Importacion.sp_importar_uf_persona @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
+
+   GO*/
 
 
 CREATE OR ALTER PROCEDURE Reportes.sp_reporte_flujo_caja_semanal
@@ -126,18 +136,6 @@ BEGIN
     ORDER BY SemanaInicio;
 END
 GO
-
-   -- 1) Consorcios (por si faltara alguno referenciado por UF)
-EXEC Importacion.sp_importar_consorcios  @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx';           -- hoja Consorcios
-
--- 2) Unidades Funcionales: crea/actualiza UF y setea piso/departamento, etc.
-EXEC Importacion.sp_importar_uf          @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt';
-
--- 3) Personas + Cuentas (necesario para mapear CBU→persona)
-EXEC Importacion.sp_importar_personas    @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv';
-
--- 4) Relaciones Persona↔UF (usa CBU y nro UF para resolver los IDs)
-EXEC Importacion.sp_importar_uf_persona  @ruta_archivo = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
 
 CREATE OR ALTER PROCEDURE Reportes.sp_reporte_recaudacion_mes_depto
     @FechaDesde  date,
@@ -781,10 +779,6 @@ EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
   @FechaDesde='2025-03-01', @FechaHasta='2025-06-30',
   @IdConsorcio=NULL, @EstadoPago='Asociado',
   @FormatoPeriodo='MesES', @SoloOrdinariasAsumidas=1, @Salida='XML';
-
-  @IdConsorcio = NULL,
-  @EstadoPago  = NULL,
-  @FormatoMes  = 'YYYY-MM';
 
 -- 2) Un consorcio puntual (cambiar ID), Mes en español
 --SELECT TOP(1) id_consorcio FROM General.Consorcio ORDER BY id_consorcio;
