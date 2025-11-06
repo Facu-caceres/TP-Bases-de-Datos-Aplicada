@@ -15,15 +15,15 @@ GO
      @FechaDesde, @FechaHasta, @IdConsorcio (NULL=todos)
    Output: recaudación semanal por tipo (ord/extra), promedio del período, acumulado.
    ========================= */
-
-  /* -- 1) Consorcios (por si faltara alguno referenciado por UF) 
-   EXEC Importacion.sp_importar_consorcios @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx'; 
+  /*
+   -- 1) Consorcios (por si faltara alguno referenciado por UF) 
+   EXEC Importacion.sp_importar_consorcios @ruta_archivo = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx'; 
    -- hoja Consorcios -- 2) Unidades Funcionales: crea/actualiza UF y setea piso/departamento, etc. 
-   EXEC Importacion.sp_importar_uf @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt'; 
+   EXEC Importacion.sp_importar_uf @ruta_archivo = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt'; 
    -- 3) Personas + Cuentas (necesario para mapear CBU→persona) 
-   EXEC Importacion.sp_importar_personas @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv'; 
+   EXEC Importacion.sp_importar_personas @ruta_archivo = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv'; 
    -- 4) Relaciones Persona↔UF (usa CBU y nro UF para resolver los IDs) 
-   EXEC Importacion.sp_importar_uf_persona @ruta_archivo = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
+   EXEC Importacion.sp_importar_uf_persona @ruta_archivo = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv';
 
    GO*/
 

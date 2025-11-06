@@ -37,6 +37,7 @@ EXEC Reportes.sp_reporte_pagos_intervalo_por_uf
 EXEC Reportes.SP_FlujoCajaSemanal_XML
   @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',
   @IdConsorcio=NULL, @ModoAsignacion='Proporcional';
+
 -- Reporte 3 XML 
 EXEC Reportes.SP_RecaudacionPorProcedencia_XML
   @FechaDesde='2025-01-01', @FechaHasta='2025-03-31',

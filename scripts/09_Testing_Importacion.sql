@@ -38,12 +38,14 @@ GO
 
 -- Modificar estas rutas para que apunten a los archivos en tu PC
 DECLARE
-    @excelPath   NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx',
-    @ufPath      NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt',
-    @personasCsv NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv',
-    @personasUF  NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv',
-    @pagos       NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\pagos_consorcios.csv',
-    @servicios   NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json';
+    @excelPath   NVARCHAR(4000) = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx',
+    @ufPath      NVARCHAR(4000) = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt',
+    @personasCsv NVARCHAR(4000) = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv',
+    @personasUF  NVARCHAR(4000) = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv',
+    @pagos       NVARCHAR(4000) = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\pagos_consorcios.csv',
+    @servicios   NVARCHAR(4000) = N'C:\Users\Flor\Desktop\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json';
+
+
 
 PRINT '--- 2. Importando Consorcios...';
 EXEC Importacion.sp_importar_consorcios @ruta_archivo = @excelPath;
