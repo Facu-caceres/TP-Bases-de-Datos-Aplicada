@@ -1,23 +1,19 @@
-/* =========================================================
-   TP Integrador - Entrega 7: Requisitos de Seguridad
-   BD: Com5600_Grupo14_DB
-   Contenido:
-     1) Roles y permisos (según matriz)
-     2) Cifrado de datos sensibles (llaves, migración, vistas/procs)
-     3) Política de backups: FULL/DIF/LOG + schedules (RPO <= 15m)
-   ========================================================= */
+/*
+Materia: 3641 - Bases de Datos Aplicada
+Comisión: 02-5600
+Grupo: 14
+Integrantes: Aguirre Dario Ivan 44355010
+             Caceres Olguin Facundo 45747823
+             Ciriello Florencia Ailen 44833569
+             Mangalaviti Sebastian 45233238
+             Pedrol Ledesma Bianca Uriana 45012041
+             Saladino Mauro Tomas 44531560
+Fecha de Entrega: 21/11/2025
+Descripción: Script de bloqueo de permisos
+*/
 USE [Com5600_Grupo14_DB];
 GO
 
-/* ===================== 1) ROLES y PERMISOS ===================== */
-/* Matriz (según enunciado):
-   Rol                      | Act. datos UF | Importación bancaria | Reportes
-   -------------------------|---------------|----------------------|---------
-   Administrativo General   |     SÍ        |        NO            |   SÍ
-   Administrativo Bancario  |     NO        |        SÍ            |   SÍ
-   Administrativo Operativo |     SÍ        |        NO            |   SÍ
-   Sistemas                 |     NO        |        NO            |   SÍ (técnico)
-*/
 
 IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name='Reportes') EXEC('CREATE SCHEMA Reportes');
 GO
@@ -52,12 +48,7 @@ GO
 
 
 /* ============== 2) CIFRADO de datos sensibles ============== */
-/* Objetivo: cifrar CBU/CVU, DNI, Email, Teléfono con AES_256.
-   - Master Key + Certificate + Symmetric Key
-   - Columnas *_enc VARBINARY
-   - Migración plaintext -> cifrado
-   - Vistas/procs seguros (enmascarado y descifrado controlado)
-*/
+
 
 -- 2.1 Master Key / Certificado / Symmetric Key
 IF NOT EXISTS (SELECT 1 FROM sys.symmetric_keys WHERE name='##MS_DatabaseMasterKey##')
@@ -81,7 +72,7 @@ BEGIN
 END
 GO
 
-/* 2.2 Agregar columnas cifradas si faltan (ajustá nombres reales) */
+/* 2.2 Agregar columnas cifradas si faltan */
 
 -- Tesoreria.Persona_CuentaBancaria: CVU/CBU
 IF OBJECT_ID('Tesoreria.Persona_CuentaBancaria') IS NOT NULL
@@ -105,10 +96,9 @@ BEGIN
 END
 GO
 
--- ddbba.persona: dni/email/telefono (si existe en tu TP)
 
 
-/* 2.3 Migración plaintext -> cifrado (una sola vez; irreversible) */
+/* 2.3 Migración plaintext -> cifrado */
 OPEN SYMMETRIC KEY SK_DatosSensibles_TP DECRYPTION BY CERTIFICATE Cert_DatosSensibles_TP;
 
 -- PCB: CVU/CBU -> CVU_CBU_enc
@@ -181,7 +171,7 @@ END
 GO
 GRANT EXECUTE ON OBJECT::Reportes.fn_descifrar TO [Sistemas];
 
--- Vistas enmascaradas para negocio (no descifran, solo muestran máscara)
+-- Vistas enmascaradas para negocio ( solo muestran máscara)
 IF OBJECT_ID('Reportes.VW_PCB_Segura') IS NOT NULL DROP VIEW Reportes.VW_PCB_Segura;
 GO
 CREATE VIEW Reportes.VW_PCB_Segura AS
@@ -217,14 +207,14 @@ BEGIN
 END
 GO
 
--- Proc técnico para lectura descifrada (SOLO Sistemas, uso controlado)
+-- Proc técnico para lectura descifrada 
 CREATE OR ALTER PROC Reportes.SP_DatosSensibles_Leer
 AS
 BEGIN
   SET NOCOUNT ON;
   OPEN SYMMETRIC KEY SK_DatosSensibles_TP DECRYPTION BY CERTIFICATE Cert_DatosSensibles_TP;
 
-  -- Ejemplos (seccionados según existan tablas):
+  -- Ejemplos 
   IF OBJECT_ID('Tesoreria.Pago') IS NOT NULL AND COL_LENGTH('Tesoreria.Pago','cbu_origen_enc') IS NOT NULL
   BEGIN
     SELECT id_pago, fecha_de_pago, importe, estado,
@@ -256,13 +246,7 @@ GRANT EXECUTE ON OBJECT::Reportes.SP_DatosSensibles_Leer TO [Sistemas];
 
 
 /* ============== 3) BACKUPS + SCHEDULE + RPO ============== */
-/* Política:
-   - FULL diario 02:00
-   - DIFERENCIAL cada 6 horas
-   - LOG cada 15 minutos
-   Objetivo RPO: <= 15 minutos (por backup de LOG).
-   * Ajustá rutas según tu servidor *
-*/
+
 DECLARE @dirFull NVARCHAR(260) = 'C:\Backups\Com5600_Grupo14_DB\FULL\';
 DECLARE @dirDiff NVARCHAR(260) = 'C:\Backups\Com5600_Grupo14_DB\DIFF\';
 DECLARE @dirLog  NVARCHAR(260) = 'C:\Backups\Com5600_Grupo14_DB\LOG\';
@@ -379,10 +363,6 @@ BEGIN
 END
 GO
 
-/* ===== Nota para el informe =====
-Política de respaldo adoptada:
-- FULL diario 02:00 + Diferenciales cada 6h + LOG cada 15m.
-RPO comprometido: <= 15 minutos (por frecuencia de LOG).
-Restauración ante desastre: Último FULL + último DIF + cadena de LOGs hasta el punto deseado.
-Lectura de datos sensibles: solo vistas enmascaradas para negocio; descifrado controlado por SP exclusivo de 'Sistemas'.
-================================================================ */
+
+
+
