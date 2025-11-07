@@ -198,9 +198,9 @@ IF OBJECT_ID('Propiedades.Persona') IS NOT NULL
 BEGIN
   IF OBJECT_ID('Reportes.VW_Persona_Segura') IS NOT NULL DROP VIEW Reportes.VW_Persona_Segura;
   EXEC('CREATE VIEW Reportes.VW_Persona_Segura AS
-        SELECT id_persona,
+        SELECT id_persona, ''***@***'' AS email_mask,
                CASE WHEN DATALENGTH(dni_enc)>0 THEN ''***-****'' ELSE NULL END AS dni_mask,
-               CASE WHEN DATALENGTH(email_enc)>0 THEN ''***@***''  ELSE NULL END AS email_mask,
+               
                CASE WHEN DATALENGTH(telefono_enc)>0 THEN ''*****''  ELSE NULL END AS telefono_mask
         FROM Propiedades.Persona;');
   GRANT SELECT ON OBJECT::Reportes.VW_Persona_Segura TO [AdministrativoGeneral], [AdministrativoBancario], [AdministrativoOperativo], [Sistemas];
