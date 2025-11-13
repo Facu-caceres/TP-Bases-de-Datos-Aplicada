@@ -1,1 +1,19 @@
-.vs
+# Archivos y carpetas de Visual Studio / SSMS
+.vs/
+*.suo
+*.user
+
+# Directorios de Build
+bin/
+obj/
+
+# Backups de Base de Datos
+*.bak
+*.trn
+
+# Archivos temporales de la API
+dolares.json
+
+# Errores de descarga
+archivos_origen/*_Error.txt
+archivos_origen/___All_Errors.txt
