@@ -50,18 +50,33 @@ Se incluyen scripts SQL para la creación del esquema de la base de datos, proce
 
 ## Estructura del Repositorio
 
-
-      /
-      |-- scripts/                 # Carpeta con todos los scripts SQL
-      |   |-- 01_Creacion_Esquema.sql
-      |   |-- 02_Importar_Consorcios.sql
-      |   |-- 03_Importar_UnidadesFuncionales.sql
-      |   |-- 04_Importar_Personas.sql
-      |   |-- ... (otros scripts de importación, reportes, seguridad)
-      |-- archivos_origen/         # Archivos de datos originales provistos
-      |-- documentacion/           # Informes, DER, etc.
-      |-- .gitignore
-      |-- README.md                # Este archivo
+      / 
+      │
+      ├── .gitignore
+      ├── README.md                             #Este archivo
+      │
+      ├── Grupo14/                              #Carpeta de la Solución SQL
+      │   ├── Grupo14.sln
+      │   │
+      │   ├── Entrega_5/                        #Creación de Esquemas e Importación
+      │   │   ├── (Scripts SQL 01 al 09)
+      │   │   └── Entrega_5.ssmssqlproj
+      │   │
+      │   ├── Entrega_6/                        #Reportes y Consumo de API
+      │   │   ├── (Scripts SQL 10 al 19)
+      │   │   └── Entrega_6.ssmssqlproj
+      │   │
+      │   └── Entrega_7/                        #Seguridad y Backups
+      │       ├── (Scripts SQL 20 y 21)
+      │       └── Entrega_7.ssmssqlproj
+      │
+      ├── archivos_origen/                      #Datos fuente para importación (CSV, JSON, TXT)
+      │   └── Archivos para el TP/
+      │
+      └── documentacion/                        #Consigna del TP e Informe Final
+          ├── 3641-Bases-de-Datos-Aplicada-TP-Integrador-2-Cuat-2025.pdf
+          └── Plantilla--TP-BBDD-Aplicada-_1.docx
+      
 
 ## Configuración y Ejecución
 
