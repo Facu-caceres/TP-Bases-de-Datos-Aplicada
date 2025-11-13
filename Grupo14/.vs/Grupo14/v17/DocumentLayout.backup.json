@@ -1,7 +1,44 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\09_Testing_Importacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\09_Testing_Importacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\01_Creacion_Esquema.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\01_Creacion_Esquema.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\08_Importar_Servicios.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\08_Importar_Servicios.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\07_Importar_Pagos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\07_Importar_Pagos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\06_Importar_UF_Persona.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\06_Importar_UF_Persona.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\05_Importar_proveedores.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\05_Importar_proveedores.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\04_Importar_Personas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\04_Importar_Personas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\03_Importar_UnidadesFuncionales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\03_Importar_UnidadesFuncionales.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\02_Importar_Consorcios.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{9AA1F43F-03F5-3292-5DF1-579B181EC9C4}|Grupo14\\Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Grupo14\\Entrega_5\\02_Importar_Consorcios.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +46,110 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d114938f-591c-46cf-a785-500a82d97410}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "09_Testing_Importacion.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (77))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\09_Testing_Importacion.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\09_Testing_Importacion.sql",
+              "ToolTip": "09_Testing_Importacion.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (77))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:22.58Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (77))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "08_Importar_Servicios.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (76))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\08_Importar_Servicios.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\08_Importar_Servicios.sql",
+              "ToolTip": "08_Importar_Servicios.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (76))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:22.423Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (76))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "01_Creacion_Esquema.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (67))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\01_Creacion_Esquema.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\01_Creacion_Esquema.sql",
+              "ToolTip": "01_Creacion_Esquema.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (67))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:21.259Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (67))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "07_Importar_Pagos.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (75))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\07_Importar_Pagos.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\07_Importar_Pagos.sql",
+              "ToolTip": "07_Importar_Pagos.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (75))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:22.282Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (75))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "06_Importar_UF_Persona.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (74))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\06_Importar_UF_Persona.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\06_Importar_UF_Persona.sql",
+              "ToolTip": "06_Importar_UF_Persona.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (74))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:22.156Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (74))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "05_Importar_proveedores.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (73))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\05_Importar_proveedores.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\05_Importar_proveedores.sql",
+              "ToolTip": "05_Importar_proveedores.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (73))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:22.015Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (73))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "04_Importar_Personas.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (70))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\04_Importar_Personas.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\04_Importar_Personas.sql",
+              "ToolTip": "04_Importar_Personas.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (70))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:21.874Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (70))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "03_Importar_UnidadesFuncionales.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (69))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\03_Importar_UnidadesFuncionales.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\03_Importar_UnidadesFuncionales.sql",
+              "ToolTip": "03_Importar_UnidadesFuncionales.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (69))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:21.748Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (69))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "02_Importar_Consorcios.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (68))",
+              "DocumentMoniker": "C:\\Users\\Flor\\Desktop\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Grupo14\\Entrega_5\\02_Importar_Consorcios.sql",
+              "RelativeDocumentMoniker": "Grupo14\\Entrega_5\\02_Importar_Consorcios.sql",
+              "ToolTip": "02_Importar_Consorcios.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (68))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-13T17:49:21.47Z",
+              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CAUOA66\\Flor (68))"
             }
           ]
         }

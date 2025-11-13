@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Grupo14">
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Entrega_6">
   <Items>
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
         <ConnectionNode Name="localhost:DESKTOP-CAUOA66\Flor">
-          <Created>2025-11-10T10:31:15.7204142-03:00</Created>
+          <Created>2025-11-13T14:51:53.6134872-03:00</Created>
           <Type>SQL</Type>
           <Server>localhost</Server>
           <UserName />
@@ -21,63 +21,9 @@
     </LogicalFolder>
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="01_Creacion_Esquema.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>01_Creacion_Esquema.sql</FullPath>
-        </FileNode>
-        <FileNode Name="02_Importar_Consorcios.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>02_Importar_Consorcios.sql</FullPath>
-        </FileNode>
-        <FileNode Name="03_Importar_UnidadesFuncionales.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>03_Importar_UnidadesFuncionales.sql</FullPath>
-        </FileNode>
-        <FileNode Name="04_Importar_Personas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>04_Importar_Personas.sql</FullPath>
-        </FileNode>
-        <FileNode Name="05_Importar_proveedores.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>05_Importar_proveedores.sql</FullPath>
-        </FileNode>
-        <FileNode Name="06_Importar_UF_Persona.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>06_Importar_UF_Persona.sql</FullPath>
-        </FileNode>
-        <FileNode Name="07_Importar_Pagos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>07_Importar_Pagos.sql</FullPath>
-        </FileNode>
-        <FileNode Name="08_Importar_Servicios.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>08_Importar_Servicios.sql</FullPath>
-        </FileNode>
-        <FileNode Name="09_Testing_Importacion.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>09_Testing_Importacion.sql</FullPath>
-        </FileNode>
         <FileNode Name="10_Reporte_FlujoCaja.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>10_Reporte_FlujoCaja.sql</FullPath>
         </FileNode>
@@ -134,18 +80,6 @@
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>19_Testing_API.sql</FullPath>
-        </FileNode>
-        <FileNode Name="20_Bloquear_Permisos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>20_Bloquear_Permisos.sql</FullPath>
-        </FileNode>
-        <FileNode Name="21_Testing_Permisos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
-          <AssociatedConnUserName />
-          <FullPath>21_Testing_Permisos.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

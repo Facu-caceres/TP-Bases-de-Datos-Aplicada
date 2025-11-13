@@ -1,16 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # SQL Server Management Studio Version 21
-VisualStudioVersion = 17.14.36212.18 d17.14
+VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Grupo14", "Grupo14\Grupo14.ssmssqlproj", "{999CAE7E-A231-F899-6853-BB904912F5F2}"
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Entrega_6", "Entrega_6\Entrega_6.ssmssqlproj", "{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Entrega_7", "Entrega_7\Entrega_7.ssmssqlproj", "{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Entrega_5", "Entrega_5\Entrega_5.ssmssqlproj", "{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default|Default = Default|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{999CAE7E-A231-F899-6853-BB904912F5F2}.Default|Default.ActiveCfg = Default
+		{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}.Default|Default.ActiveCfg = Default
+		{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}.Default|Default.ActiveCfg = Default
+		{EFE4AD05-BD5D-4A7A-948A-8E19BD0C9579}.Default|Default.ActiveCfg = Default
+		{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
