@@ -231,5 +231,118 @@ GRANT EXECUTE ON OBJECT::Importacion.sp_importar_pagos                 TO Rol_Ad
 GRANT EXECUTE ON OBJECT::Importacion.sp_actualizar_cotizaciones_dolar  TO Rol_AdmBancario;
 GO
 
+------------------------------------------------------------
+-- 7.3. REPORTES (TODOS LOS ROLES)
+------------------------------------------------------------
 
+-- AdmGeneral
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_flujo_caja_semanal         TO Rol_AdmGeneral;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_mes_depto      TO Rol_AdmGeneral;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_tipo_periodo   TO Rol_AdmGeneral;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top5_gastos_ingresos       TO Rol_AdmGeneral;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top_morosidad_propietarios TO Rol_AdmGeneral;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_pagos_intervalo_por_uf     TO Rol_AdmGeneral;
+
+-- AdmOperativo
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_flujo_caja_semanal         TO Rol_AdmOperativo;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_mes_depto      TO Rol_AdmOperativo;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_tipo_periodo   TO Rol_AdmOperativo;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top5_gastos_ingresos       TO Rol_AdmOperativo;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top_morosidad_propietarios TO Rol_AdmOperativo;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_pagos_intervalo_por_uf     TO Rol_AdmOperativo;
+
+-- AdmBancario
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_flujo_caja_semanal         TO Rol_AdmBancario;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_mes_depto      TO Rol_AdmBancario;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_tipo_periodo   TO Rol_AdmBancario;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top5_gastos_ingresos       TO Rol_AdmBancario;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top_morosidad_propietarios TO Rol_AdmBancario;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_pagos_intervalo_por_uf     TO Rol_AdmBancario;
+
+-- Sistemas
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_flujo_caja_semanal         TO Rol_Sistemas;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_mes_depto      TO Rol_Sistemas;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_recaudacion_tipo_periodo   TO Rol_Sistemas;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top5_gastos_ingresos       TO Rol_Sistemas;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_top_morosidad_propietarios TO Rol_Sistemas;
+GRANT EXECUTE ON OBJECT::Reportes.sp_reporte_pagos_intervalo_por_uf     TO Rol_Sistemas;
+GO
+
+
+------------------------------------------------------------
+-- 8. BLOQUEOS EXPLÍCITOS (DENY) PARA RESPETAR MATRIZ
+------------------------------------------------------------
+
+-- AdmBancario NO puede actualizar UF
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_consorcios     TO Rol_AdmBancario;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_uf             TO Rol_AdmBancario;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_personas       TO Rol_AdmBancario;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_uf_persona     TO Rol_AdmBancario;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_proveedores    TO Rol_AdmBancario;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_servicios_json TO Rol_AdmBancario;
+
+-- Sistemas NO puede actualizar UF ni importar bancaria
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_consorcios            TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_uf                    TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_personas              TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_uf_persona            TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_proveedores           TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_servicios_json        TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_pagos                 TO Rol_Sistemas;
+DENY EXECUTE ON OBJECT::Importacion.sp_actualizar_cotizaciones_dolar  TO Rol_Sistemas;
+
+-- AdmGeneral y AdmOperativo NO pueden hacer importación bancaria
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_pagos                 TO Rol_AdmGeneral;
+DENY EXECUTE ON OBJECT::Importacion.sp_actualizar_cotizaciones_dolar  TO Rol_AdmGeneral;
+DENY EXECUTE ON OBJECT::Importacion.sp_importar_pagos                 TO Rol_AdmOperativo;
+DENY EXECUTE ON OBJECT::Importacion.sp_actualizar_cotizaciones_dolar  TO Rol_AdmOperativo;
+GO
+
+
+------------------------------------------------------------
+-- 9. BLOQUEO DML/DDL DIRECTO (NINGÚN ROL MODIFICA TABLAS)
+------------------------------------------------------------
+
+-- 9.1. Denegar INSERT/UPDATE/DELETE y ALTER en los esquemas de negocio
+
+DECLARE @schemaName SYSNAME;
+
+DECLARE curSchemas CURSOR FOR
+    SELECT name
+    FROM sys.schemas
+    WHERE name IN ('General','Propiedades','Tesoreria','Importacion','Reportes');
+
+OPEN curSchemas;
+FETCH NEXT FROM curSchemas INTO @schemaName;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    EXEC('DENY INSERT, UPDATE, DELETE ON SCHEMA::[' + @schemaName + '] TO Rol_AdmGeneral;');
+    EXEC('DENY INSERT, UPDATE, DELETE ON SCHEMA::[' + @schemaName + '] TO Rol_AdmBancario;');
+    EXEC('DENY INSERT, UPDATE, DELETE ON SCHEMA::[' + @schemaName + '] TO Rol_AdmOperativo;');
+    EXEC('DENY INSERT, UPDATE, DELETE ON SCHEMA::[' + @schemaName + '] TO Rol_Sistemas;');
+
+    EXEC('DENY ALTER ON SCHEMA::[' + @schemaName + '] TO Rol_AdmGeneral;');
+    EXEC('DENY ALTER ON SCHEMA::[' + @schemaName + '] TO Rol_AdmBancario;');
+    EXEC('DENY ALTER ON SCHEMA::[' + @schemaName + '] TO Rol_AdmOperativo;');
+    EXEC('DENY ALTER ON SCHEMA::[' + @schemaName + '] TO Rol_Sistemas;');
+
+    FETCH NEXT FROM curSchemas INTO @schemaName;
+END
+
+CLOSE curSchemas;
+DEALLOCATE curSchemas;
+GO
+
+-- 9.2. Denegar creación de objetos (CREATE TABLE/VIEW/FUNCTION/PROCEDURE) en la base
+
+DENY CREATE TABLE, CREATE VIEW, CREATE FUNCTION, CREATE PROCEDURE, ALTER ANY SCHEMA
+    TO Rol_AdmGeneral;
+DENY CREATE TABLE, CREATE VIEW, CREATE FUNCTION, CREATE PROCEDURE, ALTER ANY SCHEMA
+    TO Rol_AdmBancario;
+DENY CREATE TABLE, CREATE VIEW, CREATE FUNCTION, CREATE PROCEDURE, ALTER ANY SCHEMA
+    TO Rol_AdmOperativo;
+DENY CREATE TABLE, CREATE VIEW, CREATE FUNCTION, CREATE PROCEDURE, ALTER ANY SCHEMA
+    TO Rol_Sistemas;
+GO
 

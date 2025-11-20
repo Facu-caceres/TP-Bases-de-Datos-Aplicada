@@ -3,7 +3,7 @@
   <Items>
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="localhost:DESKTOP-CAUOA66\Flor">
+        <ConnectionNode Name="localhost:DESKTOP-CBETTT0\User">
           <Created>2025-11-13T15:02:19.6742014-03:00</Created>
           <Type>SQL</Type>
           <Server>localhost</Server>
@@ -17,6 +17,20 @@
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>SQL Server Management Studio</ApplicationName>
         </ConnectionNode>
+        <ConnectionNode Name="localhost\SQLEXPRESS:DESKTOP-CBETTT0\User">
+          <Created>2025-11-14T17:30:30.5209641-03:00</Created>
+          <Type>SQL</Type>
+          <Server>localhost\SQLEXPRESS</Server>
+          <UserName />
+          <Authentication>Autenticación de Windows</Authentication>
+          <InitialDB>Com5600_Grupo14_DB</InitialDB>
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
+        </ConnectionNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
@@ -28,8 +42,8 @@
           <FullPath>01_Creacion_Esquema.sql</FullPath>
         </FileNode>
         <FileNode Name="02_Importar_Consorcios.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>02_Importar_Consorcios.sql</FullPath>
         </FileNode>
@@ -40,8 +54,8 @@
           <FullPath>03_Importar_UnidadesFuncionales.sql</FullPath>
         </FileNode>
         <FileNode Name="04_Importar_Personas.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>04_Importar_Personas.sql</FullPath>
         </FileNode>
@@ -58,8 +72,8 @@
           <FullPath>06_Importar_UF_Persona.sql</FullPath>
         </FileNode>
         <FileNode Name="07_Importar_Pagos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
           <FullPath>07_Importar_Pagos.sql</FullPath>
         </FileNode>
