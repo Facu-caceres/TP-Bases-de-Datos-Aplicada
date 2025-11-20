@@ -3,7 +3,21 @@
   <Items>
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
-        <ConnectionNode Name="localhost:DESKTOP-CAUOA66\Flor">
+        <ConnectionNode Name="DESKTOP-CBETTT0\SQLEXPRESS:DESKTOP-CBETTT0\User">
+          <Created>2025-11-20T16:13:54.1871048-03:00</Created>
+          <Type>SQL</Type>
+          <Server>DESKTOP-CBETTT0\SQLEXPRESS</Server>
+          <UserName />
+          <Authentication>Autenticación de Windows</Authentication>
+          <InitialDB>master</InitialDB>
+          <LoginTimeout>15</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Consulta</ApplicationName>
+        </ConnectionNode>
+        <ConnectionNode Name="localhost:DESKTOP-CBETTT0\User">
           <Created>2025-11-13T14:54:03.8662984-03:00</Created>
           <Type>SQL</Type>
           <Server>localhost</Server>
@@ -21,17 +35,17 @@
     </LogicalFolder>
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="20_Bloquear_Permisos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+        <FileNode Name="20_Permisos_Por_Usuarios.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-CBETTT0\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-CBETTT0\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>20_Bloquear_Permisos.sql</FullPath>
+          <FullPath>20_Permisos_Por_Usuarios.sql</FullPath>
         </FileNode>
-        <FileNode Name="21_Testing_Permisos.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+        <FileNode Name="21_Testing_PermisosH.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-CBETTT0\SQLEXPRESS:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-CBETTT0\SQLEXPRESS</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>21_Testing_Permisos.sql</FullPath>
+          <FullPath>21_Testing_PermisosH.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>
