@@ -32,7 +32,7 @@ Se incluyen scripts SQL para la creación del esquema de la base de datos, proce
 
 * Pedrol Bianca (GitHub: bianpedrol)
 
-* Saladino Mauro (GitHub: maurots)
+* Saladino Mauro Tomas (GitHub: maurots)
 
 ## Docentes
 
