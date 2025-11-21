@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# SQL Server Management Studio Version 21
-VisualStudioVersion = 17.14.36212.18
+# SQL Server Management Studio Version 22
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Entrega_6", "Entrega_6\Entrega_6.ssmssqlproj", "{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}"
 EndProject
@@ -17,7 +17,7 @@ Global
 		{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}.Default|Default.ActiveCfg = Default
 		{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}.Default|Default.ActiveCfg = Default
 		{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}.Default|Default.ActiveCfg = Default
-		{F17E642C-4D8D-49D1-A945-B9FD76C6F709}.Default|Default.ActiveCfg = Default
+		{C84C238C-DAD1-4101-A885-BDEEB351ED86}.Default|Default.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

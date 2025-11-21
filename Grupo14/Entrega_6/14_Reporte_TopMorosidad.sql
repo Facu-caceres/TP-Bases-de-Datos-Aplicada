@@ -1,11 +1,15 @@
 ﻿/*
-Entrega 6/7 - Reporte Top Morosidad con hash por rol
-
-Regla de encriptación:
-- Si el usuario pertenece a Rol_AdmGeneral o Rol_Sistemas:
-      dni, email y telefono se devuelven HASHEADOS (SHA2_256 en hex).
-- Si pertenece a cualquier otro rol (AdmOperativo, AdmBancario, etc.):
-      se devuelven en claro.
+Materia: 3641 - Bases de Datos Aplicada
+Comisión: 02-5600
+Grupo: 14
+Integrantes: Aguirre Dario Ivan 44355010
+             Caceres Olguin Facundo 45747823
+             Ciriello Florencia Ailen 44833569
+             Mangalaviti Sebastian 45233238
+             Pedrol Ledesma Bianca Uriana 45012041
+             Saladino Mauro Tomas 44531560
+Fecha de Entrega: 21/11/2025
+Descripción: Creacion de un SP para informar el Top Morosidad con hash por rol
 */
 
 USE Com5600_Grupo14_DB;
@@ -32,9 +36,10 @@ BEGIN
     --------------------------------------------------------
     DECLARE @VerHash bit = 0;
 
+    -- Roles restringidos ven el HASH
     IF IS_ROLEMEMBER('Rol_AdmGeneral') = 1 
        OR IS_ROLEMEMBER('Rol_Sistemas') = 1
-        SET @VerHash = 1;      -- AdmGeneral / Sistemas → HASH
+        SET @VerHash = 1;
 
     --------------------------------------------------------
     -- 2) Armar tabla de meses a considerar
@@ -56,7 +61,7 @@ BEGIN
     END;
 
     --------------------------------------------------------
-    -- 3) CTEs de cálculo (igual que tu versión original)
+    -- 3) CTEs de cálculo
     --------------------------------------------------------
     ;WITH PropietariosUF AS (
         SELECT
@@ -64,7 +69,9 @@ BEGIN
             p.nombre,
             p.apellido,
             p.dni,
+            p.dni_hash,     -- Traemos las columnas protegidas
             p.email,
+            p.email_hash,   -- Traemos las columnas protegidas
             p.telefono,
             uf.id_consorcio,
             ISNULL(NULLIF(uf.porcentaje_de_prorrateo,0),0) AS prorrateo
@@ -124,30 +131,35 @@ BEGIN
          AND pg.id_consorcio = dp.id_consorcio
     )
     --------------------------------------------------------
-    -- 4) SELECT FINAL CON HASH SEGÚN ROL
+    -- 4) SELECT FINAL
     --------------------------------------------------------
     SELECT TOP (@TopN)
         c.nombre AS Consorcio,
         per.apellido,
         per.nombre,
-        -- DNI
+        
+        -- DNI: Usamos dni_hash si corresponde
         CASE 
             WHEN @VerHash = 1 THEN
-                CONVERT(varchar(64), HASHBYTES('SHA2_256', CAST(per.dni AS nvarchar(20))), 2)
+                -- style 2 quita el '0x' inicial para que se vea limpio
+                ISNULL(CONVERT(varchar(64), per.dni_hash, 2), 'SIN-HASH')
             ELSE CAST(per.dni AS nvarchar(20))
         END AS dni,
-        -- EMAIL
+        
+        -- EMAIL: Usamos email_hash si corresponde
         CASE 
             WHEN @VerHash = 1 THEN
-                CONVERT(varchar(64), HASHBYTES('SHA2_256', CAST(per.email AS nvarchar(255))), 2)
+                ISNULL(CONVERT(varchar(64), per.email_hash, 2), 'SIN-HASH')
             ELSE per.email
         END AS email,
-        -- TELEFONO
+        
+        -- TELEFONO: Calculado al vuelo (no persistido en script 22)
         CASE 
             WHEN @VerHash = 1 THEN
                 CONVERT(varchar(64), HASHBYTES('SHA2_256', CAST(per.telefono AS nvarchar(20))), 2)
             ELSE CAST(per.telefono AS nvarchar(20))
         END AS telefono,
+        
         m.DeudaEsperada,
         m.Pagos,
         m.Morosidad

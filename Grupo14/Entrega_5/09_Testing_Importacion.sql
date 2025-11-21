@@ -32,7 +32,7 @@ DELETE FROM General.Consorcio;
 DELETE FROM General.Proveedor;
 
 PRINT 'Tablas limpiadas.';
-GO
+
 
 
 

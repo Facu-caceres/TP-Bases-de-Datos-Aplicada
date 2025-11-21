@@ -10,7 +10,6 @@ Integrantes: Aguirre Dario Ivan 44355010
              Saladino Mauro Tomas 44531560
 Fecha de Entrega: 21/11/2025
 Descripción: Entrega 6 - Creación de SP para consumir API externa (DolarAPI)
-             Método robusto (xp_cmdshell + curl) - v2 Simplificado
 */
 USE [Com5600_Grupo14_DB];
 GO

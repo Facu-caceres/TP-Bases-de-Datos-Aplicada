@@ -1,30 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\",
+  "WorkspaceRootPath": "C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\20_Permisos_Por_Usuarios.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|solutionrelative:Entrega_7\\20_Permisos_Por_Usuarios.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\21_Testing_PermisosH.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "AbsoluteMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\21_Testing_PermisosH.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
       "RelativeMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|solutionrelative:Entrega_7\\21_Testing_PermisosH.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\17_Indices_Optimizacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\17_Indices_Optimizacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\16_Testing_Reportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\16_Testing_Reportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\15_Reporte_IntervaloPagosUF.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\15_Reporte_IntervaloPagosUF.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\14_Reporte_TopMorosidad.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\14_Reporte_TopMorosidad.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+      "AbsoluteMoniker": "D:0:0:{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}|Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_5\\09_Testing_Importacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}|Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Entrega_5\\09_Testing_Importacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,69 +26,25 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "21_Testing_PermisosH.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (63))",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\21_Testing_PermisosH.sql",
+              "DocumentIndex": 0,
+              "Title": "21_Testing_PermisosH.sql - no conectado",
+              "DocumentMoniker": "C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\21_Testing_PermisosH.sql",
               "RelativeDocumentMoniker": "Entrega_7\\21_Testing_PermisosH.sql",
-              "ToolTip": "21_Testing_PermisosH.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (63))",
+              "ToolTip": "21_Testing_PermisosH.sql - no conectado",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
               "WhenOpened": "2025-11-20T19:54:02.259Z",
-              "EditorCaption": " - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (63))"
+              "EditorCaption": " - no conectado"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20_Permisos_Por_Usuarios.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (62))",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\20_Permisos_Por_Usuarios.sql",
-              "RelativeDocumentMoniker": "Entrega_7\\20_Permisos_Por_Usuarios.sql",
-              "ToolTip": "20_Permisos_Por_Usuarios.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (62))",
+              "DocumentIndex": 1,
+              "Title": "09_Testing_Importacion.sql - FACCU-PC\\MSSQLSERVER01 (FACCU-PC\\cacer (54)) - no conectado",
+              "DocumentMoniker": "C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_5\\09_Testing_Importacion.sql",
+              "RelativeDocumentMoniker": "Entrega_5\\09_Testing_Importacion.sql",
+              "ToolTip": "09_Testing_Importacion.sql - FACCU-PC\\MSSQLSERVER01 (FACCU-PC\\cacer (54)) - no conectado",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T19:53:53.211Z",
-              "EditorCaption": " - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (62))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "17_Indices_Optimizacion.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (53))",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\17_Indices_Optimizacion.sql",
-              "RelativeDocumentMoniker": "Entrega_6\\17_Indices_Optimizacion.sql",
-              "ToolTip": "17_Indices_Optimizacion.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (53))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T19:52:32.854Z",
-              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (53))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "16_Testing_Reportes.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (52))",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\16_Testing_Reportes.sql",
-              "RelativeDocumentMoniker": "Entrega_6\\16_Testing_Reportes.sql",
-              "ToolTip": "16_Testing_Reportes.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (52))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T19:51:52.796Z",
-              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (52))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "15_Reporte_IntervaloPagosUF.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (64))",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\15_Reporte_IntervaloPagosUF.sql",
-              "RelativeDocumentMoniker": "Entrega_6\\15_Reporte_IntervaloPagosUF.sql",
-              "ToolTip": "15_Reporte_IntervaloPagosUF.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (64))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T19:50:54.386Z",
-              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (64))"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "14_Reporte_TopMorosidad.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (65))",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\14_Reporte_TopMorosidad.sql",
-              "RelativeDocumentMoniker": "Entrega_6\\14_Reporte_TopMorosidad.sql",
-              "ToolTip": "14_Reporte_TopMorosidad.sql - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (65))",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T19:50:07.535Z",
-              "EditorCaption": " - localhost.Com5600_Grupo14_DB (DESKTOP-CBETTT0\\User (65))"
+              "WhenOpened": "2025-11-20T20:19:07.395Z",
+              "EditorCaption": " - FACCU-PC\\MSSQLSERVER01 (FACCU-PC\\cacer (54)) - no conectado"
             }
           ]
         }

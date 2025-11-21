@@ -49,5 +49,43 @@ SELECT
   Reportes.fn_PesosAUSD(100000,'blue')    AS USD_Blue;
 GO
 
+PRINT '--- Test Integrado: Reporte de Pagos convertido a Dólar Blue y Oficial ---';
+
+SELECT TOP 10 
+    p.id_pago,
+    p.fecha_de_pago,
+    c.nombre AS Consorcio,
+    -- Importe original en Pesos
+    p.importe AS [Importe ARS],
+    -- Conversión usando tu función API (Oficial)
+    FORMAT(Reportes.fn_PesosAUSD(p.importe, 'oficial'), 'N2') AS [USD Oficial (Aprox)],
+    -- Conversión usando tu función API (Blue)
+    FORMAT(Reportes.fn_PesosAUSD(p.importe, 'blue'), 'N2')    AS [USD Blue (Aprox)]
+FROM Tesoreria.Pago p
+INNER JOIN Tesoreria.Persona_CuentaBancaria pcb ON p.id_persona_cuenta = pcb.id_persona_cuenta
+INNER JOIN Propiedades.UF_Persona ufp ON pcb.id_persona = ufp.id_persona
+INNER JOIN Propiedades.UnidadFuncional uf ON ufp.id_uf = uf.id_uf
+INNER JOIN General.Consorcio c ON uf.id_consorcio = c.id_consorcio
+ORDER BY p.fecha_de_pago DESC;
+GO
+
+PRINT '--- Test Integrado: Total Recaudado por Consorcio en USD (Blue) ---';
+
+SELECT 
+    c.nombre AS Consorcio,
+    COUNT(p.id_pago) AS Cantidad_Pagos,
+    -- Sumamos el resultado de la función para obtener el total en Dólares
+    FORMAT(SUM(Reportes.fn_PesosAUSD(p.importe, 'blue')), 'N2') AS [Total Recaudado USD Blue]
+FROM Tesoreria.Pago p
+INNER JOIN Tesoreria.Persona_CuentaBancaria pcb ON p.id_persona_cuenta = pcb.id_persona_cuenta
+INNER JOIN Propiedades.UF_Persona ufp ON pcb.id_persona = ufp.id_persona
+INNER JOIN Propiedades.UnidadFuncional uf ON ufp.id_uf = uf.id_uf
+INNER JOIN General.Consorcio c ON uf.id_consorcio = c.id_consorcio
+GROUP BY c.nombre
+ORDER BY SUM(p.importe) DESC;
+GO
+
+
+
 PRINT '--- FIN SCRIPT DE TESTING (API) ---';
 GO
