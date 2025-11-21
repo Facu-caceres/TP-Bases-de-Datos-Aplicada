@@ -12,86 +12,79 @@ Fecha de Entrega: 21/11/2025
 Descripción: Script de Testing para la Entrega 7 (Cifrado y Seguridad).
              Verifica:
              1. Funcionamiento de Triggers (Auto-hashing).
-             2. Funcionamiento de Encriptación simétrica (CBU).
-             3. Visibilidad de datos en Reportes según Rol.
+             2. Visibilidad de datos en Reportes según Rol.
 */
 
 USE [Com5600_Grupo14_DB];
 GO
 
-PRINT '--- INICIO TESTING DE ENCRIPTACIÓN Y HASHING ---';
+PRINT '--- INICIO TESTING DE HASHING ---';
 GO
 
 --------------------------------------------------------------------------
 -- TEST 1: INTEGRIDAD DE DATOS Y TRIGGERS
--- Insertamos una persona y cuenta "dummy" para ver si el Trigger calcula los hashes
 --------------------------------------------------------------------------
-PRINT '>>> TEST 1: Verificando Triggers de Inserción...';
+PRINT '>>> TEST 1: Verificando Triggers de Inserción (Todos los campos sensibles)...';
 
 BEGIN TRANSACTION;
 
-    -- 1. Insertar Persona (sin pasar los hash, el trigger debe calcularlos)
+    -- 1. Insertar Persona 
     INSERT INTO Propiedades.Persona (nombre, apellido, dni, email, telefono, es_inquilino)
-    VALUES ('Usuario', 'TestSeguridad', 99999999, 'test@seguridad.com', 11111111, 0);
+    VALUES ('Usuario', 'TestHash', 11223344, 'hash@test.com', 155556666, 0);
 
     DECLARE @id_persona_test INT = SCOPE_IDENTITY();
 
-    -- 2. Insertar Cuenta (sin pasar el encriptado)
+    -- 2. Insertar Cuenta 
     INSERT INTO Tesoreria.Persona_CuentaBancaria (id_persona, cbu_cvu, alias, activa)
-    VALUES (@id_persona_test, '0000000000000000000999', 'ALIAS.TEST.SEGURIDAD', 1);
+    VALUES (@id_persona_test, '0000000000000000000111', 'ALIAS.HASH.TEST', 1);
 
-    PRINT '   Inserción realizada. Consultando datos crudos en tabla...';
+    PRINT '   Inserción realizada. Consultando datos...';
 
-    -- 3. Verificar qué se guardó
+    -- 3. Verificar Persona (DNI, Email, Telefono)
     SELECT 
-        apellido, 
-        dni, 
-        dni_hash AS [DNI_Hash_Generado_Por_Trigger],
-        email,
-        email_hash AS [Email_Hash_Generado_Por_Trigger]
+        'Persona' AS Tabla,
+        dni AS [Original_DNI],
+        dni_hash AS [Hash_DNI],
+        email AS [Original_Email],
+        email_hash AS [Hash_Email],
+        telefono AS [Original_Tel],
+        telefono_hash AS [Hash_Tel]
     FROM Propiedades.Persona 
     WHERE id_persona = @id_persona_test;
 
+    -- 4. Verificar Cuenta (CBU)
     SELECT 
-        cbu_cvu AS [CBU_Original],
-        cbu_cvu_encriptado AS [CBU_Encriptado_En_Base],
-        -- Intentamos desencriptar para validar que sea reversible
-        CONVERT(VARCHAR(100), DECRYPTBYPASSPHRASE('Grupo14_SecretKey_2025', cbu_cvu_encriptado)) AS [CBU_Desencriptado_Test]
+        'Cuenta' AS Tabla,
+        cbu_cvu AS [Original_CBU],
+        cbu_hash AS [Hash_CBU] -- Debería estar lleno con 32 bytes
     FROM Tesoreria.Persona_CuentaBancaria
     WHERE id_persona = @id_persona_test;
 
-ROLLBACK TRANSACTION; -- Deshacemos para no ensuciar la base
-PRINT '>>> TEST 1 FINALIZADO (Transacción revertida).';
+ROLLBACK TRANSACTION;
+PRINT '>>> TEST 1 FINALIZADO.';
 PRINT '';
 GO
 
 --------------------------------------------------------------------------
--- TEST 2: VISIBILIDAD EN REPORTES SEGÚN ROL
--- El Reporte 14 debe mostrar HASH para AdmGeneral y TEXTO PLANO para Operativo
+-- TEST 2: REPORTE MOROSIDAD
 --------------------------------------------------------------------------
-PRINT '>>> TEST 2: Verificando Visibilidad en Reporte de Morosidad...';
 
--- A) Usuario Restringido (AdmGeneral o Sistemas) -> DEBE VER HASH
-PRINT '--- Ejecutando como [usr_adm_general] (Debe ver HASH) ---';
+
+PRINT '>>> TEST 2: Verificando Reporte con Hashing Completo...';
+
+PRINT '--- Ejecutando como [usr_adm_general] (Ve Hashes de DNI/Email/Tel) ---';
 EXECUTE AS USER = 'usr_adm_general';
-
     EXEC Reportes.sp_reporte_top_morosidad_propietarios
-        @FechaCorte     = '2025-12-31',
-        @IdConsorcio    = NULL,
-        @TopN           = 10;
-
+        @FechaCorte = '2025-12-31', @TopN = 10;
 REVERT;
+
+
+
 PRINT '';
-
--- B) Usuario Operativo (AdmOperativo) -> DEBE VER DATOS REALES
-PRINT '--- Ejecutando como [usr_adm_operativo] (Debe ver DATOS REALES) ---';
+PRINT '--- Ejecutando como [usr_adm_operativo] (Ve Texto Plano) ---';
 EXECUTE AS USER = 'usr_adm_operativo';
-    
     EXEC Reportes.sp_reporte_top_morosidad_propietarios
-        @FechaCorte     = '2025-12-31',
-        @IdConsorcio    = NULL,
-        @TopN           = 10;
-
+        @FechaCorte = '2025-12-31', @TopN = 10;
 REVERT;
 GO
 

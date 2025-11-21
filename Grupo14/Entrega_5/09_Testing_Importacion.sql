@@ -11,6 +11,15 @@ Integrantes: Aguirre Dario Ivan 44355010
 Fecha de Entrega: 07/11/2025
 Descripción: Script de testing para la importación de todos los datos (Entrega 5).
              Ejecuta los SPs de importación y verifica los resultados.
+
+--EXEC sp_enum_oledb_providers;
+-- -- Habilitar Ad Hoc (una sola vez por servidor)
+EXEC sp_configure 'show advanced options', 1; RECONFIGURE;
+EXEC sp_configure 'Ad Hoc Distributed Queries', 1; RECONFIGURE;
+
+-- -- Activar propiedades del proveedor ACE (una sola vez)
+EXEC sys.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.16.0', N'AllowInProcess', 1;
+EXEC sys.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.16.0', N'DynamicParameters', 1;
 */
 
 USE [Com5600_Grupo14_DB];
@@ -32,20 +41,16 @@ DELETE FROM General.Consorcio;
 DELETE FROM General.Proveedor;
 
 PRINT 'Tablas limpiadas.';
-
-
-
+GO
 
 -- Modificar estas rutas para que apunten a los archivos en tu PC
 DECLARE
-    @excelPath   NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx',
-    @ufPath      NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt',
-    @personasCsv NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv',
-    @personasUF  NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv',
-    @pagos       NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\pagos_consorcios.csv',
-    @servicios   NVARCHAR(4000) = N'C:\Users\MauroTS\Desktop\BD2\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json';
-
-
+    @excelPath   NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx',
+    @ufPath      NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt',
+    @personasCsv NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv',
+    @personasUF  NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv',
+    @pagos       NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\pagos_consorcios.csv',
+    @servicios   NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json';
 
 PRINT '--- 2. Importando Consorcios...';
 EXEC Importacion.sp_importar_consorcios @ruta_archivo = @excelPath;
@@ -81,6 +86,10 @@ WHERE c.nombre = 'Azcuenaga' AND uf.numero = 1;
 
 PRINT '--- 5. Importando Personas y Cuentas Bancarias...';
 EXEC Importacion.sp_importar_personas @ruta_archivo = @personasCsv;
+
+--EXEC Importacion.sp_importar_personas @ruta_archivo = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv';
+
+
 
 -- Test 5.1: Verificar requisito de consigna (Manejo de DNI duplicado)
 -- El DNI 29364139 aparece duplicado en el CSV. 
@@ -149,3 +158,8 @@ GO
 
 PRINT '--- FIN SCRIPT DE TESTING ---';
 GO
+
+
+
+
+
