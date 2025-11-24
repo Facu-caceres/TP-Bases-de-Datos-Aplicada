@@ -162,4 +162,4 @@ GO
 
 
 
-
+Select * from General.Consorcio
