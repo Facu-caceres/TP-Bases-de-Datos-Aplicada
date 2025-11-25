@@ -1,0 +1,673 @@
+[
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "enero",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "febrero",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "marzo",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "abril",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "mayo",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "junio",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "julio",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "agosto",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "septiembre",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "octubre",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "noviembre",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  },
+  {
+    "Nombre del consorcio": "Azcuenaga",
+    "Mes": "diciembre",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "33.706,04",
+    "GASTOS GENERALES": "9.344,32",
+    "SERVICIOS PUBLICOS-Agua": "482.925,88",
+    "SERVICIOS PUBLICOS-Luz": "532.116,75"
+  }
+]
+[
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "enero",
+    "BANCARIOS": "23,254.00",
+    "LIMPIEZA": "124,800.00",
+    "ADMINISTRACION": "208,000.00",
+    "SEGUROS": "36.120,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "509.224,00",
+    "SERVICIOS PUBLICOS-Luz": "683.000,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "febrero",
+    "BANCARIOS": "21,860.00",
+    "LIMPIEZA": "115,200.00",
+    "ADMINISTRACION": "194,000.00",
+    "SEGUROS": "33.100,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "470.200,00",
+    "SERVICIOS PUBLICOS-Luz": "631.500,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "marzo",
+    "BANCARIOS": "24,100.00",
+    "LIMPIEZA": "126,500.00",
+    "ADMINISTRACION": "212,000.00",
+    "SEGUROS": "35.900,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "520.440,00",
+    "SERVICIOS PUBLICOS-Luz": "702.840,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "abril",
+    "BANCARIOS": "22,648.59",
+    "LIMPIEZA": "120,000.00",
+    "ADMINISTRACION": "200,000.00",
+    "SEGUROS": "34.677,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "485.985,36",
+    "SERVICIOS PUBLICOS-Luz": "654.582,32"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "mayo",
+    "BANCARIOS": "23,900.00",
+    "LIMPIEZA": "123,000.00",
+    "ADMINISTRACION": "206,000.00",
+    "SEGUROS": "36.200,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "515.200,00",
+    "SERVICIOS PUBLICICOS-Luz": "682.400,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "junio",
+    "BANCARIOS": "22,100.00",
+    "LIMPIEZA": "118,200.00",
+    "ADMINISTRACION": "196,500.00",
+    "SEGUROS": "33.500,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "472.300,00",
+    "SERVICIOS PUBLICICOS-Luz": "637.200,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "julio",
+    "BANCARIOS": "24,400.00",
+    "LIMPIEZA": "127,800.00",
+    "ADMINISTRACION": "214,000.00",
+    "SEGUROS": "36.800,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "528.600,00",
+    "SERVICIOS PUBLICICOS-Luz": "709.900,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "agosto",
+    "BANCARIOS": "23,700.00",
+    "LIMPIEZA": "125,500.00",
+    "ADMINISTRACION": "209,800.00",
+    "SEGUROS": "35.500,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "512.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "693.300,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "septiembre",
+    "BANCARIOS": "22,300.00",
+    "LIMPIEZA": "119,000.00",
+    "ADMINISTRACION": "198,900.00",
+    "SEGUROS": "33.900,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "478.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "642.000,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "octubre",
+    "BANCARIOS": "25,100.00",
+    "LIMPIEZA": "130,000.00",
+    "ADMINISTRACION": "218,000.00",
+    "SEGUROS": "37.900,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "542.600,00",
+    "SERVICIOS PUBLICICOS-Luz": "725.300,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "noviembre",
+    "BANCARIOS": "23,300.00",
+    "LIMPIEZA": "124,200.00",
+    "ADMINISTRACION": "205,500.00",
+    "SEGUROS": "35.200,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "504.200,00",
+    "SERVICIOS PUBLICICOS-Luz": "679.100,00"
+  },
+  {
+    "Nombre del consorcio": "Alzaga",
+    "Mes": "diciembre",
+    "BANCARIOS": "24,800.00",
+    "LIMPIEZA": "128,900.00",
+    "ADMINISTRACION": "216,000.00",
+    "SEGUROS": "37.400,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICOS-Agua": "538.100,00",
+    "SERVICIOS PUBLICICOS-Luz": "718.800,00"
+  }
+]
+[
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "enero",
+    "BANCARIOS": "18.200,00",
+    "LIMPIEZA": "86.400,00",
+    "ADMINISTRACION": "193.000,00",
+    "SEGUROS": "24.500,00",
+    "GASTOS GENERALES": "4.650,00",
+    "SERVICIOS PUBLICICOS-Agua": "412.000,00",
+    "SERVICIOS PUBLICICOS-Luz": "446.000,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "febrero",
+    "BANCARIOS": "16.300,00",
+    "LIMPIEZA": "74.500,00",
+    "ADMINISTRACION": "168.000,00",
+    "SEGUROS": "20.900,00",
+    "GASTOS GENERALES": "3.990,00",
+    "SERVICIOS PUBLICICOS-Agua": "360.500,00",
+    "SERVICIOS PUBLICICOS-Luz": "385.800,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "marzo",
+    "BANCARIOS": "18.900,00",
+    "LIMPIEZA": "87.900,00",
+    "ADMINISTRACION": "197.000,00",
+    "SEGUROS": "24.900,00",
+    "GASTOS GENERALES": "4.720,00",
+    "SERVICIOS PUBLICICOS-Agua": "420.300,00",
+    "SERVICIOS PUBLICICOS-Luz": "455.000,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "abril",
+    "BANCARIOS": "17.194,80",
+    "LIMPIEZA": "80.000,00",
+    "ADMINISTRACION": "180.000,00",
+    "SEGUROS": "22.567,00",
+    "GASTOS GENERALES": "4.380,00",
+    "SERVICIOS PUBLICICOS-Agua": "382.085,00",
+    "SERVICIOS PUBLICICOS-Luz": "410.562,56"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "mayo",
+    "BANCARIOS": "18.600,00",
+    "LIMPIEZA": "83.400,00",
+    "ADMINISTRACION": "188.500,00",
+    "SEGUROS": "23.900,00",
+    "GASTOS GENERALES": "4.500,00",
+    "SERVICIOS PUBLICICOS-Agua": "407.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "438.100,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "junio",
+    "BANCARIOS": "16.900,00",
+    "LIMPIEZA": "78.300,00",
+    "ADMINISTRACION": "175.200,00",
+    "SEGUROS": "21.900,00",
+    "GASTOS GENERALES": "4.210,00",
+    "SERVICIOS PUBLICICOS-Agua": "372.600,00",
+    "SERVICIOS PUBLICICOS-Luz": "398.800,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "julio",
+    "BANCARIOS": "19.400,00",
+    "LIMPIEZA": "89.200,00",
+    "ADMINISTRACION": "199.000,00",
+    "SEGUROS": "25.300,00",
+    "GASTOS GENERALES": "4.770,00",
+    "SERVICIOS PUBLICICOS-Agua": "425.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "462.600,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "agosto",
+    "BANCARIOS": "18.200,00",
+    "LIMPIEZA": "84.900,00",
+    "ADMINISTRACION": "190.800,00",
+    "SEGUROS": "23.600,00",
+    "GASTOS GENERALES": "4.460,00",
+    "SERVICIOS PUBLICICOS-Agua": "401.000,00",
+    "SERVICIOS PUBLICICOS-Luz": "434.400,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "septiembre",
+    "BANCARIOS": "16.800,00",
+    "LIMPIEZA": "77.600,00",
+    "ADMINISTRACION": "173.900,00",
+    "SEGUROS": "21.600,00",
+    "GASTOS GENERALES": "4.100,00",
+    "SERVICIOS PUBLICICOS-Agua": "366.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "392.900,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "octubre",
+    "BANCARIOS": "19.900,00",
+    "LIMPIEZA": "91.000,00",
+    "ADMINISTRACION": "202.500,00",
+    "SEGUROS": "25.900,00",
+    "GASTOS GENERALES": "4.890,00",
+    "SERVICIOS PUBLICICOS-Agua": "435.400,00",
+    "SERVICIOS PUBLICICOS-Luz": "473.500,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "noviembre",
+    "BANCARIOS": "18.500,00",
+    "LIMPIEZA": "84.300,00",
+    "ADMINISTRACION": "188.000,00",
+    "SEGUROS": "23.400,00",
+    "GASTOS GENERALES": "4.420,00",
+    "SERVICIOS PUBLICICOS-Agua": "402.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "437.200,00"
+  },
+  {
+    "Nombre del consorcio": "Alberdi",
+    "Mes": "diciembre",
+    "BANCARIOS": "19.700,00",
+    "LIMPIEZA": "90.800,00",
+    "ADMINISTRACION": "201.000,00",
+    "SEGUROS": "25.700,00",
+    "GASTOS GENERALES": "4.870,00",
+    "SERVICIOS PUBLICICOS-Agua": "433.000,00",
+    "SERVICIOS PUBLICICOS-Luz": "471.000,00"
+  }
+]
+[
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "enero",
+    "BANCARIOS": "16.900,00",
+    "LIMPIEZA": "64.800,00",
+    "ADMINISTRACION": "176.000,00",
+    "SEGUROS": "19.900,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "333.400,00",
+    "SERVICIOS PUBLICICOS-Luz": "384.400,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "febrero",
+    "BANCARIOS": "14.900,00",
+    "LIMPIEZA": "55.600,00",
+    "ADMINISTRACION": "153.000,00",
+    "SEGUROS": "17.100,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "287.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "328.300,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "marzo",
+    "BANCARIOS": "17.400,00",
+    "LIMPIEZA": "66.500,00",
+    "ADMINISTRACION": "179.000,00",
+    "SEGUROS": "20.200,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "340.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "391.900,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "abril",
+    "BANCARIOS": "15.870,25",
+    "LIMPIEZA": "60.000,00",
+    "ADMINISTRACION": "165.000,00",
+    "SEGUROS": "18.450,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "310.563,70",
+    "SERVICIOS PUBLICICOS-Luz": "355.783,29"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "mayo",
+    "BANCARIOS": "16.800,00",
+    "LIMPIEZA": "63.900,00",
+    "ADMINISTRACION": "172.000,00",
+    "SEGUROS": "19.700,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "329.500,00",
+    "SERVICIOS PUBLICICOS-Luz": "377.600,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "junio",
+    "BANCARIOS": "15.200,00",
+    "LIMPIEZA": "58.300,00",
+    "ADMINISTRACION": "159.000,00",
+    "SEGUROS": "17.900,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "299.200,00",
+    "SERVICIOS PUBLICICOS-Luz": "342.000,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "julio",
+    "BANCARIOS": "17.900,00",
+    "LIMPIEZA": "67.800,00",
+    "ADMINISTRACION": "180.500,00",
+    "SEGUROS": "20.500,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "343.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "396.200,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "agosto",
+    "BANCARIOS": "16.700,00",
+    "LIMPIEZA": "63.500,00",
+    "ADMINISTRACION": "171.200,00",
+    "SEGUROS": "19.200,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "326.000,00",
+    "SERVICIOS PUBLICICOS-Luz": "373.900,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "septiembre",
+    "BANCARIOS": "15.500,00",
+    "LIMPIEZA": "59.200,00",
+    "ADMINISTRACION": "160.900,00",
+    "SEGUROS": "18.000,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "303.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "346.800,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "octubre",
+    "BANCARIOS": "18.200,00",
+    "LIMPIEZA": "69.000,00",
+    "ADMINISTRACION": "183.200,00",
+    "SEGUROS": "20.900,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "352.000,00",
+    "SERVICIOS PUBLICICOS-Luz": "406.100,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "noviembre",
+    "BANCARIOS": "16.600,00",
+    "LIMPIEZA": "63.300,00",
+    "ADMINISTRACION": "170.000,00",
+    "SEGUROS": "19.000,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "323.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "371.600,00"
+  },
+  {
+    "Nombre del consorcio": "Unzue",
+    "Mes": "diciembre",
+    "BANCARIOS": "18.000,00",
+    "LIMPIEZA": "68.600,00",
+    "ADMINISTRACION": "181.500,00",
+    "SEGUROS": "20.600,00",
+    "GASTOS GENERALES": "0,00",
+    "SERVICIOS PUBLICICOS-Agua": "349.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "403.200,00"
+  }
+]
+[
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "enero",
+    "BANCARIOS": "14.600,00",
+    "LIMPIEZA": "59.400,00",
+    "ADMINISTRACION": "166.500,00",
+    "SEGUROS": "18.200,00",
+    "GASTOS GENERALES": "3.780,00",
+    "SERVICIOS PUBLICICOS-Agua": "298.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "325.500,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "febrero",
+    "BANCARIOS": "12.900,00",
+    "LIMPIEZA": "51.500,00",
+    "ADMINISTRACION": "143.000,00",
+    "SEGUROS": "15.500,00",
+    "GASTOS GENERALES": "3.240,00",
+    "SERVICIOS PUBLICICOS-Agua": "256.300,00",
+    "SERVICIOS PUBLICICOS-Luz": "281.400,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "marzo",
+    "BANCARIOS": "14.900,00",
+    "LIMPIEZA": "60.800,00",
+    "ADMINISTRACION": "169.000,00",
+    "SEGUROS": "18.600,00",
+    "GASTOS GENERALES": "3.850,00",
+    "SERVICIOS PUBLICICOS-Agua": "305.200,00",
+    "SERVICIOS PUBLICICOS-Luz": "333.900,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "abril",
+    "BANCARIOS": "13.864,55",
+    "LIMPIEZA": "55.000,00",
+    "ADMINISTRACION": "155.000,00",
+    "SEGUROS": "16.874,00",
+    "GASTOS GENERALES": "3.500,00",
+    "SERVICIOS PUBLICICOS-Agua": "275.689,88",
+    "SERVICIOS PUBLICICOS-Luz": "300.822,44"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "mayo",
+    "BANCARIOS": "14.700,00",
+    "LIMPIEZA": "58.200,00",
+    "ADMINISTRACION": "162.800,00",
+    "SEGUROS": "17.900,00",
+    "GASTOS GENERALES": "3.690,00",
+    "SERVICIOS PUBLICICOS-Agua": "292.700,00",
+    "SERVICIOS PUBLICICOS-Luz": "320.900,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "junio",
+    "BANCARIOS": "13.200,00",
+    "LIMPIEZA": "53.100,00",
+    "ADMINISTRACION": "148.900,00",
+    "SEGUROS": "16.200,00",
+    "GASTOS GENERALES": "3.430,00",
+    "SERVICIOS PUBLICICOS-Agua": "266.300,00",
+    "SERVICIOS PUBLICICOS-Luz": "290.700,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "julio",
+    "BANCARIOS": "15.300,00",
+    "LIMPIEZA": "62.400,00",
+    "ADMINISTRACION": "170.800,00",
+    "SEGUROS": "18.900,00",
+    "GASTOS GENERALES": "3.890,00",
+    "SERVICIOS PUBLICICOS-Agua": "309.900,00",
+    "SERVICIOS PUBLICICOS-Luz": "339.800,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "agosto",
+    "BANCARIOS": "14.500,00",
+    "LIMPIEZA": "58.800,00",
+    "ADMINISTRACION": "161.200,00",
+    "SEGUROS": "17.700,00",
+    "GASTOS GENERALES": "3.660,00",
+    "SERVICIOS PUBLICICOS-Agua": "289.300,00",
+    "SERVICIOS PUBLICICOS-Luz": "317.100,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "septiembre",
+    "BANCARIOS": "13.500,00",
+    "LIMPIEZA": "54.200,00",
+    "ADMINISTRACION": "150.300,00",
+    "SEGUROS": "16.300,00",
+    "GASTOS GENERALES": "3.460,00",
+    "SERVICIOS PUBLICICOS-Agua": "270.800,00",
+    "SERVICIOS PUBLICICOS-Luz": "296.400,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "octubre",
+    "BANCARIOS": "15.800,00",
+    "LIMPIEZA": "63.900,00",
+    "ADMINISTRACION": "173.000,00",
+    "SEGUROS": "19.300,00",
+    "GASTOS GENERALES": "3.960,00",
+    "SERVICIOS PUBLICICOS-Agua": "319.400,00",
+    "SERVICIOS PUBLICICOS-Luz": "349.900,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "noviembre",
+    "BANCARIOS": "14.400,00",
+    "LIMPIEZA": "58.600,00",
+    "ADMINISTRACION": "160.000,00",
+    "SEGUROS": "17.600,00",
+    "GASTOS GENERALES": "3.650,00",
+    "SERVICIOS PUBLICICOS-Agua": "287.600,00",
+    "SERVICIOS PUBLICICOS-Luz": "315.800,00"
+  },
+  {
+    "Nombre del consorcio": "Pereyra Iraola",
+    "Mes": "diciembre",
+    "BANCARIOS": "15.700,00",
+    "LIMPIEZA": "63.300,00",
+    "ADMINISTRACION": "171.900,00",
+    "SEGUROS": "19.100,00",
+    "GASTOS GENERALES": "3.920,00",
+    "SERVICIOS PUBLICICOS-Agua": "317.200,00",
+    "SERVICIOS PUBLICICOS-Luz": "347.200,00"
+  }
+]
+
+
+

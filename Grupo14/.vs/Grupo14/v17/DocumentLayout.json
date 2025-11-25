@@ -1,14 +1,38 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\",
+  "WorkspaceRootPath": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\21_Testing_PermisosH.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{FB5D18E5-5A3B-DB53-BDEB-D34FE9E0705E}|Entrega_7\\Entrega_7.ssmssqlproj|solutionrelative:Entrega_7\\21_Testing_PermisosH.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\11_Reporte_RecaudacionDepto.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\11_Reporte_RecaudacionDepto.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}|Entrega_5\\Entrega_5.ssmssqlproj|C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_5\\09_Testing_Importacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
-      "RelativeMoniker": "D:0:0:{E1D4B21D-1290-E32D-775E-2CFDE4674A8C}|Entrega_5\\Entrega_5.ssmssqlproj|solutionrelative:Entrega_5\\09_Testing_Importacion.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\16_Testing_Reportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\16_Testing_Reportes.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\19_Testing_API.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\19_Testing_API.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\10_Reporte_FlujoCaja.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\10_Reporte_FlujoCaja.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\15_Reporte_IntervaloPagosUF.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\15_Reporte_IntervaloPagosUF.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\14_Reporte_TopMorosidad.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\14_Reporte_TopMorosidad.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\13_Reporte_Top5GastosIngresos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\13_Reporte_Top5GastosIngresos.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\12_Reporte_RecaudacionTipo.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{BBC6614F-1955-F839-3BA1-FDBE86EBDCEE}|Entrega_6\\Entrega_6.ssmssqlproj|solutionrelative:Entrega_6\\12_Reporte_RecaudacionTipo.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,24 +51,83 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "21_Testing_PermisosH.sql - no conectado",
-              "DocumentMoniker": "C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_7\\21_Testing_PermisosH.sql",
-              "RelativeDocumentMoniker": "Entrega_7\\21_Testing_PermisosH.sql",
-              "ToolTip": "21_Testing_PermisosH.sql - no conectado",
+              "Title": "11_Reporte_RecaudacionDepto.sql - localhost.master (DESKTOP-CBETTT0\\User (65))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\11_Reporte_RecaudacionDepto.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\11_Reporte_RecaudacionDepto.sql",
+              "ToolTip": "11_Reporte_RecaudacionDepto.sql - localhost.master (DESKTOP-CBETTT0\\User (65))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T19:54:02.259Z",
-              "EditorCaption": " - no conectado"
+              "WhenOpened": "2025-11-21T18:18:35.806Z",
+              "EditorCaption": " - localhost.master (DESKTOP-CBETTT0\\User (65))"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "09_Testing_Importacion.sql - FACCU-PC\\MSSQLSERVER01 (FACCU-PC\\cacer (54)) - no conectado",
-              "DocumentMoniker": "C:\\Users\\cacer\\OneDrive\\Escritorio\\TP Bases de Datos Aplicada\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_5\\09_Testing_Importacion.sql",
-              "RelativeDocumentMoniker": "Entrega_5\\09_Testing_Importacion.sql",
-              "ToolTip": "09_Testing_Importacion.sql - FACCU-PC\\MSSQLSERVER01 (FACCU-PC\\cacer (54)) - no conectado",
+              "Title": "16_Testing_Reportes.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (56))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\16_Testing_Reportes.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\16_Testing_Reportes.sql",
+              "ToolTip": "16_Testing_Reportes.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (56))",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-20T20:19:07.395Z",
-              "EditorCaption": " - FACCU-PC\\MSSQLSERVER01 (FACCU-PC\\cacer (54)) - no conectado"
+              "WhenOpened": "2025-11-21T18:31:13.979Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "19_Testing_API.sql - localhost.master (DESKTOP-CBETTT0\\User (53))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\19_Testing_API.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\19_Testing_API.sql",
+              "ToolTip": "19_Testing_API.sql - localhost.master (DESKTOP-CBETTT0\\User (53))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-21T18:30:48.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "10_Reporte_FlujoCaja.sql - localhost.master (DESKTOP-CBETTT0\\User (52))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\10_Reporte_FlujoCaja.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\10_Reporte_FlujoCaja.sql",
+              "ToolTip": "10_Reporte_FlujoCaja.sql - localhost.master (DESKTOP-CBETTT0\\User (52))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-21T18:18:30.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "15_Reporte_IntervaloPagosUF.sql - localhost.master (DESKTOP-CBETTT0\\User (54))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\15_Reporte_IntervaloPagosUF.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\15_Reporte_IntervaloPagosUF.sql",
+              "ToolTip": "15_Reporte_IntervaloPagosUF.sql - localhost.master (DESKTOP-CBETTT0\\User (54))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-21T18:00:20.34Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "14_Reporte_TopMorosidad.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (63))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\14_Reporte_TopMorosidad.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\14_Reporte_TopMorosidad.sql",
+              "ToolTip": "14_Reporte_TopMorosidad.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (63))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-21T18:18:41.717Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "13_Reporte_Top5GastosIngresos.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (62))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\13_Reporte_Top5GastosIngresos.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\13_Reporte_Top5GastosIngresos.sql",
+              "ToolTip": "13_Reporte_Top5GastosIngresos.sql - DESKTOP-CBETTT0\\SQLEXPRESS.master (DESKTOP-CBETTT0\\User (62))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-21T18:18:40.979Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "12_Reporte_RecaudacionTipo.sql - localhost.master (DESKTOP-CBETTT0\\User (65))",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Universidad Nacional de la Matanza\\Escritorio\\TP-Bases-de-Datos-Aplicada\\Grupo14\\Entrega_6\\12_Reporte_RecaudacionTipo.sql",
+              "RelativeDocumentMoniker": "Entrega_6\\12_Reporte_RecaudacionTipo.sql",
+              "ToolTip": "12_Reporte_RecaudacionTipo.sql - localhost.master (DESKTOP-CBETTT0\\User (65))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-21T18:11:45.956Z"
             }
           ]
         }

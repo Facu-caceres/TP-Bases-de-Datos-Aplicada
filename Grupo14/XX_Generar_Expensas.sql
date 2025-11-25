@@ -1,3 +1,16 @@
+/*
+Materia: 3641 - Bases de Datos Aplicada
+Comisión: 02-5600
+Grupo: 14
+Integrantes: Aguirre Dario Ivan 44355010
+             Caceres Olguin Facundo 45747823
+             Ciriello Florencia Ailen 44833569
+             Mangalaviti Sebastian 45233238
+             Pedrol Ledesma Bianca Uriana 45012041
+             Saladino Mauro Tomas 44531560
+Fecha de Entrega: 21/11/2025*/
+
+
 USE [Com5600G14];
 GO
 
@@ -205,16 +218,16 @@ GO
 -- Ejemplo 1: Para un consorcio específico
 EXEC Liquidacion.sp_generar_detalle_expensas
     @NombreConsorcio = 'Azcuenaga',
-    @MesNombre = 'abril',
-    @Fecha1erVencimiento = '2025-05-10',
-    @Fecha2doVencimiento = '2025-05-20';
+    @MesNombre = 'septiembre',
+    @Fecha1erVencimiento = '2025-09-10',
+    @Fecha2doVencimiento = '2025-09-20';
 
 -- Ejemplo 2: Para TODOS los consorcios
 EXEC Liquidacion.sp_generar_detalle_expensas
     @NombreConsorcio = NULL,
-    @MesNombre = 'Noviembre',
-    @Fecha1erVencimiento = '2025-12-10',
-    @Fecha2doVencimiento = '2025-12-20';
+    @MesNombre = 'septiembre',
+    @Fecha1erVencimiento = '2025-09-10',
+    @Fecha2doVencimiento = '2025-09-20';
 
 select * from Propiedades.UnidadFuncional
 
@@ -223,3 +236,14 @@ FROM General.Expensa_Consorcio
 
 
 */
+
+--prueba gastos extraordinarios separado de gastos ordinarios
+SELECT 
+    c.nombre,
+    ec.periodo,
+    ec.total_ordinarios,
+    ec.total_extraordinarios
+FROM General.Expensa_Consorcio ec
+JOIN General.Consorcio c ON c.id_consorcio = ec.id_consorcio
+WHERE c.nombre = 'Azcuenaga'
+  AND LOWER(LTRIM(RTRIM(ec.periodo))) = 'marzo';
