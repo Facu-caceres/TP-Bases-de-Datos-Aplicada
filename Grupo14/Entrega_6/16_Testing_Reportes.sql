@@ -12,7 +12,7 @@ Fecha de Entrega: 21/11/2025
 Descripción: Script de testing para la Entrega 6 (Reportes SPs).
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 PRINT '--- INICIO SCRIPT DE TESTING DE REPORTES (ENTREGA 6) ---';

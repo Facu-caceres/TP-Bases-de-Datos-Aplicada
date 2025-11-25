@@ -11,7 +11,8 @@ Integrantes: Aguirre Dario Ivan 44355010
 Fecha de Entrega: 21/11/2025
 Descripción: Creacion de un SP para informar la recaudación semanal por tipo (ord/extra), promedio del período, acumulado.
 */
-USE [Com5600_Grupo14_DB];
+
+USE [Com5600G14];
 GO
 
 CREATE OR ALTER PROCEDURE Reportes.sp_reporte_flujo_caja_semanal

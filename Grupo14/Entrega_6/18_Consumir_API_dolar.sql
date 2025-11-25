@@ -11,7 +11,8 @@ Integrantes: Aguirre Dario Ivan 44355010
 Fecha de Entrega: 21/11/2025
 Descripción: Entrega 6 - Creación de SP para consumir API externa (DolarAPI)
 */
-USE [Com5600_Grupo14_DB];
+
+USE [Com5600G14];
 GO
 
 -- Habilita xp_cmdshell (usaremos curl/PowerShell para bajar la API)

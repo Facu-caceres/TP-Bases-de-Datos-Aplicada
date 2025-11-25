@@ -12,7 +12,7 @@ Fecha de Entrega: 21/11/2025
 Descripción: Creación de índices para optimizar filtros y JOINS en los SP de Reportes  
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 -- Índices sobre Tesoreria.Pago (Usados en Reportes 1, 2, 3, 6)

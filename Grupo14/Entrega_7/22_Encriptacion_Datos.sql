@@ -16,7 +16,7 @@ Descripción: Entrega 7 - Cifrado de Datos Sensibles.
              4. Actualización de Reportes.
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 -----------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ BEGIN
     END;
 
     DECLARE @VerHash bit = 0;
-    IF IS_ROLEMEMBER('Rol_AdmGeneral') = 1 OR IS_ROLEMEMBER('Rol_Sistemas') = 1
+    IF IS_ROLEMEMBER('Rol_AdmGeneral') = 1 OR IS_ROLEMEMBER('Rol_Sistemas') = 1 OR IS_ROLEMEMBER('Rol_AdmBancario') = 1 OR IS_ROLEMEMBER('Rol_AdmOperativo') = 1 
         SET @VerHash = 1;
 
     DECLARE @Meses table (periodo nvarchar(50) PRIMARY KEY);

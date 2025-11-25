@@ -12,7 +12,7 @@ Fecha de Entrega: 21/11/2025
 Descripción: Creacion de un SP para informar el Top Morosidad con hash por rol
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 CREATE OR ALTER PROCEDURE Reportes.sp_reporte_top_morosidad_propietarios

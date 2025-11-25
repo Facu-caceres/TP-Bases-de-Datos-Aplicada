@@ -1,4 +1,4 @@
-USE Com5600_Grupo14_DB;
+USE [Com5600G14];
 GO
 
 CREATE OR ALTER PROCEDURE Reportes.sp_liquidacion_expensas_uf
@@ -192,7 +192,7 @@ BEGIN
 END;
 GO
 
-
+/*
 
 EXEC Reportes.sp_liquidacion_expensas_uf
     @FechaDesde      = '2025-04-01',
@@ -213,3 +213,5 @@ EXEC Reportes.sp_liquidacion_expensas_uf
     @Vto2 = '2025-04-20',
     @NombreConsorcio = 'Azcuenaga';
 
+
+*/

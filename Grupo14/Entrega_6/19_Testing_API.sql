@@ -11,7 +11,8 @@ Integrantes: Aguirre Dario Ivan 44355010
 Fecha de Entrega: 21/11/2025
 Descripción: Script de testing para el consumo de API con xp_cmdshell.
 */
-USE [Com5600_Grupo14_DB];
+
+USE [Com5600G14];
 GO
 
 PRINT '--- INICIO SCRIPT DE TESTING DE API (ENTREGA 6 - xp_cmdshell) ---';

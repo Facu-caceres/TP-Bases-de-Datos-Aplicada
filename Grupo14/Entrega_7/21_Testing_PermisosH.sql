@@ -14,7 +14,7 @@ Descripción: Script de Testing de Seguridad (Entrega 7).
              las 3 categorías de operaciones (Maestros, Bancaria, Reportes).
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 SET NOCOUNT ON;

@@ -8,24 +8,24 @@ Integrantes: Aguirre Dario Ivan 44355010
              Mangalaviti Sebastian 45233238
              Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
-Fecha de Entrega: 07/11/2025
+Fecha de Entrega: 21/11/2025
 Descripción: Script para la creación de la base de datos, esquemas y tablas del proyecto.
 */
 
 USE master;
 GO
 
-IF DB_ID('Com5600_Grupo14_DB') IS NOT NULL
+IF DB_ID('Com5600G14') IS NOT NULL
 BEGIN
-    ALTER DATABASE [Com5600_Grupo14_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE [Com5600_Grupo14_DB];
+    ALTER DATABASE [Com5600G14] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE [Com5600G14];
 END
 GO
 
-CREATE DATABASE [Com5600_Grupo14_DB];
+CREATE DATABASE [Com5600G14];
 GO
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 -- Creación de Esquemas

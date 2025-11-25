@@ -4,15 +4,15 @@
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
         <ConnectionNode Name="localhost:FACCU-PC\cacer">
-          <Created>2025-11-13T14:54:03.8662984-03:00</Created>
+          <Created>2025-11-24T22:55:30.3741185-03:00</Created>
           <Type>SQL</Type>
           <Server>localhost</Server>
           <UserName />
           <Authentication>Autenticación de Windows</Authentication>
-          <InitialDB>Com5600_Grupo14_DB</InitialDB>
-          <LoginTimeout>30</LoginTimeout>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
           <TrustServerCertificate>True</TrustServerCertificate>
-          <EncryptionOption>True</EncryptionOption>
+          <EncryptionOption>False</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>SQL Server Management Studio</ApplicationName>
@@ -22,8 +22,8 @@
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
         <FileNode Name="20_Permisos_Por_Usuarios.sql">
-          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
-          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnectionMoniker />
+          <AssociatedConnSrvName />
           <AssociatedConnUserName />
           <FullPath>20_Permisos_Por_Usuarios.sql</FullPath>
         </FileNode>

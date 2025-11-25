@@ -15,7 +15,7 @@ Descripción: Script de Testing para la Entrega 7 (Cifrado y Seguridad).
              2. Visibilidad de datos en Reportes según Rol.
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 PRINT '--- INICIO TESTING DE HASHING ---';
@@ -81,12 +81,16 @@ REVERT;
 
 
 PRINT '';
-PRINT '--- Ejecutando como [usr_adm_operativo] (Ve Texto Plano) ---';
+PRINT '--- Ejecutando como [usr_adm_operativo] ---';
 EXECUTE AS USER = 'usr_adm_operativo';
     EXEC Reportes.sp_reporte_top_morosidad_propietarios
         @FechaCorte = '2025-12-31', @TopN = 10;
 REVERT;
 GO
+
+EXEC Reportes.sp_reporte_top_morosidad_propietarios
+        @FechaCorte = '2025-12-31', @TopN = 10;
+
 
 PRINT '--- FIN SCRIPT DE TESTING ---';
 GO

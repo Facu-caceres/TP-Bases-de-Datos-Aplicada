@@ -12,7 +12,7 @@ Fecha de Entrega: 21/11/2025
 Descripción: Creacion de un SP para informar la recaudación por procedencia (ordinario/extraordinario) según período.
 */
 
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 CREATE OR ALTER PROCEDURE Reportes.sp_reporte_recaudacion_tipo_periodo

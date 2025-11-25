@@ -8,10 +8,10 @@ Integrantes: Aguirre Dario Ivan 44355010
              Mangalaviti Sebastian 45233238
              Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
-Fecha de Entrega: 07/11/2025
+Fecha de Entrega: 21/11/2025
 Descripción: SP para importar datos de proveedores desde un archivo xlsx al esquema General.
 */
-USE [Com5600_Grupo14_DB];
+USE [Com5600G14];
 GO
 
 CREATE OR ALTER PROCEDURE Importacion.sp_importar_proveedores

@@ -4,15 +4,15 @@
     <LogicalFolder Name="Conexiones" Type="2" Sorted="true">
       <Items>
         <ConnectionNode Name="localhost:FACCU-PC\cacer">
-          <Created>2025-11-13T14:51:53.6134872-03:00</Created>
+          <Created>2025-11-24T22:52:58.4463347-03:00</Created>
           <Type>SQL</Type>
           <Server>localhost</Server>
           <UserName />
           <Authentication>Autenticación de Windows</Authentication>
-          <InitialDB>Com5600_Grupo14_DB</InitialDB>
-          <LoginTimeout>30</LoginTimeout>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
           <TrustServerCertificate>True</TrustServerCertificate>
-          <EncryptionOption>True</EncryptionOption>
+          <EncryptionOption>False</EncryptionOption>
           <ExecutionTimeout>0</ExecutionTimeout>
           <ConnectionProtocol>NotSpecified</ConnectionProtocol>
           <ApplicationName>SQL Server Management Studio</ApplicationName>
