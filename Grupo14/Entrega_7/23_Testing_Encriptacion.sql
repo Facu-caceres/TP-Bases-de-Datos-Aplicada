@@ -9,88 +9,79 @@ Integrantes: Aguirre Dario Ivan 44355010
              Pedrol Ledesma Bianca Uriana 45012041
              Saladino Mauro Tomas 44531560
 Fecha de Entrega: 21/11/2025
-Descripción: Script de Testing para la Entrega 7 (Cifrado y Seguridad).
-             Verifica:
-             1. Funcionamiento de Triggers (Auto-hashing).
-             2. Visibilidad de datos en Reportes según Rol.
+Descripción: Verifica el cifrado simétrico (EncryptByPassPhrase).
+             1. Comprueba que los datos en disco sean binarios (VARBINARY).
+             2. Prueba el desencriptado manual con la frase de paso.
+             3. Prueba el Reporte de Morosidad con un usuario AUTORIZADO (debe ver datos).
 */
+
 
 USE [Com5600G14];
 GO
 
-PRINT '--- INICIO TESTING DE HASHING ---';
+PRINT '===========================================================================';
+PRINT '                 TESTING DE ENCRIPTACIÓN SIMÉTRICA';
+PRINT '===========================================================================';
 GO
 
---------------------------------------------------------------------------
--- TEST 1: INTEGRIDAD DE DATOS Y TRIGGERS
---------------------------------------------------------------------------
-PRINT '>>> TEST 1: Verificando Triggers de Inserción (Todos los campos sensibles)...';
+-----------------------------------------------------------------------------------
+-- TEST 1: VERIFICACIÓN DE ALMACENAMIENTO CIFRADO EN TABLAS
+-----------------------------------------------------------------------------------
 
-BEGIN TRANSACTION;
-
-    -- 1. Insertar Persona 
-    INSERT INTO Propiedades.Persona (nombre, apellido, dni, email, telefono, es_inquilino)
-    VALUES ('Usuario', 'TestHash', 11223344, 'hash@test.com', 155556666, 0);
-
-    DECLARE @id_persona_test INT = SCOPE_IDENTITY();
-
-    -- 2. Insertar Cuenta 
-    INSERT INTO Tesoreria.Persona_CuentaBancaria (id_persona, cbu_cvu, alias, activa)
-    VALUES (@id_persona_test, '0000000000000000000111', 'ALIAS.HASH.TEST', 1);
-
-    PRINT '   Inserción realizada. Consultando datos...';
-
-    -- 3. Verificar Persona (DNI, Email, Telefono)
-    SELECT 
-        'Persona' AS Tabla,
-        dni AS [Original_DNI],
-        dni_hash AS [Hash_DNI],
-        email AS [Original_Email],
-        email_hash AS [Hash_Email],
-        telefono AS [Original_Tel],
-        telefono_hash AS [Hash_Tel]
-    FROM Propiedades.Persona 
-    WHERE id_persona = @id_persona_test;
-
-    -- 4. Verificar Cuenta (CBU)
-    SELECT 
-        'Cuenta' AS Tabla,
-        cbu_cvu AS [Original_CBU],
-        cbu_hash AS [Hash_CBU] -- Debería estar lleno con 32 bytes
-    FROM Tesoreria.Persona_CuentaBancaria
-    WHERE id_persona = @id_persona_test;
-
-ROLLBACK TRANSACTION;
-PRINT '>>> TEST 1 FINALIZADO.';
 PRINT '';
+PRINT '>>> TEST 1: Verificando almacenamiento físico (Debe ser ilegible/binario)...';
+
+-- Consultamos directamente la tabla. No deberíamos ver texto plano.
+
+SELECT TOP 3 * FROM Propiedades.Persona;
+
+PRINT 'Resultado esperado: Columnas "_hash" muestran valores que comienzan con 0x...';
 GO
 
---------------------------------------------------------------------------
--- TEST 2: REPORTE MOROSIDAD
---------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+-- TEST 2: VERIFICACIÓN DE DESENCRIPTADO MANUAL
+-----------------------------------------------------------------------------------
 
+PRINT '';
+PRINT '>>> TEST 2: Verificando recuperación de datos con la Frase de Paso...';
 
-PRINT '>>> TEST 2: Verificando Reporte con Hashing Completo...';
+DECLARE @PassPhrase NVARCHAR(128) = 'Grupo14_Secreto_2025';
 
-PRINT '--- Ejecutando como [usr_adm_general] (Ve Hashes de DNI/Email/Tel) ---';
+SELECT TOP 3
+    id_persona,
+    nombre,
+    apellido,
+    es_inquilino,
+    -- Convertimos el binario desencriptado a varchar para leerlo
+    CAST(DecryptByPassPhrase(@PassPhrase, dni_hash) AS VARCHAR(50)) AS [DNI_Recuperado],
+    CAST(DecryptByPassPhrase(@PassPhrase, email_hash) AS VARCHAR(100)) AS [Email_Recuperado],
+    CAST(DecryptByPassPhrase(@PassPhrase, telefono_hash) AS VARCHAR(50)) AS [Tel_Recuperado]
+FROM Propiedades.Persona
+WHERE dni_hash IS NOT NULL;
+
+PRINT 'Resultado esperado: Datos legibles recuperados correctamente.';
+GO
+
+-----------------------------------------------------------------------------------
+-- TEST 3: REPORTE DE MOROSIDAD - USUARIO AUTORIZADO (Ej: Adm. General)
+-----------------------------------------------------------------------------------
+PRINT '';
+PRINT '>>> TEST 3: Ejecución de Reporte como [usr_adm_general] (TIENE PERMISOS)...';
+
 EXECUTE AS USER = 'usr_adm_general';
+    
+    -- Al tener rol 'Rol_AdmGeneral', el SP debe desencriptar los datos.
     EXEC Reportes.sp_reporte_top_morosidad_propietarios
-        @FechaCorte = '2025-12-31', @TopN = 10;
+        @FechaCorte = '2025-12-31';
+
 REVERT;
-
-
-
-PRINT '';
-PRINT '--- Ejecutando como [usr_adm_operativo] ---';
-EXECUTE AS USER = 'usr_adm_operativo';
-    EXEC Reportes.sp_reporte_top_morosidad_propietarios
-        @FechaCorte = '2025-12-31', @TopN = 10;
-REVERT;
+PRINT 'Resultado esperado: Columnas DNI, Email y Teléfono muestran TEXTO PLANO.';
 GO
 
 EXEC Reportes.sp_reporte_top_morosidad_propietarios
-        @FechaCorte = '2025-12-31', @TopN = 10;
+        @FechaCorte = '2025-12-31';
 
 
-PRINT '--- FIN SCRIPT DE TESTING ---';
-GO
+PRINT '===========================================================================';
+PRINT '                 FIN DEL TESTING DE ENCRIPTACIÓN';
+PRINT '===========================================================================';

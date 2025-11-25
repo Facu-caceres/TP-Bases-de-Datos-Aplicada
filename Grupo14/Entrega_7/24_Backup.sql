@@ -36,9 +36,4 @@ esto, si pasa algo, se puede volver a poner en marcha el sistema con una pérdida
 reportes se pueden regenerar sin depender de un archivo puntual.
 
 
-
-
-
-
 */
-
