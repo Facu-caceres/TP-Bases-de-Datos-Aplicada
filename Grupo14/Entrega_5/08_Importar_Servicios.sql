@@ -15,7 +15,6 @@ Descripción: SP para importar los servicios desde el archivo json.
 USE [Com5600G14];
 GO
 
-
 CREATE OR ALTER PROCEDURE Importacion.sp_importar_servicios_json
     @ruta_archivo NVARCHAR(4000) 
 AS
@@ -42,7 +41,7 @@ BEGIN
             consorcio NVARCHAR(200),
             mes       NVARCHAR(50),
             categoria NVARCHAR(200),
-            importe   DECIMAL(18,2)     -- guardamos número limpio (sin formato visual)
+            importe   DECIMAL(18,2)     -- guardamos número limpio
         );
 
         INSERT INTO #StgServicios(consorcio, mes, categoria, importe)
@@ -64,34 +63,28 @@ BEGIN
                  _obj      NVARCHAR(MAX) '$' AS JSON
              ) AS d
         CROSS APPLY OPENJSON(d._obj) AS kv
-        /* Limpieza básica previa: sacar $, espacios y NBSP; trabajar con NVARCHAR */
         CROSS APPLY (SELECT 
             REPLACE(REPLACE(REPLACE(CAST(kv.[value] AS NVARCHAR(100)),'$',''),' ',''), NCHAR(160),'') AS raw
         ) AS c
-        /* Posiciones del último ',' y del último '.' en el string */
         CROSS APPLY (SELECT
             CASE WHEN CHARINDEX(',', c.raw) > 0 
                  THEN LEN(c.raw) - CHARINDEX(',', REVERSE(c.raw)) + 1 ELSE 0 END AS p_comma,
             CASE WHEN CHARINDEX('.', c.raw) > 0 
                  THEN LEN(c.raw) - CHARINDEX('.', REVERSE(c.raw)) + 1 ELSE 0 END AS p_dot
         ) AS pos
-        /* Regla: el último separador es el decimal; el otro es miles y se borra */
         CROSS APPLY (SELECT
             CASE 
                 WHEN pos.p_comma > 0 AND pos.p_dot > 0 THEN
-                    /* Hay ambos: si la última es la coma -> coma decimal; si no, punto decimal */
                     CASE WHEN pos.p_comma > pos.p_dot 
-                         THEN REPLACE(REPLACE(c.raw,'.',''),',','.')   -- '.' miles, ',' decimal
-                         ELSE REPLACE(REPLACE(c.raw,',',''),'.','.')   -- ',' miles, '.' decimal
+                         THEN REPLACE(REPLACE(c.raw,'.',''),',','.')   
+                         ELSE REPLACE(REPLACE(c.raw,',',''),'.','.')   
                     END
                 WHEN pos.p_comma > 0 THEN
-                    /* Solo coma: si está a 1-2 dígitos del final => decimal; si no, miles */
                     CASE WHEN LEN(c.raw) - pos.p_comma <= 2 
                          THEN REPLACE(c.raw,',','.') 
                          ELSE REPLACE(c.raw,',','') 
                     END
                 WHEN pos.p_dot > 0 THEN
-                    /* Solo punto: idem */
                     CASE WHEN LEN(c.raw) - pos.p_dot <= 2 
                          THEN c.raw 
                          ELSE REPLACE(c.raw,'.','') 
@@ -99,7 +92,7 @@ BEGIN
                 ELSE c.raw
             END AS normalized
         ) AS n
-        WHERE kv.[key] NOT IN ('_id', N'Nombre del consorcio', 'Mes')
+        WHERE kv.[key] NOT IN ('_id', N'Nombre del consorcio', 'Mes', 'anio') -- Filtramos 'anio' si viene en el JSON nuevo
           AND kv.[value] IS NOT NULL
           AND TRY_CONVERT(DECIMAL(18,2),
                 CASE WHEN kv.[type] = 2 THEN kv.[value] ELSE n.normalized END
@@ -115,7 +108,7 @@ BEGIN
         WHERE s.consorcio IS NOT NULL
           AND NOT EXISTS (SELECT 1 FROM General.Consorcio c WHERE c.nombre = s.consorcio);
 
-        /* 4) Crear Expensa_Consorcio por (consorcio, mes) con total_ordinarios */
+        /* 4) Crear Expensa_Consorcio por (consorcio, mes) INICIALMENTE EN 0 o NULL */
         INSERT INTO General.Expensa_Consorcio
         (
             id_consorcio, periodo, fecha_emision, total_ordinarios, total_extraordinarios, interes_por_mora
@@ -123,12 +116,12 @@ BEGIN
         SELECT
             c.id_consorcio,
             t.mes,
-            NULL,                       -- fecha_emision (ajustar si corresponde)
-            t.total,                    -- total_ordinarios
-            NULL,                       -- total_extraordinarios
-            NULL                        -- interes_por_mora
+            NULL,                       
+            0,                          -- Inicializamos en 0, luego se recalcula
+            0,                          -- Inicializamos en 0
+            NULL                        
         FROM (
-            SELECT consorcio, mes, SUM(importe) AS total
+            SELECT consorcio, mes
             FROM #StgServicios
             GROUP BY consorcio, mes
         ) AS t
@@ -150,14 +143,14 @@ BEGIN
           ON ec.id_consorcio = c.id_consorcio
          AND ec.periodo      = s.mes;
 
-        /* 6) Insertar Gastos (tipo 'Ordinario') evitando duplicados */
+        /* 6) Insertar Gastos evitando duplicados */
         INSERT INTO General.Gasto(
             id_expensa_consorcio, tipo, categoria,
             descripcion, nombre_proveedor, nro_factura, importe
         )
         SELECT
             m.id_expensa_consorcio,
-            'Ordinario',
+            CASE WHEN s.categoria LIKE '%EXTRAORDINARI%' THEN 'Extraordinario' ELSE 'Ordinario' END,
             s.categoria,
             NULL, NULL, NULL,
             s.importe
@@ -169,12 +162,41 @@ BEGIN
             SELECT 1
             FROM General.Gasto g
             WHERE g.id_expensa_consorcio = m.id_expensa_consorcio
-              AND g.tipo = 'Ordinario'
               AND g.categoria = s.categoria
               AND g.importe = s.importe
         );
 
+        /* 7) RECALCULAR TOTALES EN CABECERA (Expensa_Consorcio) */
+        -- Logica solicitada para actualizar total_ordinarios y total_extraordinarios
+        -- basada en la suma de los gastos recién insertados o existentes.
+        
+        ;WITH Totales AS (
+            SELECT 
+                g.id_expensa_consorcio,
+                SUM(CASE 
+                        WHEN g.categoria LIKE '%EXTRAORDINARI%' 
+                            THEN 0 
+                        ELSE g.importe 
+                    END) AS total_ordinarios,
+                SUM(CASE 
+                        WHEN g.categoria LIKE '%EXTRAORDINARI%' 
+                            THEN g.importe 
+                        ELSE 0 
+                    END) AS total_extraordinarios
+            FROM General.Gasto g
+            -- Unimos con el mapa para actualizar solo las expensas tocadas en este JSON (Optimización)
+            INNER JOIN #ExpMap m ON g.id_expensa_consorcio = m.id_expensa_consorcio
+            GROUP BY g.id_expensa_consorcio
+        )
+        UPDATE ec
+        SET ec.total_ordinarios      = t.total_ordinarios,
+            ec.total_extraordinarios = t.total_extraordinarios
+        FROM General.Expensa_Consorcio ec
+        JOIN Totales t 
+          ON t.id_expensa_consorcio = ec.id_expensa_consorcio;
+
         COMMIT TRAN;
+        PRINT 'Proceso de importación de Servicios y Recálculo de Totales finalizado.';
 
     END TRY
     BEGIN CATCH

@@ -21,65 +21,65 @@
     </LogicalFolder>
     <LogicalFolder Name="Consultas" Type="0" Sorted="true">
       <Items>
-        <FileNode Name="10_Reporte_FlujoCaja.sql">
+        <FileNode Name="13_Reporte_FlujoCaja.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>10_Reporte_FlujoCaja.sql</FullPath>
+          <FullPath>13_Reporte_FlujoCaja.sql</FullPath>
         </FileNode>
-        <FileNode Name="11_Reporte_RecaudacionDepto.sql">
+        <FileNode Name="14_Reporte_RecaudacionDepto.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>11_Reporte_RecaudacionDepto.sql</FullPath>
+          <FullPath>14_Reporte_RecaudacionDepto.sql</FullPath>
         </FileNode>
-        <FileNode Name="12_Reporte_RecaudacionTipo.sql">
+        <FileNode Name="15_Reporte_RecaudacionTipo.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>12_Reporte_RecaudacionTipo.sql</FullPath>
+          <FullPath>15_Reporte_RecaudacionTipo.sql</FullPath>
         </FileNode>
-        <FileNode Name="13_Reporte_Top5GastosIngresos.sql">
+        <FileNode Name="16_Reporte_Top5GastosIngresos.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>13_Reporte_Top5GastosIngresos.sql</FullPath>
+          <FullPath>16_Reporte_Top5GastosIngresos.sql</FullPath>
         </FileNode>
-        <FileNode Name="14_Reporte_TopMorosidad.sql">
+        <FileNode Name="17_Reporte_TopMorosidad.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>14_Reporte_TopMorosidad.sql</FullPath>
+          <FullPath>17_Reporte_TopMorosidad.sql</FullPath>
         </FileNode>
-        <FileNode Name="15_Reporte_IntervaloPagosUF.sql">
+        <FileNode Name="18_Reporte_IntervaloPagosUF.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>15_Reporte_IntervaloPagosUF.sql</FullPath>
+          <FullPath>18_Reporte_IntervaloPagosUF.sql</FullPath>
         </FileNode>
-        <FileNode Name="16_Testing_Reportes.sql">
+        <FileNode Name="19_Testing_Reportes.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>16_Testing_Reportes.sql</FullPath>
+          <FullPath>19_Testing_Reportes.sql</FullPath>
         </FileNode>
-        <FileNode Name="17_Indices_Optimizacion.sql">
+        <FileNode Name="20_Indices_Optimizacion.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>17_Indices_Optimizacion.sql</FullPath>
+          <FullPath>20_Indices_Optimizacion.sql</FullPath>
         </FileNode>
-        <FileNode Name="18_Consumir_API_dolar.sql">
+        <FileNode Name="21_Consumir_API_dolar.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>18_Consumir_API_dolar.sql</FullPath>
+          <FullPath>21_Consumir_API_dolar.sql</FullPath>
         </FileNode>
-        <FileNode Name="19_Testing_API.sql">
+        <FileNode Name="22_Testing_API.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
           <AssociatedConnUserName />
-          <FullPath>19_Testing_API.sql</FullPath>
+          <FullPath>22_Testing_API.sql</FullPath>
         </FileNode>
       </Items>
     </LogicalFolder>

@@ -75,6 +75,24 @@
           <AssociatedConnUserName />
           <FullPath>09_Testing_Importacion.sql</FullPath>
         </FileNode>
+        <FileNode Name="10_Reprocesar_PagosNoAsociados.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>10_Reprocesar_PagosNoAsociados.sql</FullPath>
+        </FileNode>
+        <FileNode Name="11_Generar_Expensas.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>11_Generar_Expensas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="12_Testing_GeneracionExpensa.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:localhost:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>localhost</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>12_Testing_GeneracionExpensa.sql</FullPath>
+        </FileNode>
       </Items>
     </LogicalFolder>
     <LogicalFolder Name="Varios" Type="3" Sorted="true">

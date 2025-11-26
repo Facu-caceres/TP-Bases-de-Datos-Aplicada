@@ -36,13 +36,12 @@ GO
 
 -- Modificar estas rutas para que apunten a los archivos en tu PC
 DECLARE
-    @excelPath   NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\datos varios.xlsx',
-    @ufPath      NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\UF por consorcio.txt',
-    @personasCsv NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-datos.csv',
-    @personasUF  NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Inquilino-propietarios-UF.csv',
-    @pagos       NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\pagos_consorcios_anio_xv6.csv',
-    @servicios   NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Servicios.Servicios.json',
-    @nExpensas   NVARCHAR(4000) = N'C:\Users\User\OneDrive - Universidad Nacional de la Matanza\Escritorio\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\NuevasExpensas.json';
+    @excelPath   NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Lote de Prueba\datos varios.xlsx',
+    @ufPath      NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Lote de Prueba\UF por consorcio.txt',
+    @personasCsv NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Lote de Prueba\Inquilino-propietarios-datos.csv',
+    @personasUF  NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Lote de Prueba\Inquilino-propietarios-UF.csv',
+    @pagos       NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Lote de Prueba\pagos_consorcios_anio_xv6.csv',
+    @servicios   NVARCHAR(4000) = N'C:\Users\cacer\OneDrive\Escritorio\TP Bases de Datos Aplicada\TP-Bases-de-Datos-Aplicada\archivos_origen\Archivos para el TP\Lote de Prueba\NuevasExpensas.json';
 
 PRINT '--- 2. Importando Consorcios...';
 EXEC Importacion.sp_importar_consorcios @ruta_archivo = @excelPath;
@@ -138,7 +137,7 @@ WHERE c.nombre = 'Azcuenaga'
   AND g.categoria = 'BANCARIOS';
 
 PRINT '--- 9. Importando Expensas (JSON)...';
-EXEC Importacion.sp_importar_servicios_json @ruta_archivo = @nExpensas;
+EXEC Importacion.sp_importar_servicios_json @ruta_archivo = @servicios;
 
 -- Test 9.1: Verificar creación de Expensas
 -- El JSON contiene 12 meses para 4 consorcios (12 * 4 = 48).
@@ -151,28 +150,6 @@ WHERE c.nombre IN ('Azcuenaga','Alberdi','Alzaga','Unzue')
       'enero','febrero','marzo','abril','mayo','junio',
       'julio','agosto','septiembre','octubre','noviembre','diciembre'
   ); 
-  WITH Totales AS (
-    SELECT 
-        g.id_expensa_consorcio,
-        SUM(CASE 
-                WHEN g.categoria LIKE 'EXTRAORDINARIO%' 
-                    THEN 0 
-                ELSE g.importe 
-            END) AS total_ordinarios,
-        SUM(CASE 
-                WHEN g.categoria LIKE 'EXTRAORDINARIO%' 
-                    THEN g.importe 
-                ELSE 0 
-            END) AS total_extraordinarios
-    FROM General.Gasto g
-    GROUP BY g.id_expensa_consorcio
-)
-UPDATE ec
-SET ec.total_ordinarios      = t.total_ordinarios,
-    ec.total_extraordinarios = t.total_extraordinarios
-FROM General.Expensa_Consorcio ec
-JOIN Totales t 
-  ON t.id_expensa_consorcio = ec.id_expensa_consorcio;
 
 PRINT '--- 10. Resumen de datos cargados:';
 SELECT (SELECT COUNT(*) FROM General.Consorcio) AS Consorcios;
@@ -188,6 +165,4 @@ GO
 PRINT '--- FIN SCRIPT DE TESTING ---';
 GO
 
-
-Select * from General.Consorcio
-
+--Select * from General.Consorcio
