@@ -233,12 +233,10 @@ select * from Propiedades.UnidadFuncional
 
 SELECT DISTINCT periodo
 FROM General.Expensa_Consorcio
-
-
 */
 
 --prueba gastos extraordinarios separado de gastos ordinarios
-SELECT 
+/*SELECT 
     c.nombre,
     ec.periodo,
     ec.total_ordinarios,
@@ -246,4 +244,4 @@ SELECT
 FROM General.Expensa_Consorcio ec
 JOIN General.Consorcio c ON c.id_consorcio = ec.id_consorcio
 WHERE c.nombre = 'Azcuenaga'
-  AND LOWER(LTRIM(RTRIM(ec.periodo))) = 'marzo';
+  AND LOWER(LTRIM(RTRIM(ec.periodo))) = 'marzo';*/
